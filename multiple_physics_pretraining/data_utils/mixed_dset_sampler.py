@@ -1,24 +1,39 @@
 import math
-from typing import TypeVar, Optional, Iterator
+from typing import Iterator, Optional, TypeVar
+
 import numpy as np
 import torch
-from torch.utils.data import Sampler, Dataset
 import torch.distributed as dist
+from torch.utils.data import Dataset, Sampler
 
-__all__ = ["MultisetSampler", ]
+__all__ = [
+    "MultisetSampler",
+]
 
-T_co = TypeVar('T_co', covariant=True)
+T_co = TypeVar("T_co", covariant=True)
+
 
 class MultisetSampler(Sampler[T_co]):
-    r"""Sampler that restricts data loading to a subset of the dataset.
-    """
-    def __init__(self, dataset: Dataset, base_sampler:Sampler, batch_size: int, shuffle: bool = True,
-                 seed: int = 0, drop_last: bool = True, max_samples=10,
-                 rank=0, distributed=True) -> None:
+    r"""Sampler that restricts data loading to a subset of the dataset."""
+
+    def __init__(
+        self,
+        dataset: Dataset,
+        base_sampler: Sampler,
+        batch_size: int,
+        shuffle: bool = True,
+        seed: int = 0,
+        drop_last: bool = True,
+        max_samples=10,
+        rank=0,
+        distributed=True,
+    ) -> None:
         self.batch_size = batch_size
         self.sub_dsets = dataset.sub_dsets
-        if distributed: 
-            self.sub_samplers = [base_sampler(dataset, drop_last=drop_last) for dataset in self.sub_dsets]
+        if distributed:
+            self.sub_samplers = [
+                base_sampler(dataset, drop_last=drop_last) for dataset in self.sub_dsets
+            ]
         else:
             self.sub_samplers = [base_sampler(dataset) for dataset in self.sub_dsets]
         self.dataset = dataset
@@ -33,11 +48,13 @@ class MultisetSampler(Sampler[T_co]):
         samplers = [iter(sampler) for sampler in self.sub_samplers]
         sampler_choices = list(range(len(samplers)))
         generator = torch.Generator()
-        generator.manual_seed(100*self.epoch+10*self.seed+self.rank)
+        generator.manual_seed(100 * self.epoch + 10 * self.seed + self.rank)
         count = 0
         while len(sampler_choices) > 0:
             count += 1
-            index_sampled = torch.randint(0, len(sampler_choices), size=(1,), generator=generator).item()
+            index_sampled = torch.randint(
+                0, len(sampler_choices), size=(1,), generator=generator
+            ).item()
             dset_sampled = sampler_choices[index_sampled]
             offset = max(0, self.dataset.offsets[dset_sampled])
             # Do drop last batch type logic - if you can get a full batch, yield it, otherwise move to next dataset
@@ -49,13 +66,15 @@ class MultisetSampler(Sampler[T_co]):
                     for d in queue:
                         yield d
             except Exception as err:
-                print('ERRRR', err)
+                print("ERRRR", err)
                 sampler_choices.pop(index_sampled)
-                print(f'Note: dset {dset_sampled} fully used. Dsets remaining: {len(sampler_choices)}')
+                print(
+                    f"Note: dset {dset_sampled} fully used. Dsets remaining: {len(sampler_choices)}"
+                )
                 continue
             if count >= self.max_samples:
                 break
-    
+
     def __len__(self) -> int:
         return len(self.dataset)
 
@@ -71,4 +90,3 @@ class MultisetSampler(Sampler[T_co]):
         for sampler in self.sub_samplers:
             sampler.set_epoch(epoch)
         self.epoch = epoch
-
