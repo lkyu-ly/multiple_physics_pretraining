@@ -59,6 +59,17 @@ MPP/
 - **模型规模**: Ti/S/B/L (Tiny/Small/Base/Large)
 - **Patch Size**: 16x16（硬编码）
 
+### 迁移记录规则
+
+**重要规则**：从现在开始，项目中遇到的每个 PyTorch 转换成 PaddlePaddle 相关的问题，解决后都要**简要**记录其引发原因和修改思路到项目根目录的 `PADDLE_MIGRATION.md` 中。不需要完整叙述整个问题和详细分析，只说明问题和解决思路即可。
+
+**目的**：
+- 为后续迁移工作提供参考
+- 记录 API 映射关系
+- 积累迁移经验和最佳实践
+
+**迁移文档**: [PADDLE_MIGRATION.md](PADDLE_MIGRATION.md)
+
 ## 项目结构图
 
 ```mermaid

@@ -26,11 +26,13 @@ try:
     from models.avit import build_avit
     from utils import logging_utils
     from utils.YParams import YParams
+    from utils.schedulers import SimpleSequentialScheduler
 except:
     from .data_utils.datasets import DSET_NAME_TO_OBJECT, get_data_loader
     from .models.avit import build_avit
     from .utils import logging_utils
     from .utils.YParams import YParams
+    from .utils.schedulers import SimpleSequentialScheduler
 
 
 def add_weight_decay(model, weight_decay=1e-5, inner_lr=1e-3, skip_list=()):
@@ -127,19 +129,21 @@ class Trainer:
     def initialize_model(self, params):
         if self.params.model_type == "avit":
             self.model = build_avit(params).to(device)
-
+        """
+        # there's no match api for torch.compile in paddle.
         if self.params.compile:
             print(
                 "WARNING: BFLOAT NOT SUPPORTED IN SOME COMPILE OPS SO SWITCHING TO FLOAT16"
             )
             self.mp_type = torch.half
             self.model = torch.compile(self.model)
-
+        """
         if dist.is_initialized():
+            """paddle.DataParallel无device_ids和output_device"""
             self.model = DistributedDataParallel(
                 self.model,
-                device_ids=[self.local_rank],
-                output_device=[self.local_rank],
+                # device_ids=[self.local_rank],
+                # output_device=[self.local_rank],
                 find_unused_parameters=True,
             )
 
@@ -166,8 +170,13 @@ class Trainer:
             else:
                 self.optimizer = Adan(parameters, lr=params.learning_rate)
         elif params.optimizer == "sgd":
+            """there's no param "momentum" in paddle.optimizer.SGD
+            and the param "lr" is named as "learning_rate", "params" is "parameters" in paddle.
+            """
             self.optimizer = optim.SGD(
-                self.model.parameters(), lr=params.learning_rate, momentum=0.9
+                self.model.parameters(),
+                lr=params.learning_rate,
+                # momentum=0.9
             )
         else:
             raise ValueError(f"Optimizer {params.optimizer} not supported")
@@ -189,22 +198,34 @@ class Trainer:
                     eta_min=params.learning_rate / 100,
                 )
             else:
+                # 标准模式：使用简化的 SequentialScheduler
                 k = params.warmup_steps
-                if (self.startEpoch * params.epoch_size) < k:
-                    warmup = torch.optim.lr_scheduler.LinearLR(
-                        self.optimizer, start_factor=0.01, end_factor=1.0, total_iters=k
-                    )
-                    decay = torch.optim.lr_scheduler.CosineAnnealingLR(
-                        self.optimizer,
-                        eta_min=params.learning_rate / 100,
-                        T_max=sched_epochs,
-                    )
-                    self.scheduler = torch.optim.lr_scheduler.SequentialLR(
-                        self.optimizer,
-                        [warmup, decay],
-                        [k],
-                        last_epoch=(params.epoch_size * self.startEpoch) - 1,
-                    )
+                last_step = (self.startEpoch * params.epoch_size) - 1
+
+                # 创建 warmup 调度器
+                warmup = torch.optim.lr_scheduler.LinearLR(
+                    self.optimizer,
+                    start_factor=0.01,
+                    end_factor=1.0,
+                    total_iters=k,
+                    last_epoch=last_step,
+                )
+
+                # 创建 decay 调度器
+                decay = torch.optim.lr_scheduler.CosineAnnealingLR(
+                    self.optimizer,
+                    eta_min=params.learning_rate / 100,
+                    T_max=sched_epochs * params.epoch_size - k,
+                    last_epoch=last_step - k if last_step >= k else -1,
+                )
+
+                # 组合调度器
+                self.scheduler = SimpleSequentialScheduler(
+                    self.optimizer,
+                    [warmup, decay],
+                    [k],
+                    last_epoch=(params.epoch_size * self.startEpoch) - 1,
+                )
         else:
             self.scheduler = None
 
