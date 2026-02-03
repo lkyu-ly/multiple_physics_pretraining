@@ -7,7 +7,12 @@ import torch
 import torch.nn as nn
 import torch.nn.functional as F
 from einops import rearrange
-from timm.layers import DropPath
+# from timm.layers import DropPath
+
+try:
+    from .DropPath_util import DropPath
+except:
+    from DropPath_util import DropPath
 
 try:
     from .shared_modules import (MLP, ContinuousPositionBias1D,

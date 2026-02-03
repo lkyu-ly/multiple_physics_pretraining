@@ -6,7 +6,12 @@ import torch
 import torch.nn as nn
 import torch.nn.functional as F
 from einops import rearrange
-from timm.layers import DropPath
+# from timm.layers import DropPath
+
+try:
+    from .DropPath_util import DropPath
+except:
+    from DropPath_util import DropPath
 
 try:
     from .shared_modules import (MLP, ContinuousPositionBias1D,
@@ -46,7 +51,9 @@ class RMSInstanceNorm2d(nn.Module):
             )  # Forgot to remove this so its in the pretrained weights
 
     def forward(self, x):
-        std, mean = torch.std_mean(x, dim=(-2, -1), keepdims=True)
+        """std, mean = torch.std_mean(x, dim=(-2, -1), keepdims=True)
+        paddle has no std_mean"""
+        std = torch.std(x, dim=(-2, -1), keepdim=True)
         x = (x) / (std + self.eps)
         if self.affine:
             x = x * self.weight[None, :, None, None]
@@ -192,6 +199,7 @@ class AxialAttentionBlock(nn.Module):
             self.rel_pos_bias = ContinuousPositionBias1D(n_heads=num_heads)
         else:
             self.rel_pos_bias = RelativePositionBias(n_heads=num_heads)
+        """"""
         self.drop_path = DropPath(drop_path) if drop_path > 0.0 else nn.Identity()
 
         self.mlp = MLP(hidden_dim)

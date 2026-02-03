@@ -128,7 +128,10 @@ class AViT(nn.Module):
         T, B, C = x.shape[:3]
         # Normalize (time + space per sample)
         with torch.no_grad():
-            data_std, data_mean = torch.std_mean(x, dim=(0, -2, -1), keepdims=True)
+            """data_std, data_mean = torch.std_mean(x, dim=(0, -2, -1), keepdims=True)
+            paddle has no std_mean api"""
+            data_std = torch.std(x, dim=(0, -2, -1), keepdim=True)
+            data_mean = torch.mean(x, dim=(0, -2, -1), keepdim=True)
             data_std = data_std + 1e-7  # Orig 1e-7
         x = (x - data_mean) / (data_std)
 
