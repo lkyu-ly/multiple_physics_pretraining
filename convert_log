@@ -1,0 +1,602 @@
+===========================================
+PyTorch to Paddle Convert Start ------>:
+===========================================
+No need to convert, just Copy /home/lkyu/baidu/MPP/multiple_physics_pretraining/README.md --> /home/lkyu/baidu/MPP/multiple_physics_pretraining_paddle/README.md
+
+Start convert file: /home/lkyu/baidu/MPP/multiple_physics_pretraining/models/mixed_modules.py --> /home/lkyu/baidu/MPP/multiple_physics_pretraining_paddle/models/mixed_modules.py
+[mixed_modules.py:5] remove 'import torch' 
+[mixed_modules.py:6] remove 'import torch.nn as nn' 
+[mixed_modules.py:7] remove 'import torch.nn.functional as F' 
+[mixed_modules.py:8] remove 'from einops import rearrange' 
+[mixed_modules.py:9] remove 'from torch.utils.checkpoint import checkpoint' 
+[mixed_modules.py] add 'import paddle' in line 1
+[mixed_modules.py] add 'import einops' in line 2
+[mixed_modules.py:1] [Success] Convert torch.nn.Module to Paddle
+[mixed_modules.py:67] [Success] Convert Class Attribute: torch.Tensor.shape to Paddle, just remain the same
+[mixed_modules.py:73] [Success] Convert torch.utils.checkpoint.checkpoint to Paddle
+[mixed_modules.py:83] [Success] Convert torch.utils.checkpoint.checkpoint to Paddle
+Finish convert /home/lkyu/baidu/MPP/multiple_physics_pretraining/models/mixed_modules.py --> /home/lkyu/baidu/MPP/multiple_physics_pretraining_paddle/models/mixed_modules.py
+
+Start convert file: /home/lkyu/baidu/MPP/multiple_physics_pretraining/models/avit.py --> /home/lkyu/baidu/MPP/multiple_physics_pretraining_paddle/models/avit.py
+[avit.py:4] remove 'import torch' 
+[avit.py:5] remove 'import torch.nn as nn' 
+[avit.py:6] remove 'import torch.nn.functional as F' 
+[avit.py:7] remove 'from einops import rearrange' 
+[avit.py] add 'import paddle' in line 1
+[avit.py] add 'import einops' in line 2
+[avit.py:1] [Success] Convert torch.nn.Module to Paddle
+[avit.py:69] [Success] Convert torch.nn.ModuleList to Paddle
+[avit.py:78] [Success] Convert torch.no_grad to Paddle
+[avit.py:88] [Success] Convert torch.nn.ConvTranspose2d to Paddle
+[avit.py:98] [Success] Convert torch.nn.Parameter to Paddle
+[avit.py:99] [Success] Convert torch.nn.Parameter to Paddle
+[avit.py:103] [Success] Convert Class Method: torch.nn.Module.parameters to Paddle
+[avit.py:106] [Success] Convert Class Method: torch.nn.Module.parameters to Paddle
+[avit.py:113] [Success] Convert Class Method: torch.nn.Module.parameters to Paddle
+[avit.py:116] [Success] Convert Class Method: torch.nn.Module.parameters to Paddle
+[avit.py:118] [Success] Convert Class Method: torch.nn.Module.parameters to Paddle
+[avit.py:120] [Success] Convert Class Method: torch.nn.Module.parameters to Paddle
+[avit.py:124] [Success] Convert Class Method: torch.nn.Module.parameters to Paddle
+[avit.py:128] [Success] Convert Class Attribute: torch.Tensor.shape to Paddle, just remain the same
+[avit.py:130] [Success] Convert torch.no_grad to Paddle
+[avit.py:133] [Success] Convert torch.std to Paddle
+[avit.py:134] [Success] Convert torch.mean to Paddle
+[avit.py:165] [Success] Convert torch.cuda.is_available to Paddle
+[avit.py:166] [Success] Convert Class Method: torch.Tensor.cuda to Paddle
+[avit.py:169] [Success] Convert Class Attribute: torch.Tensor.shape to Paddle, just remain the same
+[avit.py:172] [Success] Convert Class Attribute: torch.Tensor.shape to Paddle, just remain the same
+[avit.py:177] [Success] Convert torch.randn to Paddle
+[avit.py:177] [Success] Convert Class Method: torch.Tensor.cuda to Paddle
+[avit.py:178] [Success] Convert Class Attribute: torch.Tensor.shape to Paddle, just remain the same
+[avit.py:181] [Success] Convert Class Attribute: torch.Tensor.shape to Paddle, just remain the same
+Finish convert /home/lkyu/baidu/MPP/multiple_physics_pretraining/models/avit.py --> /home/lkyu/baidu/MPP/multiple_physics_pretraining_paddle/models/avit.py
+
+Start convert file: /home/lkyu/baidu/MPP/multiple_physics_pretraining/models/shared_modules.py --> /home/lkyu/baidu/MPP/multiple_physics_pretraining_paddle/models/shared_modules.py
+[shared_modules.py:5] remove 'import torch' 
+[shared_modules.py:6] remove 'import torch.nn as nn' 
+[shared_modules.py:7] remove 'import torch.nn.functional as F' 
+[shared_modules.py:8] remove 'from einops import rearrange' 
+[shared_modules.py] add 'import paddle' in line 1
+[shared_modules.py] add 'import einops' in line 2
+[shared_modules.py:1] [Success] Convert torch.nn.Module to Paddle
+[shared_modules.py:16] [Success] Convert torch.nn.Linear to Paddle
+[shared_modules.py:17] [Success] Convert torch.nn.ReLU to Paddle
+[shared_modules.py:18] [Success] Convert torch.nn.Linear to Paddle
+[shared_modules.py:15] [Success] Convert torch.nn.Sequential to Paddle
+[shared_modules.py:22] [Success] Convert Class Attribute: torch.Tensor.dtype to Paddle, just remain the same
+[shared_modules.py:22] [Success] Convert Class Attribute: torch.Tensor.device to Paddle, just remain the same
+[shared_modules.py:24] [Success] Convert torch.arange to Paddle
+[shared_modules.py:30] [Success] Convert torch.arange to Paddle
+[shared_modules.py:31] [Success] Convert torch.arange to Paddle
+[shared_modules.py:32] [Success] Convert torch.arange to Paddle
+[shared_modules.py:28] [Success] Convert torch.cat to Paddle
+[shared_modules.py:1] [Success] Convert torch.float32 to Paddle
+[shared_modules.py:36] [Success] Convert torch.arange to Paddle
+[shared_modules.py:41] [Success] Convert Class Method: torch.Tensor.squeeze to Paddle
+[shared_modules.py:40] [Success] Convert torch.sigmoid to Paddle
+[shared_modules.py:43] [Success] Convert Class Method: torch.Tensor.long to Paddle
+[shared_modules.py:44] [Success] Convert Class Method: torch.Tensor.permute to Paddle
+[shared_modules.py:44] [Success] Convert Class Method: torch.Tensor.unsqueeze to Paddle
+[shared_modules.py:44] [Success] Convert Class Method: torch.Tensor.contiguous to Paddle
+[shared_modules.py:1] [Success] Convert torch.nn.Module to Paddle
+[shared_modules.py:60] [Success] Convert torch.nn.Embedding to Paddle
+[shared_modules.py:1] [Success] Convert torch.long to Paddle
+[shared_modules.py:92] [Success] Convert Class Method: torch.Tensor.to to Paddle
+[shared_modules.py:95] [Success] Convert torch.abs to Paddle
+[shared_modules.py:97] [Success] Convert torch.zeros_like to Paddle
+[shared_modules.py:97] [Success] Convert torch.max to Paddle
+[shared_modules.py:106] [Success] Convert Class Method: torch.Tensor.float to Paddle
+[shared_modules.py:106] [Success] Convert torch.log to Paddle
+[shared_modules.py:1] [Success] Convert torch.long to Paddle
+[shared_modules.py:105] [Success] Convert Class Method: torch.Tensor.to to Paddle
+[shared_modules.py:111] [Success] Convert torch.full_like to Paddle
+[shared_modules.py:110] [Success] Convert torch.min to Paddle
+[shared_modules.py:114] [Success] Convert torch.where to Paddle
+[shared_modules.py:1] [Success] Convert torch.long to Paddle
+[shared_modules.py:120] [Success] Convert Class Attribute: torch.Tensor.device to Paddle, just remain the same
+[shared_modules.py:119] [Success] Convert torch.arange to Paddle
+[shared_modules.py:1] [Success] Convert torch.long to Paddle
+[shared_modules.py:123] [Success] Convert Class Attribute: torch.Tensor.device to Paddle, just remain the same
+[shared_modules.py:122] [Success] Convert torch.arange to Paddle
+[shared_modules.py:146] [Success] Convert Class Attribute: torch.Tensor.device to Paddle, just remain the same
+[shared_modules.py:146] [Success] Convert Class Method: torch.Tensor.to to Paddle
+[shared_modules.py:150] [Success] Convert Class Method: torch.Tensor.permute to Paddle
+[shared_modules.py:150] [Success] Convert Class Method: torch.Tensor.unsqueeze to Paddle
+[shared_modules.py:1] [Success] Convert torch.nn.Module to Paddle
+[shared_modules.py:162] [Success] Convert torch.nn.Linear to Paddle
+[shared_modules.py:163] [Success] Convert torch.nn.Linear to Paddle
+[shared_modules.py:164] [Success] Convert torch.nn.GELU to Paddle
+[shared_modules.py:1] [Success] Convert torch.nn.Module to Paddle
+[shared_modules.py:179] [Success] Convert torch.randn to Paddle
+[shared_modules.py:179] [Success] Convert torch.nn.Parameter to Paddle
+[shared_modules.py:1] [Success] Convert torch.nn.Module to Paddle
+[shared_modules.py:188] [Success] Convert torch.nn.Linear to Paddle
+[shared_modules.py:189] [Success] Convert torch.nn.Linear to Paddle
+[shared_modules.py:190] [Success] Convert torch.nn.GELU to Paddle
+Finish convert /home/lkyu/baidu/MPP/multiple_physics_pretraining/models/shared_modules.py --> /home/lkyu/baidu/MPP/multiple_physics_pretraining_paddle/models/shared_modules.py
+
+Start convert file: /home/lkyu/baidu/MPP/multiple_physics_pretraining/models/time_modules.py --> /home/lkyu/baidu/MPP/multiple_physics_pretraining_paddle/models/time_modules.py
+[time_modules.py:6] remove 'import torch' 
+[time_modules.py:7] remove 'import torch.nn as nn' 
+[time_modules.py:8] remove 'import torch.nn.functional as F' 
+[time_modules.py:9] remove 'from einops import rearrange' 
+[time_modules.py] add 'import paddle' in line 1
+[time_modules.py] add 'import einops' in line 2
+[time_modules.py:1] [Success] Convert torch.nn.Module to Paddle
+[time_modules.py:51] [Success] Convert torch.nn.InstanceNorm2d to Paddle
+[time_modules.py:52] [Success] Convert torch.nn.InstanceNorm2d to Paddle
+[time_modules.py:55] [Success] Convert torch.ones to Paddle
+[time_modules.py:54] [Success] Convert torch.nn.Parameter to Paddle
+[time_modules.py:60] [Success] Convert torch.nn.Conv2d to Paddle
+[time_modules.py:61] [Success] Convert torch.nn.Conv2d to Paddle
+[time_modules.py:62] [Success] Convert torch.nn.LayerNorm to Paddle
+[time_modules.py:63] [Success] Convert torch.nn.LayerNorm to Paddle
+[time_modules.py:70] [Success] Convert torch.nn.Identity to Paddle
+[time_modules.py:74] [Success] Convert Class Attribute: torch.Tensor.shape to Paddle, just remain the same
+[time_modules.py:75] [Success] Convert Class Method: torch.Tensor.clone to Paddle
+[time_modules.py:82] [Success] Convert Class Method: torch.Tensor.tensor_split to Paddle
+[time_modules.py:86] [Success] Convert torch.nn.functional.scaled_dot_product_attention to Paddle
+[time_modules.py:89] [Success] Convert Class Method: torch.Tensor.contiguous to Paddle
+[time_modules.py:89] [Success] Convert Class Method: torch.Tensor.contiguous to Paddle
+[time_modules.py:89] [Success] Convert Class Method: torch.Tensor.contiguous to Paddle
+[time_modules.py:88] [Success] Convert torch.nn.functional.scaled_dot_product_attention to Paddle
+Finish convert /home/lkyu/baidu/MPP/multiple_physics_pretraining/models/time_modules.py --> /home/lkyu/baidu/MPP/multiple_physics_pretraining_paddle/models/time_modules.py
+
+Start convert file: /home/lkyu/baidu/MPP/multiple_physics_pretraining/models/spatial_modules.py --> /home/lkyu/baidu/MPP/multiple_physics_pretraining_paddle/models/spatial_modules.py
+[spatial_modules.py:5] remove 'import torch' 
+[spatial_modules.py:6] remove 'import torch.nn as nn' 
+[spatial_modules.py:7] remove 'import torch.nn.functional as F' 
+[spatial_modules.py:8] remove 'from einops import rearrange' 
+[spatial_modules.py] add 'import paddle' in line 1
+[spatial_modules.py] add 'import einops' in line 2
+[spatial_modules.py:1] [Success] Convert torch.nn.Module to Paddle
+[spatial_modules.py:48] [Success] Convert torch.ones to Paddle
+[spatial_modules.py:48] [Success] Convert torch.nn.Parameter to Paddle
+[spatial_modules.py:50] [Success] Convert torch.zeros to Paddle
+[spatial_modules.py:49] [Success] Convert torch.nn.Parameter to Paddle
+[spatial_modules.py:56] [Success] Convert torch.std to Paddle
+[spatial_modules.py:1] [Success] Convert torch.nn.Module to Paddle
+[spatial_modules.py:78] [Success] Convert torch.nn.Linear to Paddle
+[spatial_modules.py:79] [Success] Convert torch.nn.Parameter to Paddle
+[spatial_modules.py:80] [Success] Convert torch.nn.Parameter to Paddle
+[spatial_modules.py:90] [Success] Convert torch.nn.functional.linear to Paddle
+[spatial_modules.py:92] [Success] Convert torch.nn.functional.linear to Paddle
+[spatial_modules.py:1] [Success] Convert torch.nn.Module to Paddle
+[spatial_modules.py:106] [Success] Convert torch.nn.Conv2d to Paddle
+[spatial_modules.py:110] [Success] Convert torch.nn.GELU to Paddle
+[spatial_modules.py:111] [Success] Convert torch.nn.Conv2d to Paddle
+[spatial_modules.py:115] [Success] Convert torch.nn.GELU to Paddle
+[spatial_modules.py:116] [Success] Convert torch.nn.Conv2d to Paddle
+[spatial_modules.py:104] [Success] Convert torch.nn.Sequential to Paddle
+[spatial_modules.py:1] [Success] Convert torch.nn.Module to Paddle
+[spatial_modules.py:138] [Success] Convert torch.nn.ConvTranspose2d to Paddle
+[spatial_modules.py:142] [Success] Convert torch.nn.GELU to Paddle
+[spatial_modules.py:143] [Success] Convert torch.nn.ConvTranspose2d to Paddle
+[spatial_modules.py:147] [Success] Convert torch.nn.GELU to Paddle
+[spatial_modules.py:136] [Success] Convert torch.nn.Sequential to Paddle
+[spatial_modules.py:150] [Success] Convert torch.nn.ConvTranspose2d to Paddle
+[spatial_modules.py:153] [Success] Convert torch.nn.Parameter to Paddle
+[spatial_modules.py:154] [Success] Convert torch.nn.Parameter to Paddle
+[spatial_modules.py:158] [Success] Convert torch.nn.functional.conv_transpose2d to Paddle
+[spatial_modules.py:1] [Success] Convert torch.nn.Module to Paddle
+[spatial_modules.py:179] [Success] Convert torch.ones to Paddle
+[spatial_modules.py:178] [Success] Convert torch.nn.Parameter to Paddle
+[spatial_modules.py:186] [Success] Convert torch.ones to Paddle
+[spatial_modules.py:185] [Success] Convert torch.nn.Parameter to Paddle
+[spatial_modules.py:192] [Success] Convert torch.nn.Conv2d to Paddle
+[spatial_modules.py:193] [Success] Convert torch.nn.Conv2d to Paddle
+[spatial_modules.py:194] [Success] Convert torch.nn.LayerNorm to Paddle
+[spatial_modules.py:195] [Success] Convert torch.nn.LayerNorm to Paddle
+[spatial_modules.py:203] [Success] Convert torch.nn.Identity to Paddle
+[spatial_modules.py:210] [Success] Convert Class Attribute: torch.Tensor.shape to Paddle, just remain the same
+[spatial_modules.py:211] [Success] Convert Class Method: torch.Tensor.clone to Paddle
+[spatial_modules.py:216] [Success] Convert Class Method: torch.Tensor.tensor_split to Paddle
+[spatial_modules.py:227] [Success] Convert torch.nn.functional.scaled_dot_product_attention to Paddle
+[spatial_modules.py:230] [Success] Convert Class Method: torch.Tensor.contiguous to Paddle
+[spatial_modules.py:230] [Success] Convert Class Method: torch.Tensor.contiguous to Paddle
+[spatial_modules.py:230] [Success] Convert Class Method: torch.Tensor.contiguous to Paddle
+[spatial_modules.py:229] [Success] Convert torch.nn.functional.scaled_dot_product_attention to Paddle
+[spatial_modules.py:240] [Success] Convert torch.nn.functional.scaled_dot_product_attention to Paddle
+[spatial_modules.py:243] [Success] Convert Class Method: torch.Tensor.contiguous to Paddle
+[spatial_modules.py:243] [Success] Convert Class Method: torch.Tensor.contiguous to Paddle
+[spatial_modules.py:243] [Success] Convert Class Method: torch.Tensor.contiguous to Paddle
+[spatial_modules.py:242] [Success] Convert torch.nn.functional.scaled_dot_product_attention to Paddle
+[spatial_modules.py:253] [Success] Convert Class Method: torch.Tensor.clone to Paddle
+Finish convert /home/lkyu/baidu/MPP/multiple_physics_pretraining/models/spatial_modules.py --> /home/lkyu/baidu/MPP/multiple_physics_pretraining_paddle/models/spatial_modules.py
+
+Start convert file: /home/lkyu/baidu/MPP/multiple_physics_pretraining/models/DropPath_util.py --> /home/lkyu/baidu/MPP/multiple_physics_pretraining_paddle/models/DropPath_util.py
+[DropPath_util.py:1] remove 'from torch import nn' 
+[DropPath_util.py] add 'import paddle' in line 1
+[DropPath_util.py:18] [Success] Convert Class Attribute: torch.Tensor.shape to Paddle, just remain the same
+[DropPath_util.py:19] [Success] Convert Class Attribute: torch.Tensor.ndim to Paddle, just remain the same
+[DropPath_util.py:21] [Success] Convert Class Method: torch.Tensor.new_empty to Paddle
+[DropPath_util.py:21] [Success] Convert Class Method: torch.Tensor.bernoulli_ to Paddle
+[DropPath_util.py:23] [Success] Convert Class Method: torch.Tensor.div_ to Paddle
+[DropPath_util.py:1] [Success] Convert torch.nn.Module to Paddle
+Finish convert /home/lkyu/baidu/MPP/multiple_physics_pretraining/models/DropPath_util.py --> /home/lkyu/baidu/MPP/multiple_physics_pretraining_paddle/models/DropPath_util.py
+
+No need to convert, just Copy /home/lkyu/baidu/MPP/multiple_physics_pretraining/load_env.sh --> /home/lkyu/baidu/MPP/multiple_physics_pretraining_paddle/load_env.sh
+
+Start convert file: /home/lkyu/baidu/MPP/multiple_physics_pretraining/requirements.txt --> /home/lkyu/baidu/MPP/multiple_physics_pretraining_paddle/requirements.txt
+Finish convert /home/lkyu/baidu/MPP/multiple_physics_pretraining/requirements.txt --> /home/lkyu/baidu/MPP/multiple_physics_pretraining_paddle/requirements.txt
+
+No need to convert, just Copy /home/lkyu/baidu/MPP/multiple_physics_pretraining/LICENSE --> /home/lkyu/baidu/MPP/multiple_physics_pretraining_paddle/LICENSE
+
+Start convert file: /home/lkyu/baidu/MPP/multiple_physics_pretraining/utils/logging_utils.py --> /home/lkyu/baidu/MPP/multiple_physics_pretraining_paddle/utils/logging_utils.py
+[logging_utils.py:2] remove 'import os' 
+[logging_utils.py:32] remove 'import torch' 
+[logging_utils.py] add 'import paddle' in line 1
+[logging_utils.py] add 'import os' in line 2
+[logging_utils.py:1] [Success] Convert torch.__version__ to Paddle
+Finish convert /home/lkyu/baidu/MPP/multiple_physics_pretraining/utils/logging_utils.py --> /home/lkyu/baidu/MPP/multiple_physics_pretraining_paddle/utils/logging_utils.py
+
+Start convert file: /home/lkyu/baidu/MPP/multiple_physics_pretraining/utils/YParams.py --> /home/lkyu/baidu/MPP/multiple_physics_pretraining_paddle/utils/YParams.py
+Finish convert /home/lkyu/baidu/MPP/multiple_physics_pretraining/utils/YParams.py --> /home/lkyu/baidu/MPP/multiple_physics_pretraining_paddle/utils/YParams.py
+
+Start convert file: /home/lkyu/baidu/MPP/multiple_physics_pretraining/utils/schedulers.py --> /home/lkyu/baidu/MPP/multiple_physics_pretraining_paddle/utils/schedulers.py
+Finish convert /home/lkyu/baidu/MPP/multiple_physics_pretraining/utils/schedulers.py --> /home/lkyu/baidu/MPP/multiple_physics_pretraining_paddle/utils/schedulers.py
+
+No need to convert, just Copy /home/lkyu/baidu/MPP/multiple_physics_pretraining/imgs/CNS_Xfer_Both.png --> /home/lkyu/baidu/MPP/multiple_physics_pretraining_paddle/imgs/CNS_Xfer_Both.png
+
+No need to convert, just Copy /home/lkyu/baidu/MPP/multiple_physics_pretraining/imgs/pretraining_bars.png --> /home/lkyu/baidu/MPP/multiple_physics_pretraining_paddle/imgs/pretraining_bars.png
+
+No need to convert, just Copy /home/lkyu/baidu/MPP/multiple_physics_pretraining/imgs/mpp_arch_v5.png --> /home/lkyu/baidu/MPP/multiple_physics_pretraining_paddle/imgs/mpp_arch_v5.png
+
+No need to convert, just Copy /home/lkyu/baidu/MPP/multiple_physics_pretraining/config/mpp_avit_ti_config.yaml --> /home/lkyu/baidu/MPP/multiple_physics_pretraining_paddle/config/mpp_avit_ti_config.yaml
+
+No need to convert, just Copy /home/lkyu/baidu/MPP/multiple_physics_pretraining/config/mpp_avit_s_config.yaml --> /home/lkyu/baidu/MPP/multiple_physics_pretraining_paddle/config/mpp_avit_s_config.yaml
+
+No need to convert, just Copy /home/lkyu/baidu/MPP/multiple_physics_pretraining/config/mpp_avit_L_config.yaml --> /home/lkyu/baidu/MPP/multiple_physics_pretraining_paddle/config/mpp_avit_L_config.yaml
+
+No need to convert, just Copy /home/lkyu/baidu/MPP/multiple_physics_pretraining/config/mpp_avit_b_config.yaml --> /home/lkyu/baidu/MPP/multiple_physics_pretraining_paddle/config/mpp_avit_b_config.yaml
+
+Start convert file: /home/lkyu/baidu/MPP/multiple_physics_pretraining/tests/test_minimal_scheduler.py --> /home/lkyu/baidu/MPP/multiple_physics_pretraining_paddle/tests/test_minimal_scheduler.py
+[test_minimal_scheduler.py:6] remove 'import os' 
+[test_minimal_scheduler.py:11] remove 'import torch' 
+[test_minimal_scheduler.py:12] remove 'import torch.nn as nn' 
+[test_minimal_scheduler.py] add 'import paddle' in line 1
+[test_minimal_scheduler.py] add 'import os' in line 2
+[test_minimal_scheduler.py:26] [Success] Convert torch.nn.Linear to Paddle
+[test_minimal_scheduler.py:29] [Success] Convert Class Method: torch.nn.Module.parameters to Paddle
+[test_minimal_scheduler.py:29] [Success] Convert torch.optim.Adam to Paddle
+[test_minimal_scheduler.py:30] [Success] Convert Class Method: torch.nn.Module.parameters to Paddle
+[test_minimal_scheduler.py:30] [Success] Convert torch.optim.Adam to Paddle
+[test_minimal_scheduler.py:38] [Success] Convert torch.optim.lr_scheduler.LinearLR to Paddle
+[test_minimal_scheduler.py:41] [Success] Convert torch.optim.lr_scheduler.CosineAnnealingLR to Paddle
+[test_minimal_scheduler.py:44] [Not Support] convert torch.optim.lr_scheduler.SequentialLR to Paddle is not supported currently
+[test_minimal_scheduler.py:49] [Success] Convert torch.optim.lr_scheduler.LinearLR to Paddle
+[test_minimal_scheduler.py:52] [Success] Convert torch.optim.lr_scheduler.CosineAnnealingLR to Paddle
+[test_minimal_scheduler.py:77] [Success] Convert Class Method: torch.optim.Optimizer.step to Paddle
+[test_minimal_scheduler.py:78] [Success] Convert Class Method: torch.optim.Optimizer.step to Paddle
+[test_minimal_scheduler.py:103] [Success] Convert torch.nn.Linear to Paddle
+[test_minimal_scheduler.py:106] [Success] Convert Class Method: torch.nn.Module.parameters to Paddle
+[test_minimal_scheduler.py:106] [Success] Convert torch.optim.Adam to Paddle
+[test_minimal_scheduler.py:107] [Success] Convert Class Method: torch.nn.Module.parameters to Paddle
+[test_minimal_scheduler.py:107] [Success] Convert torch.optim.Adam to Paddle
+[test_minimal_scheduler.py:116] [Success] Convert torch.optim.lr_scheduler.LinearLR to Paddle
+[test_minimal_scheduler.py:119] [Success] Convert torch.optim.lr_scheduler.CosineAnnealingLR to Paddle
+[test_minimal_scheduler.py:122] [Not Support] convert torch.optim.lr_scheduler.SequentialLR to Paddle is not supported currently
+[test_minimal_scheduler.py:127] [Success] Convert torch.optim.lr_scheduler.LinearLR to Paddle
+[test_minimal_scheduler.py:130] [Success] Convert torch.optim.lr_scheduler.CosineAnnealingLR to Paddle
+[test_minimal_scheduler.py:166] [Success] Convert Class Method: torch.optim.Optimizer.step to Paddle
+[test_minimal_scheduler.py:167] [Success] Convert Class Method: torch.optim.Optimizer.step to Paddle
+[test_minimal_scheduler.py:192] [Success] Convert torch.nn.Linear to Paddle
+[test_minimal_scheduler.py:193] [Success] Convert Class Method: torch.nn.Module.parameters to Paddle
+[test_minimal_scheduler.py:193] [Success] Convert torch.optim.Adam to Paddle
+[test_minimal_scheduler.py:199] [Success] Convert torch.optim.lr_scheduler.LinearLR to Paddle
+[test_minimal_scheduler.py:202] [Success] Convert torch.optim.lr_scheduler.CosineAnnealingLR to Paddle
+[test_minimal_scheduler.py:223] [Success] Convert Class Method: torch.optim.Optimizer.step to Paddle
+[test_minimal_scheduler.py:264] [Success] Convert torch.nn.Linear to Paddle
+[test_minimal_scheduler.py:269] [Success] Convert Class Method: torch.nn.Module.parameters to Paddle
+[test_minimal_scheduler.py:269] [Success] Convert torch.optim.Adam to Paddle
+[test_minimal_scheduler.py:273] [Success] Convert torch.optim.lr_scheduler.LinearLR to Paddle
+[test_minimal_scheduler.py:277] [Success] Convert torch.optim.lr_scheduler.CosineAnnealingLR to Paddle
+[test_minimal_scheduler.py:287] [Success] Convert Class Method: torch.nn.Module.parameters to Paddle
+[test_minimal_scheduler.py:287] [Success] Convert torch.optim.Adam to Paddle
+[test_minimal_scheduler.py:291] [Success] Convert torch.optim.lr_scheduler.LinearLR to Paddle
+[test_minimal_scheduler.py:296] [Success] Convert torch.optim.lr_scheduler.CosineAnnealingLR to Paddle
+[test_minimal_scheduler.py:329] [Success] Convert Class Method: torch.optim.Optimizer.step to Paddle
+Finish convert /home/lkyu/baidu/MPP/multiple_physics_pretraining/tests/test_minimal_scheduler.py --> /home/lkyu/baidu/MPP/multiple_physics_pretraining_paddle/tests/test_minimal_scheduler.py
+
+Start convert file: /home/lkyu/baidu/MPP/multiple_physics_pretraining/tests/__init__.py --> /home/lkyu/baidu/MPP/multiple_physics_pretraining_paddle/tests/__init__.py
+Finish convert /home/lkyu/baidu/MPP/multiple_physics_pretraining/tests/__init__.py --> /home/lkyu/baidu/MPP/multiple_physics_pretraining_paddle/tests/__init__.py
+
+Start convert file: /home/lkyu/baidu/MPP/multiple_physics_pretraining/tests/test_schedulers.py --> /home/lkyu/baidu/MPP/multiple_physics_pretraining_paddle/tests/test_schedulers.py
+[test_schedulers.py:13] remove 'import torch' 
+[test_schedulers.py:14] remove 'import torch.optim as optim' 
+[test_schedulers.py] add 'import paddle' in line 1
+[test_schedulers.py:1] [Success] Convert torch.nn.Module to Paddle
+[test_schedulers.py:28] [Success] Convert torch.nn.Linear to Paddle
+[test_schedulers.py:42] [Success] Convert Class Method: torch.nn.Module.parameters to Paddle
+[test_schedulers.py:42] [Success] Convert torch.optim.Adam to Paddle
+[test_schedulers.py:43] [Success] Convert torch.optim.lr_scheduler.LinearLR to Paddle
+[test_schedulers.py:46] [Success] Convert torch.optim.lr_scheduler.CosineAnnealingLR to Paddle
+[test_schedulers.py:54] [Success] Convert Class Method: torch.nn.Module.parameters to Paddle
+[test_schedulers.py:54] [Success] Convert torch.optim.Adam to Paddle
+[test_schedulers.py:55] [Success] Convert torch.optim.lr_scheduler.LinearLR to Paddle
+[test_schedulers.py:58] [Success] Convert torch.optim.lr_scheduler.CosineAnnealingLR to Paddle
+[test_schedulers.py:61] [Not Support] convert torch.optim.lr_scheduler.SequentialLR to Paddle is not supported currently
+[test_schedulers.py:75] [Success] Convert Class Method: torch.nn.Module.parameters to Paddle
+[test_schedulers.py:75] [Success] Convert torch.optim.Adam to Paddle
+[test_schedulers.py:76] [Success] Convert torch.optim.lr_scheduler.LinearLR to Paddle
+[test_schedulers.py:79] [Success] Convert torch.optim.lr_scheduler.CosineAnnealingLR to Paddle
+[test_schedulers.py:86] [Success] Convert Class Method: torch.nn.Module.parameters to Paddle
+[test_schedulers.py:86] [Success] Convert torch.optim.Adam to Paddle
+[test_schedulers.py:87] [Success] Convert torch.optim.lr_scheduler.LinearLR to Paddle
+[test_schedulers.py:90] [Success] Convert torch.optim.lr_scheduler.CosineAnnealingLR to Paddle
+[test_schedulers.py:93] [Not Support] convert torch.optim.lr_scheduler.SequentialLR to Paddle is not supported currently
+[test_schedulers.py:99] [Success] Convert Class Method: torch.optim.Optimizer.step to Paddle
+[test_schedulers.py:100] [Success] Convert Class Method: torch.optim.Optimizer.step to Paddle
+[test_schedulers.py:128] [Success] Convert Class Method: torch.nn.Module.parameters to Paddle
+[test_schedulers.py:128] [Success] Convert torch.optim.Adam to Paddle
+[test_schedulers.py:129] [Success] Convert torch.optim.lr_scheduler.LinearLR to Paddle
+[test_schedulers.py:132] [Success] Convert torch.optim.lr_scheduler.CosineAnnealingLR to Paddle
+[test_schedulers.py:140] [Success] Convert Class Method: torch.nn.Module.parameters to Paddle
+[test_schedulers.py:140] [Success] Convert torch.optim.Adam to Paddle
+[test_schedulers.py:141] [Success] Convert torch.optim.lr_scheduler.LinearLR to Paddle
+[test_schedulers.py:144] [Success] Convert torch.optim.lr_scheduler.CosineAnnealingLR to Paddle
+[test_schedulers.py:147] [Not Support] convert torch.optim.lr_scheduler.SequentialLR to Paddle is not supported currently
+[test_schedulers.py:154] [Success] Convert Class Method: torch.optim.Optimizer.step to Paddle
+[test_schedulers.py:155] [Success] Convert Class Method: torch.optim.Optimizer.step to Paddle
+[test_schedulers.py:180] [Success] Convert Class Method: torch.nn.Module.parameters to Paddle
+[test_schedulers.py:180] [Success] Convert torch.optim.Adam to Paddle
+[test_schedulers.py:181] [Success] Convert torch.optim.lr_scheduler.LinearLR to Paddle
+[test_schedulers.py:184] [Success] Convert torch.optim.lr_scheduler.CosineAnnealingLR to Paddle
+[test_schedulers.py:192] [Success] Convert Class Method: torch.optim.Optimizer.step to Paddle
+[test_schedulers.py:195] [Success] Convert Class Method: torch.nn.Module.state_dict to Paddle
+[test_schedulers.py:201] [Success] Convert Class Method: torch.nn.Module.parameters to Paddle
+[test_schedulers.py:201] [Success] Convert torch.optim.Adam to Paddle
+[test_schedulers.py:202] [Success] Convert torch.optim.lr_scheduler.LinearLR to Paddle
+[test_schedulers.py:205] [Success] Convert torch.optim.lr_scheduler.CosineAnnealingLR to Paddle
+[test_schedulers.py:212] [Success] Convert Class Method: torch.nn.Module.load_state_dict to Paddle
+[test_schedulers.py:221] [Success] Convert Class Method: torch.optim.Optimizer.step to Paddle
+[test_schedulers.py:222] [Success] Convert Class Method: torch.optim.Optimizer.step to Paddle
+[test_schedulers.py:253] [Success] Convert Class Method: torch.nn.Module.parameters to Paddle
+[test_schedulers.py:253] [Success] Convert torch.optim.Adam to Paddle
+[test_schedulers.py:254] [Success] Convert torch.optim.lr_scheduler.LinearLR to Paddle
+[test_schedulers.py:257] [Success] Convert torch.optim.lr_scheduler.CosineAnnealingLR to Paddle
+[test_schedulers.py:265] [Success] Convert Class Method: torch.optim.Optimizer.step to Paddle
+[test_schedulers.py:268] [Success] Convert Class Method: torch.nn.Module.state_dict to Paddle
+[test_schedulers.py:273] [Success] Convert Class Method: torch.nn.Module.parameters to Paddle
+[test_schedulers.py:273] [Success] Convert torch.optim.Adam to Paddle
+[test_schedulers.py:274] [Success] Convert torch.optim.lr_scheduler.LinearLR to Paddle
+[test_schedulers.py:277] [Success] Convert torch.optim.lr_scheduler.CosineAnnealingLR to Paddle
+[test_schedulers.py:285] [Success] Convert Class Method: torch.nn.Module.load_state_dict to Paddle
+[test_schedulers.py:298] [Success] Convert Class Method: torch.optim.Optimizer.step to Paddle
+[test_schedulers.py:299] [Success] Convert Class Method: torch.optim.Optimizer.step to Paddle
+Finish convert /home/lkyu/baidu/MPP/multiple_physics_pretraining/tests/test_schedulers.py --> /home/lkyu/baidu/MPP/multiple_physics_pretraining_paddle/tests/test_schedulers.py
+
+No need to convert, just Copy /home/lkyu/baidu/MPP/multiple_physics_pretraining/submit_batch.sh --> /home/lkyu/baidu/MPP/multiple_physics_pretraining_paddle/submit_batch.sh
+
+Start convert file: /home/lkyu/baidu/MPP/multiple_physics_pretraining/data_utils/mixed_dset_sampler.py --> /home/lkyu/baidu/MPP/multiple_physics_pretraining_paddle/data_utils/mixed_dset_sampler.py
+[mixed_dset_sampler.py:5] remove 'import torch' 
+[mixed_dset_sampler.py:6] remove 'import torch.distributed as dist' 
+[mixed_dset_sampler.py:7] remove 'from torch.utils.data import Dataset' 
+[mixed_dset_sampler.py:7] remove 'from torch.utils.data import Sampler' 
+[mixed_dset_sampler.py] add 'import paddle' in line 1
+[mixed_dset_sampler.py:1] [Success] Convert torch.utils.data.Sampler to Paddle
+[mixed_dset_sampler.py:1] [Success] Convert torch.utils.data.Dataset to Paddle
+[mixed_dset_sampler.py:1] [Success] Convert torch.utils.data.Sampler to Paddle
+[mixed_dset_sampler.py:50] [Success] Convert torch.Generator to Paddle
+[mixed_dset_sampler.py:55] [Success] Convert torch.randint to Paddle
+[mixed_dset_sampler.py:55] [Success] Convert Class Method: torch.Tensor.item to Paddle
+Finish convert /home/lkyu/baidu/MPP/multiple_physics_pretraining/data_utils/mixed_dset_sampler.py --> /home/lkyu/baidu/MPP/multiple_physics_pretraining_paddle/data_utils/mixed_dset_sampler.py
+
+Start convert file: /home/lkyu/baidu/MPP/multiple_physics_pretraining/data_utils/datasets.py --> /home/lkyu/baidu/MPP/multiple_physics_pretraining_paddle/data_utils/datasets.py
+[datasets.py:5] remove 'import os' 
+[datasets.py:8] remove 'import torch' 
+[datasets.py:9] remove 'import torch.nn' 
+[datasets.py:10] remove 'from torch.utils.data import DataLoader' 
+[datasets.py:10] remove 'from torch.utils.data import Dataset' 
+[datasets.py:10] remove 'from torch.utils.data import RandomSampler' 
+[datasets.py:11] remove 'from torch.utils.data.distributed import DistributedSampler' 
+[datasets.py:21] remove 'import os' 
+[datasets.py] add 'import paddle' in line 1
+[datasets.py] add 'import os' in line 2
+[datasets.py:46] [Success] Convert torch.seed to Paddle
+[datasets.py:1] [Success] Convert torch.utils.data.distributed.DistributedSampler to Paddle
+[datasets.py:1] [Success] Convert torch.utils.data.RandomSampler to Paddle
+[datasets.py:1] [Success] Convert torch.utils.data.RandomSampler to Paddle
+[datasets.py:63] [Success] Convert torch.utils.data.DataLoader to Paddle
+[datasets.py:1] [Success] Convert torch.utils.data.Dataset to Paddle
+[datasets.py:137] [Success] Convert Class Method: torch.Tensor.add to Paddle
+[datasets.py:184] [Success] Convert torch.tensor to Paddle
+Finish convert /home/lkyu/baidu/MPP/multiple_physics_pretraining/data_utils/datasets.py --> /home/lkyu/baidu/MPP/multiple_physics_pretraining_paddle/data_utils/datasets.py
+
+Start convert file: /home/lkyu/baidu/MPP/multiple_physics_pretraining/data_utils/hdf5_datasets.py --> /home/lkyu/baidu/MPP/multiple_physics_pretraining_paddle/data_utils/hdf5_datasets.py
+[hdf5_datasets.py:6] remove 'import os' 
+[hdf5_datasets.py:10] remove 'import torch' 
+[hdf5_datasets.py:11] remove 'import torch.nn' 
+[hdf5_datasets.py:12] remove 'from torch.utils.data import Dataset' 
+[hdf5_datasets.py] add 'import paddle' in line 1
+[hdf5_datasets.py] add 'import os' in line 2
+[hdf5_datasets.py:1] [Success] Convert torch.utils.data.Dataset to Paddle
+[hdf5_datasets.py:125] [Success] Convert Class Method: torch.Tensor.sort to Paddle
+[hdf5_datasets.py:266] [Success] Convert torch.as_tensor to Paddle
+[hdf5_datasets.py:284] [Success] Convert Class Attribute: torch.Tensor.shape to Paddle, just remain the same
+[hdf5_datasets.py:292] [Success] Convert Class Method: torch.Tensor.transpose to Paddle
+[hdf5_datasets.py:309] [Success] Convert Class Attribute: torch.Tensor.shape to Paddle, just remain the same
+[hdf5_datasets.py:317] [Success] Convert Class Method: torch.Tensor.transpose to Paddle
+[hdf5_datasets.py:337] [Success] Convert Class Attribute: torch.Tensor.shape to Paddle, just remain the same
+[hdf5_datasets.py:338] [Success] Convert Class Attribute: torch.Tensor.shape to Paddle, just remain the same
+[hdf5_datasets.py:349] [Success] Convert Class Method: torch.Tensor.transpose to Paddle
+[hdf5_datasets.py:370] [Success] Convert Class Attribute: torch.Tensor.shape to Paddle, just remain the same
+[hdf5_datasets.py:371] [Success] Convert Class Attribute: torch.Tensor.shape to Paddle, just remain the same
+[hdf5_datasets.py:411] [Success] Convert Class Attribute: torch.Tensor.shape to Paddle, just remain the same
+[hdf5_datasets.py:412] [Success] Convert Class Attribute: torch.Tensor.shape to Paddle, just remain the same
+[hdf5_datasets.py:458] [Success] Convert Class Attribute: torch.Tensor.shape to Paddle, just remain the same
+[hdf5_datasets.py:459] [Success] Convert Class Attribute: torch.Tensor.shape to Paddle, just remain the same
+[hdf5_datasets.py:486] [Success] Convert Class Attribute: torch.Tensor.shape to Paddle, just remain the same
+[hdf5_datasets.py:494] [Success] Convert Class Method: torch.Tensor.transpose to Paddle
+Finish convert /home/lkyu/baidu/MPP/multiple_physics_pretraining/data_utils/hdf5_datasets.py --> /home/lkyu/baidu/MPP/multiple_physics_pretraining_paddle/data_utils/hdf5_datasets.py
+
+Start convert file: /home/lkyu/baidu/MPP/multiple_physics_pretraining/train_basic.py --> /home/lkyu/baidu/MPP/multiple_physics_pretraining_paddle/train_basic.py
+[train_basic.py:3] remove 'import os' 
+[train_basic.py:9] remove 'import torch' 
+[train_basic.py:10] remove 'import torch.cuda.amp as amp' 
+[train_basic.py:11] remove 'import torch.distributed as dist' 
+[train_basic.py:12] remove 'import torch.nn as nn' 
+[train_basic.py:13] remove 'import torch.nn.functional as F' 
+[train_basic.py:14] remove 'import torch.optim as optim' 
+[train_basic.py:18] remove 'from einops import rearrange' 
+[train_basic.py:21] remove 'from torch.nn.parallel import DistributedDataParallel' 
+[train_basic.py] add 'import paddle' in line 1
+[train_basic.py] add 'import einops' in line 2
+[train_basic.py] add 'import os' in line 3
+[train_basic.py:47] [Success] Convert Class Method: torch.nn.Module.named_parameters to Paddle
+[train_basic.py:48] [Success] Convert Class Attribute: torch.Tensor.requires_grad to Paddle, just remain the same
+[train_basic.py:50] [Success] Convert Class Method: torch.Tensor.squeeze to Paddle
+[train_basic.py:50] [Success] Convert Class Attribute: torch.Tensor.shape to Paddle, just remain the same
+[train_basic.py:69] [Success] Convert os.environ.get to Paddle
+[train_basic.py:73] [Success] Convert torch.nn.MSELoss to Paddle
+[train_basic.py:78] [Success] Convert torch.cuda.is_available to Paddle
+[train_basic.py:78] [Success] Convert torch.cuda.is_bf16_supported to Paddle
+[train_basic.py:1] [Success] Convert torch.bfloat16 to Paddle
+[train_basic.py:1] [Success] Convert torch.float16 to Paddle
+[train_basic.py:113] [Success] Convert torch.distributed.is_initialized to Paddle
+[train_basic.py:122] [Success] Convert torch.distributed.is_initialized to Paddle
+[train_basic.py:126] [Success] Convert torch.distributed.is_initialized to Paddle
+[train_basic.py:141] [Success] Convert torch.distributed.is_initialized to Paddle
+[train_basic.py:143] [Success] Convert torch.nn.parallel.DistributedDataParallel to Paddle
+[train_basic.py:151] [Success] Convert Class Method: torch.Tensor.numel to Paddle
+[train_basic.py:151] [Success] Convert Class Method: torch.nn.Module.parameters to Paddle
+[train_basic.py:164] [Success] Convert torch.optim.AdamW to Paddle
+[train_basic.py:177] [Success] Convert Class Method: torch.nn.Module.parameters to Paddle
+[train_basic.py:176] [Success] Convert torch.optim.SGD to Paddle
+[train_basic.py:1] [Success] Convert torch.float16 to Paddle
+[train_basic.py:183] [Success] Convert torch.cuda.amp.GradScaler to Paddle
+[train_basic.py:194] [Success] Convert torch.optim.lr_scheduler.CosineAnnealingLR to Paddle
+[train_basic.py:206] [Success] Convert torch.optim.lr_scheduler.LinearLR to Paddle
+[train_basic.py:215] [Success] Convert torch.optim.lr_scheduler.CosineAnnealingLR to Paddle
+[train_basic.py:241] [Success] Convert Class Method: torch.nn.Module.state_dict to Paddle
+[train_basic.py:242] [Success] Convert Class Method: torch.nn.Module.state_dict to Paddle
+[train_basic.py:237] [Success] Convert torch.save to Paddle
+[train_basic.py:249] [Success] Convert torch.load to Paddle
+[train_basic.py:257] [Success] Convert Class Method: torch.nn.Module.load_state_dict to Paddle
+[train_basic.py:260] [Success] Convert Class Method: torch.nn.Module.load_state_dict to Paddle
+[train_basic.py:267] [Success] Convert Class Method: torch.nn.Module.load_state_dict to Paddle
+[train_basic.py:273] [Success] Convert Class Method: torch.nn.Module.load_state_dict to Paddle
+[train_basic.py:292] [Success] Convert Class Method: torch.Tensor.to to Paddle
+[train_basic.py:295] [Success] Convert Class Method: torch.nn.Module.train to Paddle
+[train_basic.py:300] [Success] Convert Class Method: torch.nn.Module.train to Paddle
+[train_basic.py:302] [Success] Convert torch.zeros to Paddle
+[train_basic.py:302] [Success] Convert Class Method: torch.Tensor.to to Paddle
+[train_basic.py:303] [Success] Convert torch.zeros to Paddle
+[train_basic.py:303] [Success] Convert Class Method: torch.Tensor.to to Paddle
+[train_basic.py:304] [Success] Convert torch.zeros to Paddle
+[train_basic.py:304] [Success] Convert Class Method: torch.Tensor.to to Paddle
+[train_basic.py:307] [Success] Convert torch.zeros_like to Paddle
+[train_basic.py:307] [Success] Convert Class Method: torch.nn.Module.parameters to Paddle
+[train_basic.py:308] [Success] Convert torch.zeros to Paddle
+[train_basic.py:309] [Success] Convert torch.zeros to Paddle
+[train_basic.py:310] [Success] Convert torch.zeros to Paddle
+[train_basic.py:311] [Success] Convert torch.zeros to Paddle
+[train_basic.py:318] [Success] Convert Class Method: torch.Tensor.to to Paddle
+[train_basic.py:329] [Success] Convert torch.cuda.amp.autocast to Paddle
+[train_basic.py:332] [Success] Convert Class Attribute: torch.Tensor.ndim to Paddle, just remain the same
+[train_basic.py:337] [Success] Convert Class Method: torch.Tensor.pow to Paddle
+[train_basic.py:337] [Success] Convert Class Method: torch.Tensor.mean to Paddle
+[train_basic.py:338] [Success] Convert Class Method: torch.Tensor.pow to Paddle
+[train_basic.py:338] [Success] Convert Class Method: torch.Tensor.mean to Paddle
+[train_basic.py:342] [Success] Convert Class Method: torch.Tensor.mean to Paddle
+[train_basic.py:346] [Success] Convert torch.no_grad to Paddle
+[train_basic.py:347] [Success] Convert torch.nn.functional.l1_loss to Paddle
+[train_basic.py:348] [Success] Convert Class Method: torch.Tensor.sqrt to Paddle
+[train_basic.py:348] [Success] Convert Class Method: torch.Tensor.mean to Paddle
+[train_basic.py:352] [Success] Convert Class Method: torch.Tensor.item to Paddle
+[train_basic.py:354] [Success] Convert Class Method: torch.Tensor.pow to Paddle
+[train_basic.py:354] [Success] Convert Class Method: torch.Tensor.mean to Paddle
+[train_basic.py:354] [Success] Convert Class Method: torch.Tensor.sqrt to Paddle
+[train_basic.py:354] [Success] Convert Class Method: torch.Tensor.mean to Paddle
+[train_basic.py:357] [Success] Convert Class Method: torch.Tensor.backward to Paddle
+[train_basic.py:364] [Success] Convert Class Method: torch.nn.Module.parameters to Paddle
+[train_basic.py:364] [Success] Convert torch.nn.utils.clip_grad_norm_ to Paddle
+[train_basic.py:367] [Success] Convert Class Method: torch.nn.Module.zero_grad to Paddle
+[train_basic.py:369] [Success] Convert Class Method: torch.optim.Optimizer.step to Paddle
+[train_basic.py:378] [Success] Convert Class Method: torch.Tensor.item to Paddle
+[train_basic.py:385] [Success] Convert Class Attribute: torch.Tensor.shape to Paddle, just remain the same
+[train_basic.py:395] [Success] Convert torch.distributed.is_initialized to Paddle
+[train_basic.py:397] [Success] Convert Class Method: torch.Tensor.detach to Paddle
+[train_basic.py:397] [Success] Convert torch.distributed.all_reduce to Paddle
+[train_basic.py:398] [Success] Convert torch.distributed.get_world_size to Paddle
+[train_basic.py:400] [Success] Convert Class Method: torch.Tensor.detach to Paddle
+[train_basic.py:400] [Success] Convert torch.distributed.all_reduce to Paddle
+[train_basic.py:402] [Success] Convert Class Method: torch.Tensor.detach to Paddle
+[train_basic.py:402] [Success] Convert torch.distributed.all_reduce to Paddle
+[train_basic.py:404] [Success] Convert Class Method: torch.Tensor.detach to Paddle
+[train_basic.py:404] [Success] Convert torch.distributed.all_reduce to Paddle
+[train_basic.py:406] [Success] Convert Class Method: torch.Tensor.detach to Paddle
+[train_basic.py:406] [Success] Convert torch.distributed.all_reduce to Paddle
+[train_basic.py:425] [Success] Convert Class Method: torch.nn.Module.eval to Paddle
+[train_basic.py:431] [Success] Convert torch.inference_mode to Paddle
+[train_basic.py:433] [Success] Convert torch.cuda.amp.autocast to Paddle
+[train_basic.py:457] [Success] Convert torch.utils.data.distributed.DistributedSampler to Paddle
+[train_basic.py:453] [Not Support] convert torch.utils.data.DataLoader to Paddle is not supported currently
+[train_basic.py:468] [Success] Convert torch.Generator to Paddle
+[train_basic.py:463] [Success] Convert torch.utils.data.DataLoader to Paddle
+[train_basic.py:479] [Success] Convert Class Method: torch.Tensor.to to Paddle
+[train_basic.py:482] [Success] Convert torch.tensor to Paddle
+[train_basic.py:482] [Success] Convert Class Method: torch.Tensor.unsqueeze to Paddle
+[train_basic.py:495] [Success] Convert Class Attribute: torch.Tensor.shape to Paddle, just remain the same
+[train_basic.py:482] [Success] Convert Class Method: torch.Tensor.expand to Paddle
+[train_basic.py:501] [Success] Convert Class Attribute: torch.Tensor.ndim to Paddle, just remain the same
+[train_basic.py:506] [Success] Convert Class Method: torch.Tensor.pow to Paddle
+[train_basic.py:506] [Success] Convert Class Method: torch.Tensor.mean to Paddle
+[train_basic.py:507] [Success] Convert Class Method: torch.Tensor.pow to Paddle
+[train_basic.py:507] [Success] Convert Class Method: torch.Tensor.mean to Paddle
+[train_basic.py:505] [Success] Convert Class Method: torch.Tensor.sqrt to Paddle
+[train_basic.py:510] [Success] Convert Class Method: torch.Tensor.mean to Paddle
+[train_basic.py:514] [Success] Convert Class Method: torch.Tensor.pow to Paddle
+[train_basic.py:514] [Success] Convert Class Method: torch.Tensor.mean to Paddle
+[train_basic.py:514] [Success] Convert Class Method: torch.Tensor.sqrt to Paddle
+[train_basic.py:514] [Success] Convert Class Method: torch.Tensor.mean to Paddle
+[train_basic.py:518] [Success] Convert Class Method: torch.Tensor.abs to Paddle
+[train_basic.py:518] [Success] Convert Class Method: torch.Tensor.mean to Paddle
+[train_basic.py:527] [Success] Convert Class Method: torch.Tensor.mean to Paddle
+[train_basic.py:531] [Success] Convert Class Method: torch.Tensor.pow to Paddle
+[train_basic.py:531] [Success] Convert Class Method: torch.Tensor.mean to Paddle
+[train_basic.py:531] [Success] Convert Class Method: torch.Tensor.sqrt to Paddle
+[train_basic.py:531] [Success] Convert Class Method: torch.Tensor.mean to Paddle
+[train_basic.py:539] [Success] Convert Class Method: torch.Tensor.abs to Paddle
+[train_basic.py:539] [Success] Convert Class Method: torch.Tensor.mean to Paddle
+[train_basic.py:555] [Success] Convert torch.distributed.is_initialized to Paddle
+[train_basic.py:558] [Success] Convert Class Method: torch.Tensor.detach to Paddle
+[train_basic.py:557] [Success] Convert torch.distributed.all_reduce to Paddle
+[train_basic.py:560] [Success] Convert Class Method: torch.Tensor.item to Paddle
+[train_basic.py:560] [Success] Convert torch.distributed.get_world_size to Paddle
+[train_basic.py:585] [Success] Convert torch.distributed.is_initialized to Paddle
+[train_basic.py:590] [Success] Convert torch.distributed.barrier to Paddle
+[train_basic.py:594] [Success] Convert torch.distributed.barrier to Paddle
+[train_basic.py:618] [Success] Convert torch.distributed.is_initialized to Paddle
+[train_basic.py:641] [Success] Convert torch.cuda.empty_cache to Paddle
+[train_basic.py:686] [Success] Convert os.environ.get to Paddle
+[train_basic.py:688] [Success] Convert os.environ.get to Paddle
+[train_basic.py:690] [Success] Convert torch.distributed.init_process_group to Paddle
+[train_basic.py:691] [Success] Convert torch.cuda.set_device to Paddle
+[train_basic.py:695] [Success] Convert torch.cuda.is_available to Paddle
+[train_basic.py:695] [Success] Convert torch.device to Paddle
+[train_basic.py:695] [Success] Convert torch.device to Paddle
+[train_basic.py:738] [Success] Convert Class Method: torch.Tensor.log to Paddle
+[train_basic.py:745] [Success] Convert Class Method: torch.Tensor.log to Paddle
+[train_basic.py:1] [Success] Convert torch.backends.cudnn.benchmark to Paddle
+[train_basic.py:769] [Success] Convert Class Method: torch.nn.Module.train to Paddle
+Finish convert /home/lkyu/baidu/MPP/multiple_physics_pretraining/train_basic.py --> /home/lkyu/baidu/MPP/multiple_physics_pretraining_paddle/train_basic.py
+
+No need to convert, just Copy /home/lkyu/baidu/MPP/multiple_physics_pretraining/CLAUDE.md --> /home/lkyu/baidu/MPP/multiple_physics_pretraining_paddle/CLAUDE.md
+
+
+===========================================
+Convert Summary
+===========================================
+There are 430 Pytorch APIs in this Project:
+ 424  Pytorch APIs have been converted to Paddle successfully!
+ 6  Pytorch APIs are not supported to convert to Paddle currently!
+ Convert Rate is: 98.60%
+
+For these 6 Pytorch APIs that currently do not support to convert, which have been marked by >>> before the line, 
+please refer to [https://www.paddlepaddle.org.cn/documentation/docs/zh/develop/guides/model_convert/convert_from_pytorch/pytorch_api_mapping_cn.html] 
+and convert it by yourself manually. In addition, these APIs will be supported in future.
+
+Thank you to use Paddle Code Convert Tool. You can make any suggestions 
+to us by submitting issues to [https://github.com/PaddlePaddle/PaConvert].
+

@@ -1,14 +1,11 @@
+import os
+
+import paddle
+
 """
 Remember to parameterize the file paths eventually
 """
-
-import os
-
 import numpy as np
-import torch
-import torch.nn
-from torch.utils.data import DataLoader, Dataset, RandomSampler
-from torch.utils.data.distributed import DistributedSampler
 
 try:
     from hdf5_datasets import *
@@ -18,10 +15,8 @@ except ImportError:
     from .hdf5_datasets import *
 
 import glob
-import os
 
 broken_paths = []
-# IF YOU ADD A NEW DSET MAKE SURE TO UPDATE THIS MAPPING SO MIXED DSET KNOWS HOW TO USE IT
 DSET_NAME_TO_OBJECT = {
     "swe": SWEDataset,
     "incompNS": IncompNSDataset,
@@ -31,7 +26,6 @@ DSET_NAME_TO_OBJECT = {
 
 
 def get_data_loader(params, paths, distributed, split="train", rank=0, train_offset=0):
-    # paths, types, include_string = zip(*paths)
     dataset = MixedDataset(
         paths,
         n_steps=params.n_steps,
@@ -42,37 +36,33 @@ def get_data_loader(params, paths, distributed, split="train", rank=0, train_off
         enforce_max_steps=params.enforce_max_steps,
         train_offset=train_offset,
     )
-    # dataset = IncompNSDataset(paths[0], n_steps=params.n_steps, train_val_test=params.train_val_test, split=split)
-    seed = torch.random.seed() if "train" == split else 0
+    seed = paddle.compat.seed() if "train" == split else 0
     if distributed:
-        base_sampler = DistributedSampler
+        base_sampler = paddle.io.DistributedBatchSampler
     else:
-        base_sampler = RandomSampler
+        base_sampler = paddle.io.RandomSampler
     sampler = MultisetSampler(
         dataset,
-        base_sampler,
+        paddle.io.RandomSampler,
         params.batch_size,
         distributed=distributed,
         max_samples=params.epoch_size,
         rank=rank,
     )
-    # sampler = DistributedSampler(dataset) if distributed else None
     """paddle has no params 'sampler' and 'pin_memory'
     this is seemingly used only in distributed training
     """
-    dataloader = DataLoader(
-        dataset,
+    dataloader = paddle.io.DataLoader(
+        dataset=dataset,
         batch_size=int(params.batch_size),
         num_workers=params.num_data_workers,
-        shuffle=False,  # (sampler is None),
-        # sampler=sampler,  # Since validation is on a subset, use a fixed random subset,
+        shuffle=False,
         drop_last=True,
-        # pin_memory=torch.cuda.is_available(),
     )
     return dataloader, dataset, sampler
 
 
-class MixedDataset(Dataset):
+class MixedDataset(paddle.io.Dataset):
     def __init__(
         self,
         path_list=[],
@@ -87,7 +77,6 @@ class MixedDataset(Dataset):
         train_offset=0,
     ):
         super().__init__()
-        # Global dicts used by Mixed DSET.
         self.train_offset = train_offset
         self.path_list, self.type_list, self.include_string = zip(*path_list)
         self.tie_fields = tie_fields
@@ -97,7 +86,6 @@ class MixedDataset(Dataset):
         self.offsets = [0]
         self.train_val_test = train_val_test
         self.use_all_fields = use_all_fields
-
         for dset, path, include_string in zip(
             self.type_list, self.path_list, self.include_string
         ):
@@ -109,7 +97,6 @@ class MixedDataset(Dataset):
                 train_val_test=train_val_test,
                 split=split,
             )
-            # Check to make sure our dataset actually exists with these settings
             try:
                 len(subdset)
             except ValueError:
@@ -119,7 +106,6 @@ class MixedDataset(Dataset):
             self.sub_dsets.append(subdset)
             self.offsets.append(self.offsets[-1] + len(self.sub_dsets[-1]))
         self.offsets[0] = -1
-
         self.subset_dict = self._build_subset_dict()
 
     def get_state_names(self):
@@ -132,15 +118,14 @@ class MixedDataset(Dataset):
         else:
             visited = set()
             for dset in self.sub_dsets:
-                name = dset.get_name()  # Could use extended names here
+                name = dset.get_name()
                 if not name in visited:
                     visited.add(name)
                     name_list.append(dset.field_names)
-        return [f for fl in name_list for f in fl]  # Flatten the names
+        return [f for fl in name_list for f in fl]
 
     def _build_subset_dict(self):
-        # Maps fields to subsets of variables
-        if self.tie_fields:  # Hardcoded, but seems less effective anyway
+        if self.tie_fields:
             subset_dict = {
                 "swe": [3],
                 "incompNS": [0, 1, 2],
@@ -167,9 +152,7 @@ class MixedDataset(Dataset):
         return subset_dict
 
     def __getitem__(self, index):
-        file_idx = (
-            np.searchsorted(self.offsets, index, side="right") - 1
-        )  # which dataset are we are on
+        file_idx = np.searchsorted(self.offsets, index, side="right") - 1
         local_idx = index - max(self.offsets[file_idx], 0)
         try:
             x, bcs, y = self.sub_dsets[file_idx][local_idx]
@@ -181,7 +164,7 @@ class MixedDataset(Dataset):
         return (
             x,
             file_idx,
-            torch.tensor(self.subset_dict[self.sub_dsets[file_idx].get_name()]),
+            paddle.tensor(self.subset_dict[self.sub_dsets[file_idx].get_name()]),
             bcs,
             y,
         )
