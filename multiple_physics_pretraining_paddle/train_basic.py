@@ -1,9 +1,3 @@
-from re import I
-import sys
-
-from sympy import im
-
-sys.path.append("/home/lkyu/baidu/MPP/multiple_physics_pretraining_paddle")
 import argparse
 import gc
 import os
@@ -18,14 +12,17 @@ import wandb
 
 # from adan_pytorch import Adan
 # from dadaptation import DAdaptAdam, DAdaptAdan
-from paddle_utils import *
+try:
+    from paddle_utils import *
+except ImportError:
+    from .paddle_utils import *
 from ruamel.yaml import YAML
 from ruamel.yaml.comments import CommentedMap as ruamelDict
 
 try:
     from utils.dadapt_adam_paddle import DAdaptAdam
     from utils.dadapt_adan_paddle import DAdaptAdan
-except:
+except ImportError:
     from .utils.dadapt_adam_paddle import DAdaptAdam
     from .utils.dadapt_adan_paddle import DAdaptAdan
 
@@ -38,7 +35,7 @@ try:
     from utils import logging_utils
     from utils.schedulers import SimpleSequentialScheduler
     from utils.YParams import YParams
-except:
+except ImportError:
     from .data_utils.datasets import DSET_NAME_TO_OBJECT, get_data_loader
     from .models.avit import build_avit
     from .utils import logging_utils
@@ -56,7 +53,7 @@ def add_weight_decay(model, weight_decay=1e-05, inner_lr=0.001, skip_list=()):
     decay = []
     no_decay = []
     for name, param in model.named_parameters():
-        if not param.requires_grad:
+        if param.stop_gradient:
             continue
         if len(param.squeeze().shape) <= 1 or name in skip_list:
             no_decay.append(param)
@@ -80,11 +77,12 @@ class Trainer:
         self.train_loss = paddle.nn.MSELoss()
         self.startEpoch = 0
         self.epoch = 0
-        self.mp_type = (
-            paddle.bfloat16
-            if paddle.cuda.is_available() and paddle.cuda.is_bf16_supported()
-            else paddle.float16
+        has_cuda_device = (
+            paddle.device.is_compiled_with_cuda()
+            and paddle.device.cuda.device_count() > 0
         )
+        self.amp_enabled = has_cuda_device and params.enable_amp
+        self.mp_type = "bfloat16" if has_cuda_device and paddle.amp.is_bfloat16_supported() else "float16"
         self.iters = 0
         self.initialize_data(self.params)
         print(f"Initializing model on rank {self.global_rank}")
@@ -135,7 +133,7 @@ class Trainer:
 
     def initialize_model(self, params):
         if self.params.model_type == "avit":
-            self.model = build_avit(params).to(device)
+            self.model = build_avit(params).to(self.device)
         """
         # there's no match api for torch.compile in paddle.
         if self.params.compile:
@@ -186,7 +184,7 @@ class Trainer:
         else:
             raise ValueError(f"Optimizer {params.optimizer} not supported")
         self.gscaler = paddle.amp.GradScaler(
-            enable=self.mp_type == paddle.float16 and params.enable_amp,
+            enable=self.amp_enabled and self.mp_type == "float16",
             incr_every_n_steps=2000,
             init_loss_scaling=65536.0,
         )
@@ -216,7 +214,6 @@ class Trainer:
                     last_epoch=last_step,
                     learning_rate=self.optimizer.get_lr(),
                 )
-                self.optimizer.set_lr_scheduler(tmp_lr)
                 warmup = tmp_lr
                 tmp_lr = paddle.optimizer.lr.CosineAnnealingDecay(
                     eta_min=params.learning_rate / 100,
@@ -224,7 +221,6 @@ class Trainer:
                     last_epoch=last_step - k if last_step >= k else -1,
                     learning_rate=self.optimizer.get_lr(),
                 )
-                self.optimizer.set_lr_scheduler(tmp_lr)
                 decay = tmp_lr
                 self.scheduler = SimpleSequentialScheduler(
                     self.optimizer,
@@ -302,10 +298,10 @@ class Trainer:
         }
         steps = 0
         last_grads = [paddle.zeros_like(p) for p in self.model.parameters()]
-        grad_logs = defaultdict(lambda: paddle.zeros(1, device=self.device))
-        grad_counts = defaultdict(lambda: paddle.zeros(1, device=self.device))
-        loss_logs = defaultdict(lambda: paddle.zeros(1, device=self.device))
-        loss_counts = defaultdict(lambda: paddle.zeros(1, device=self.device))
+        grad_logs = defaultdict(lambda: paddle.zeros(1).to(self.device))
+        grad_counts = defaultdict(lambda: paddle.zeros(1).to(self.device))
+        loss_logs = defaultdict(lambda: paddle.zeros(1).to(self.device))
+        loss_counts = defaultdict(lambda: paddle.zeros(1).to(self.device))
         self.single_print(
             "train_loader_size", len(self.train_data_loader), len(self.train_dataset)
         )
@@ -322,7 +318,9 @@ class Trainer:
             self.model.require_backward_grad_sync = (
                 1 + batch_idx
             ) % self.params.accum_grad == 0
-            with paddle.cuda.amp.autocast(self.params.enable_amp, dtype=self.mp_type):
+            with paddle.amp.auto_cast(
+                enable=self.amp_enabled, dtype=self.mp_type
+            ):
                 model_start = time.time()
                 output = self.model(inp, field_labels, bcs)
                 spatial_dims = tuple(range(output.ndim))[2:]
@@ -353,7 +351,7 @@ class Trainer:
                     )
                     self.gscaler.step(self.optimizer)
                     self.gscaler.update()
-                    self.optimizer.zero_grad(set_to_none=True)
+                    self.optimizer.clear_grad()
                     if self.scheduler is not None:
                         self.scheduler.step()
                     optimizer_step = time.time() - backward_end
@@ -413,7 +411,7 @@ class Trainer:
             cutoff = 40
         self.single_print("STARTING VALIDATION!!!")
         with paddle.no_grad():
-            with paddle.cuda.amp.autocast(False, dtype=self.mp_type):
+            with paddle.amp.auto_cast(enable=False, dtype=self.mp_type):
                 field_labels = self.valid_dataset.get_state_names()
                 distinct_dsets = list(
                     set(
@@ -431,16 +429,16 @@ class Trainer:
                         dset_type = subset.title
                         self.single_print("VALIDATING ON", dset_type)
                         if self.params.use_ddp:
-                            temp_loader = torch.utils.data.DataLoader(
+                            temp_loader = paddle.io.DataLoader(
                                 subset,
                                 batch_size=self.params.batch_size,
                                 num_workers=self.params.num_data_workers,
-                                sampler=paddle.io.DistributedBatchSampler(
-                                    dataset=subset,
-                                    drop_last=True,
-                                    shuffle=True,
-                                    batch_size=1,
-                                ),
+                                # sampler=paddle.io.DistributedBatchSampler(
+                                #     dataset=subset,
+                                #     drop_last=True,
+                                #     shuffle=True,
+                                #     batch_size=1,
+                                # ),
                             )
                         else:
                             temp_loader = paddle.io.DataLoader(
@@ -459,7 +457,7 @@ class Trainer:
                             counts[dset_type] += 1
                             inp, bcs, tar = map(lambda x: x.to(self.device), data)
                             labels = (
-                                paddle.tensor(
+                                paddle.to_tensor(
                                     self.train_dataset.subset_dict.get(
                                         subset.get_name(),
                                         [-1]
@@ -469,8 +467,8 @@ class Trainer:
                                             ]
                                         ),
                                     ),
-                                    device=self.device,
                                 )
+                                .to(self.device)
                                 .unsqueeze(0)
                                 .expand(tar.shape[0], -1)
                             )
@@ -599,7 +597,7 @@ class Trainer:
             if self.params.log_to_wandb:
                 wandb.log(train_logs)
             gc.collect()
-            paddle.cuda.empty_cache()
+            paddle.device.cuda.empty_cache()
             if self.global_rank == 0:
                 if self.params.save_checkpoint:
                     self.save_checkpoint(self.params.checkpoint_path)
@@ -644,14 +642,15 @@ if __name__ == "__main__":
     local_rank = int(paddle.distributed.get_rank())
     global_rank = int(os.environ.get("RANK", 0))
     world_size = int(paddle.distributed.get_world_size())
+    has_cuda_device = (
+        paddle.device.is_compiled_with_cuda()
+        and paddle.device.cuda.device_count() > 0
+    )
     if args.use_ddp:
         paddle.distributed.init_parallel_env()
-        paddle.cuda.set_device(local_rank)
-    device = (
-        paddle.device(local_rank)
-        if paddle.cuda.is_available()
-        else paddle.device("cpu")
-    )
+        if has_cuda_device:
+            paddle.device.set_device(f"gpu:{local_rank}")
+    device = f"gpu:{local_rank}" if has_cuda_device else "cpu"
     params["batch_size"] = int(params.batch_size // world_size)
     params["startEpoch"] = 0
     if args.sweep_id:

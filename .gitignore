@@ -164,3 +164,4 @@ cython_debug/
 
 .spec-workflow
 CLAUDE.md
+AGENTS.md

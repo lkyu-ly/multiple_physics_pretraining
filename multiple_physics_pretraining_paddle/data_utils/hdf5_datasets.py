@@ -119,7 +119,7 @@ class BaseHDF5DirectoryDataset(paddle.io.Dataset):
 
     def _get_directory_stats(self, path):
         self.files_paths = glob.glob(path + "/*.h5") + glob.glob(path + "/*.hdf5")
-        paddle.sort(x=self.files_paths), paddle.argsort(x=self.files_paths)
+        self.files_paths.sort()
         self.n_files = len(self.files_paths)
         self.file_steps = []
         self.file_nsteps = []
@@ -242,7 +242,7 @@ class BaseHDF5DirectoryDataset(paddle.io.Dataset):
             raise RuntimeError(
                 f"Failed to reconstruct sample for file {self.files_paths[file_idx]} sample {sample_idx} time {time_idx}"
             )
-        return trajectory[:-1], paddle.as_tensor(bcs), trajectory[-1]
+        return trajectory[:-1], paddle.to_tensor(bcs), trajectory[-1]
 
     def __len__(self):
         return self.len

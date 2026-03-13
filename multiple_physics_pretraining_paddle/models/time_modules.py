@@ -7,14 +7,23 @@ import paddle
 
 try:
     from .DropPath_util import DropPath
-except:
+except ImportError:
     from DropPath_util import DropPath
 try:
     from .shared_modules import (MLP, ContinuousPositionBias1D,
                                  RelativePositionBias)
-except:
+except ImportError:
     from shared_modules import (MLP, ContinuousPositionBias1D,
                                 RelativePositionBias)
+
+
+def scaled_dot_product_attention(q, k, v, attn_mask=None):
+    scale = q.shape[-1] ** -0.5
+    scores = paddle.matmul(q * scale, k, transpose_y=True)
+    if attn_mask is not None:
+        scores = scores + attn_mask
+    attn = paddle.nn.functional.softmax(scores, axis=-1)
+    return paddle.matmul(attn, v)
 
 
 def build_time_block(params):
@@ -32,7 +41,7 @@ def build_time_block(params):
         raise NotImplementedError
 
 
-class AttentionBlock(paddle.nn.Module):
+class AttentionBlock(paddle.nn.Layer):
     def __init__(
         self,
         hidden_dim=768,
@@ -50,14 +59,17 @@ class AttentionBlock(paddle.nn.Module):
             num_features=hidden_dim, weight_attr=True, bias_attr=True
         )
         self.gamma = (
-            paddle.nn.Parameter(
-                layer_scale_init_value * paddle.ones(hidden_dim), requires_grad=True
+            self.create_parameter(
+                shape=[hidden_dim],
+                default_initializer=paddle.nn.initializer.Constant(
+                    value=layer_scale_init_value
+                ),
             )
             if layer_scale_init_value > 0
             else None
         )
-        self.input_head = paddle.nn.Conv2d(hidden_dim, 3 * hidden_dim, 1)
-        self.output_head = paddle.nn.Conv2d(hidden_dim, hidden_dim, 1)
+        self.input_head = paddle.nn.Conv2D(hidden_dim, 3 * hidden_dim, 1)
+        self.output_head = paddle.nn.Conv2D(hidden_dim, hidden_dim, 1)
         self.qnorm = paddle.nn.LayerNorm(hidden_dim // num_heads)
         self.knorm = paddle.nn.LayerNorm(hidden_dim // num_heads)
         if bias_type == "none":
@@ -79,17 +91,13 @@ class AttentionBlock(paddle.nn.Module):
         x = einops.rearrange(
             x, "(t b) (he c) h w ->  (b h w) he t c", t=T, he=self.num_heads
         )
-        q, k, v = x.tensor_split(num_or_indices=3, axis=-1)
+        q, k, v = paddle.split(x, num_or_sections=3, axis=-1)
         q, k = self.qnorm(q), self.knorm(k)
         rel_pos_bias = self.rel_pos_bias(T, T)
         if rel_pos_bias is not None:
-            x = paddle.compat.nn.functional.scaled_dot_product_attention(
-                q, k, v, attn_mask=rel_pos_bias
-            )
+            x = scaled_dot_product_attention(q, k, v, attn_mask=rel_pos_bias)
         else:
-            x = paddle.compat.nn.functional.scaled_dot_product_attention(
-                q.contiguous(), k.contiguous(), v.contiguous()
-            )
+            x = scaled_dot_product_attention(q, k, v)
         x = einops.rearrange(x, "(b h w) he t c -> (t b) (he c) h w", h=H, w=W)
         x = self.norm2(x)
         x = self.output_head(x)

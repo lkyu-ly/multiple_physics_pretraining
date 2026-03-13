@@ -7,14 +7,23 @@ import paddle
 
 try:
     from .DropPath_util import DropPath
-except:
+except ImportError:
     from DropPath_util import DropPath
 try:
     from .shared_modules import (MLP, ContinuousPositionBias1D,
                                  RelativePositionBias)
-except:
+except ImportError:
     from shared_modules import (MLP, ContinuousPositionBias1D,
                                 RelativePositionBias)
+
+
+def scaled_dot_product_attention(q, k, v, attn_mask=None):
+    scale = q.shape[-1] ** -0.5
+    scores = paddle.matmul(q * scale, k, transpose_y=True)
+    if attn_mask is not None:
+        scores = scores + attn_mask
+    attn = paddle.nn.functional.softmax(scores, axis=-1)
+    return paddle.matmul(attn, v)
 
 
 def build_space_block(params):
@@ -29,14 +38,20 @@ def build_space_block(params):
         raise NotImplementedError
 
 
-class RMSInstanceNorm2d(paddle.nn.Module):
+class RMSInstanceNorm2d(paddle.nn.Layer):
     def __init__(self, dim, affine=True, eps=1e-08):
         super().__init__()
         self.eps = eps
         self.affine = affine
         if affine:
-            self.weight = paddle.nn.Parameter(paddle.ones(dim))
-            self.bias = paddle.nn.Parameter(paddle.zeros(dim))
+            self.weight = self.create_parameter(
+                shape=[dim],
+                default_initializer=paddle.nn.initializer.Constant(value=1.0),
+            )
+            self.bias = self.create_parameter(
+                shape=[dim],
+                default_initializer=paddle.nn.initializer.Constant(value=0.0),
+            )
 
     def forward(self, x):
         """std, mean = torch.std_mean(x, dim=(-2, -1), keepdims=True)
@@ -48,7 +63,7 @@ class RMSInstanceNorm2d(paddle.nn.Module):
         return x
 
 
-class SubsampledLinear(paddle.nn.Module):
+class SubsampledLinear(paddle.nn.Layer):
     """
     Cross between a linear layer and EmbeddingBag - takes in input
     and list of indices denoting which state variables from the state
@@ -63,26 +78,26 @@ class SubsampledLinear(paddle.nn.Module):
         self.subsample_in = subsample_in
         self.dim_in = dim_in
         self.dim_out = dim_out
-        temp_linear = paddle.compat.nn.Linear(dim_in, dim_out)
-        self.weight = paddle.nn.Parameter(temp_linear.weight)
-        self.bias = paddle.nn.Parameter(temp_linear.bias)
+        temp_linear = paddle.nn.Linear(dim_in, dim_out)
+        self.weight = temp_linear.weight
+        self.bias = temp_linear.bias
 
     def forward(self, x, labels):
         labels = labels[0]
         label_size = len(labels)
         if self.subsample_in:
             scale = (self.dim_in / label_size) ** 0.5
-            x = scale * paddle.compat.nn.functional.linear(
-                x, self.weight[:, labels], self.bias
+            x = scale * paddle.nn.functional.linear(
+                x, self.weight[labels, :], self.bias
             )
         else:
-            x = paddle.compat.nn.functional.linear(
-                x, self.weight[labels], self.bias[labels]
+            x = paddle.nn.functional.linear(
+                x, self.weight[:, labels], self.bias[labels]
             )
         return x
 
 
-class hMLP_stem(paddle.nn.Module):
+class hMLP_stem(paddle.nn.Layer):
     """Image to Patch Embedding"""
 
     def __init__(self, patch_size=(16, 16), in_chans=3, embed_dim=768):
@@ -92,18 +107,30 @@ class hMLP_stem(paddle.nn.Module):
         self.embed_dim = embed_dim
         self.in_proj = paddle.nn.Sequential(
             *[
-                paddle.nn.Conv2d(
-                    in_chans, embed_dim // 4, kernel_size=4, stride=4, bias=False
+                paddle.nn.Conv2D(
+                    in_chans,
+                    embed_dim // 4,
+                    kernel_size=4,
+                    stride=4,
+                    bias_attr=False,
                 ),
                 RMSInstanceNorm2d(embed_dim // 4, affine=True),
                 paddle.nn.GELU(),
-                paddle.nn.Conv2d(
-                    embed_dim // 4, embed_dim // 4, kernel_size=2, stride=2, bias=False
+                paddle.nn.Conv2D(
+                    embed_dim // 4,
+                    embed_dim // 4,
+                    kernel_size=2,
+                    stride=2,
+                    bias_attr=False,
                 ),
                 RMSInstanceNorm2d(embed_dim // 4, affine=True),
                 paddle.nn.GELU(),
-                paddle.nn.Conv2d(
-                    embed_dim // 4, embed_dim, kernel_size=2, stride=2, bias=False
+                paddle.nn.Conv2D(
+                    embed_dim // 4,
+                    embed_dim,
+                    kernel_size=2,
+                    stride=2,
+                    bias_attr=False,
                 ),
                 RMSInstanceNorm2d(embed_dim, affine=True),
             ]
@@ -114,7 +141,7 @@ class hMLP_stem(paddle.nn.Module):
         return x
 
 
-class hMLP_output(paddle.nn.Module):
+class hMLP_output(paddle.nn.Layer):
     """Patch to Image De-bedding"""
 
     def __init__(self, patch_size=(16, 16), out_chans=3, embed_dim=768):
@@ -147,8 +174,8 @@ class hMLP_output(paddle.nn.Module):
         out_head = paddle.nn.Conv2DTranspose(
             in_channels=embed_dim // 4, out_channels=out_chans, kernel_size=4, stride=4
         )
-        self.out_kernel = paddle.nn.Parameter(out_head.weight)
-        self.out_bias = paddle.nn.Parameter(out_head.bias)
+        self.out_kernel = out_head.weight
+        self.out_bias = out_head.bias
 
     def forward(self, x, state_labels):
         x = self.out_proj(x)
@@ -161,7 +188,7 @@ class hMLP_output(paddle.nn.Module):
         return x
 
 
-class AxialAttentionBlock(paddle.nn.Module):
+class AxialAttentionBlock(paddle.nn.Layer):
     def __init__(
         self,
         hidden_dim=768,
@@ -175,21 +202,27 @@ class AxialAttentionBlock(paddle.nn.Module):
         self.norm1 = RMSInstanceNorm2d(hidden_dim, affine=True)
         self.norm2 = RMSInstanceNorm2d(hidden_dim, affine=True)
         self.gamma_att = (
-            paddle.nn.Parameter(
-                layer_scale_init_value * paddle.ones(hidden_dim), requires_grad=True
+            self.create_parameter(
+                shape=[hidden_dim],
+                default_initializer=paddle.nn.initializer.Constant(
+                    value=layer_scale_init_value
+                ),
             )
             if layer_scale_init_value > 0
             else None
         )
         self.gamma_mlp = (
-            paddle.nn.Parameter(
-                layer_scale_init_value * paddle.ones(hidden_dim), requires_grad=True
+            self.create_parameter(
+                shape=[hidden_dim],
+                default_initializer=paddle.nn.initializer.Constant(
+                    value=layer_scale_init_value
+                ),
             )
             if layer_scale_init_value > 0
             else None
         )
-        self.input_head = paddle.nn.Conv2d(hidden_dim, 3 * hidden_dim, 1)
-        self.output_head = paddle.nn.Conv2d(hidden_dim, hidden_dim, 1)
+        self.input_head = paddle.nn.Conv2D(hidden_dim, 3 * hidden_dim, 1)
+        self.output_head = paddle.nn.Conv2D(hidden_dim, hidden_dim, 1)
         self.qnorm = paddle.nn.LayerNorm(hidden_dim // num_heads)
         self.knorm = paddle.nn.LayerNorm(hidden_dim // num_heads)
         if bias_type == "none":
@@ -211,33 +244,25 @@ class AxialAttentionBlock(paddle.nn.Module):
         x = self.norm1(x)
         x = self.input_head(x)
         x = einops.rearrange(x, "b (he c) h w ->  b he h w c", he=self.num_heads)
-        q, k, v = x.tensor_split(num_or_indices=3, axis=-1)
+        q, k, v = paddle.split(x, num_or_sections=3, axis=-1)
         q, k = self.qnorm(q), self.knorm(k)
         qx, kx, vx = map(
             lambda x: einops.rearrange(x, "b he h w c ->  (b h) he w c"), [q, k, v]
         )
         rel_pos_bias_x = self.rel_pos_bias(W, W, bcs[0, 0])
         if rel_pos_bias_x is not None:
-            xx = paddle.compat.nn.functional.scaled_dot_product_attention(
-                qx, kx, vx, attn_mask=rel_pos_bias_x
-            )
+            xx = scaled_dot_product_attention(qx, kx, vx, attn_mask=rel_pos_bias_x)
         else:
-            xx = paddle.compat.nn.functional.scaled_dot_product_attention(
-                qx.contiguous(), kx.contiguous(), vx.contiguous()
-            )
+            xx = scaled_dot_product_attention(qx, kx, vx)
         xx = einops.rearrange(xx, "(b h) he w c -> b (he c) h w", h=H)
         qy, ky, vy = map(
             lambda x: einops.rearrange(x, "b he h w c ->  (b w) he h c"), [q, k, v]
         )
         rel_pos_bias_y = self.rel_pos_bias(H, H, bcs[0, 1])
         if rel_pos_bias_y is not None:
-            xy = paddle.compat.nn.functional.scaled_dot_product_attention(
-                qy, ky, vy, attn_mask=rel_pos_bias_y
-            )
+            xy = scaled_dot_product_attention(qy, ky, vy, attn_mask=rel_pos_bias_y)
         else:
-            xy = paddle.compat.nn.functional.scaled_dot_product_attention(
-                qy.contiguous(), ky.contiguous(), vy.contiguous()
-            )
+            xy = scaled_dot_product_attention(qy, ky, vy)
         xy = einops.rearrange(xy, "(b w) he h c -> b (he c) h w", w=W)
         x = (xx + xy) / 2
         x = self.norm2(x)

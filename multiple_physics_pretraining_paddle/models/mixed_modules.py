@@ -8,7 +8,7 @@ import paddle
 try:
     from spatial_modules import build_space_block
     from time_modules import AttentionBlock, build_time_block
-except:
+except ImportError:
     from .spatial_modules import build_space_block
     from .time_modules import AttentionBlock, build_time_block
 
@@ -32,7 +32,7 @@ def build_spacetime_block(params):
         raise NotImplementedError
 
 
-class SpaceTimeBlock(paddle.nn.Module):
+class SpaceTimeBlock(paddle.nn.Layer):
     """
     Alternates spatial and temporal processing. Current code base uses
     1D attention over each axis. Spatial axes share weights.

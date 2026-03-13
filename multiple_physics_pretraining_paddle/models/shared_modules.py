@@ -6,43 +6,39 @@ import numpy as np
 import paddle
 
 
-class ContinuousPositionBias1D(paddle.nn.Module):
+class ContinuousPositionBias1D(paddle.nn.Layer):
     def __init__(self, n_heads):
         super().__init__()
         self.num_heads = n_heads
         self.cpb_mlp = paddle.nn.Sequential(
-            paddle.compat.nn.Linear(1, 512, bias=True),
+            paddle.nn.Linear(1, 512, bias_attr=True),
             paddle.nn.ReLU(),
-            paddle.compat.nn.Linear(512, n_heads, bias=False),
+            paddle.nn.Linear(512, n_heads, bias_attr=False),
         )
 
     def forward(self, h, h2, bc=0):
-        dtype, device = self.cpb_mlp[0].weight.dtype, self.cpb_mlp[0].weight.device
+        dtype = self.cpb_mlp[0].weight.dtype
         if bc == 0:
-            relative_coords = paddle.arange(-(h - 1), h, dtype=dtype, device=device) / (
-                h - 1
-            )
+            relative_coords = paddle.arange(-(h - 1), h, dtype=dtype) / (h - 1)
         elif bc == 1:
             relative_coords = paddle.cat(
                 [
-                    paddle.arange(1, h // 2 + 1, dtype=dtype, device=device),
-                    paddle.arange(
-                        -(h // 2 - 1), h // 2 + 1, dtype=dtype, device=device
-                    ),
-                    paddle.arange(-(h // 2 - 1), 0, dtype=dtype, device=device),
+                    paddle.arange(1, h // 2 + 1, dtype=dtype),
+                    paddle.arange(-(h // 2 - 1), h // 2 + 1, dtype=dtype),
+                    paddle.arange(-(h // 2 - 1), 0, dtype=dtype),
                 ]
             ) / (h - 1)
-        coords = paddle.arange(h, dtype=paddle.float32, device=device)
+        coords = paddle.arange(h, dtype=paddle.float32)
         coords = coords[None, :] - coords[:, None]
         coords = coords + (h - 1)
         rel_pos_model = 16 * paddle.sigmoid(
             self.cpb_mlp(relative_coords[:, None]).squeeze()
         )
-        biases = rel_pos_model[coords.long()]
-        return biases.permute(2, 0, 1).unsqueeze(0).contiguous()
+        biases = rel_pos_model[coords.astype("int64")]
+        return biases.transpose([2, 0, 1]).unsqueeze(0)
 
 
-class RelativePositionBias(paddle.nn.Module):
+class RelativePositionBias(paddle.nn.Layer):
     """
     From https://gist.github.com/huchenxucs/c65524185e8e35c4bcfae4059f896c16
 
@@ -89,18 +85,18 @@ class RelativePositionBias(paddle.nn.Module):
         n = -relative_position
         if bidirectional:
             num_buckets //= 2
-            ret += (n < 0).to(paddle.long) * num_buckets
+            ret += (n < 0).astype("int64") * num_buckets
             n = paddle.abs(n)
         else:
-            n = paddle.compat.max(n, paddle.zeros_like(n))
+            n = paddle.maximum(n, paddle.zeros_like(n))
         max_exact = num_buckets // 2
         is_small = n < max_exact
         val_if_large = max_exact + (
-            paddle.log(n.float() / max_exact)
+            paddle.log(n.astype("float32") / max_exact)
             / math.log(max_distance / max_exact)
             * (num_buckets - max_exact)
-        ).to(paddle.long)
-        val_if_large = paddle.compat.min(
+        ).astype("int64")
+        val_if_large = paddle.minimum(
             val_if_large, paddle.full_like(val_if_large, num_buckets - 1)
         )
         ret += paddle.where(is_small, n, val_if_large)
@@ -108,12 +104,8 @@ class RelativePositionBias(paddle.nn.Module):
 
     def compute_bias(self, qlen, klen, bc=0):
         """Compute binned relative position bias"""
-        context_position = paddle.arange(
-            qlen, dtype=paddle.long, device=self.relative_attention_bias.weight.device
-        )[:, None]
-        memory_position = paddle.arange(
-            klen, dtype=paddle.long, device=self.relative_attention_bias.weight.device
-        )[None, :]
+        context_position = paddle.arange(qlen, dtype="int64")[:, None]
+        memory_position = paddle.arange(klen, dtype="int64")[None, :]
         relative_position = memory_position - context_position
         """
                    k
@@ -135,27 +127,26 @@ class RelativePositionBias(paddle.nn.Module):
             bidirectional=self.bidirectional,
             num_buckets=self.num_buckets,
         )
-        rp_bucket = rp_bucket.to(self.relative_attention_bias.weight.device)
         values = self.relative_attention_bias(rp_bucket)
-        values = values.permute([2, 0, 1]).unsqueeze(0)
+        values = values.transpose([2, 0, 1]).unsqueeze(0)
         return values
 
     def forward(self, qlen, klen, bc=0):
         return self.compute_bias(qlen, klen, bc)
 
 
-class MLP(paddle.nn.Module):
+class MLP(paddle.nn.Layer):
     def __init__(self, hidden_dim, exp_factor=4.0):
         super().__init__()
-        self.fc1 = paddle.compat.nn.Linear(hidden_dim, int(hidden_dim * exp_factor))
-        self.fc2 = paddle.compat.nn.Linear(int(hidden_dim * exp_factor), hidden_dim)
+        self.fc1 = paddle.nn.Linear(hidden_dim, int(hidden_dim * exp_factor))
+        self.fc2 = paddle.nn.Linear(int(hidden_dim * exp_factor), hidden_dim)
         self.act = paddle.nn.GELU()
 
     def forward(self, x):
         return self.fc2(self.act(self.fc1(x)))
 
 
-class AbsolutePositionBias(paddle.nn.Module):
+class AbsolutePositionBias(paddle.nn.Layer):
     """
     From https://gist.github.com/huchenxucs/c65524185e8e35c4bcfae4059f896c16
 
@@ -164,17 +155,20 @@ class AbsolutePositionBias(paddle.nn.Module):
 
     def __init__(self, hidden_dim, n_tokens):
         super(AbsolutePositionBias, self).__init__()
-        self.bias = paddle.nn.Parameter(paddle.randn(1, n_tokens, hidden_dim) * 0.02)
+        self.bias = self.create_parameter(
+            shape=[1, n_tokens, hidden_dim],
+            default_initializer=paddle.nn.initializer.Normal(std=0.02),
+        )
 
     def forward(self):
         return self.bias
 
 
-class MLP(paddle.nn.Module):
+class MLP(paddle.nn.Layer):
     def __init__(self, hidden_dim, exp_factor=4.0):
         super().__init__()
-        self.fc1 = paddle.compat.nn.Linear(hidden_dim, int(hidden_dim * exp_factor))
-        self.fc2 = paddle.compat.nn.Linear(int(hidden_dim * exp_factor), hidden_dim)
+        self.fc1 = paddle.nn.Linear(hidden_dim, int(hidden_dim * exp_factor))
+        self.fc2 = paddle.nn.Linear(int(hidden_dim * exp_factor), hidden_dim)
         self.act = paddle.nn.GELU()
 
     def forward(self, x):

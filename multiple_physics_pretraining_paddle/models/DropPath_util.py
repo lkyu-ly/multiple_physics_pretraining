@@ -17,13 +17,13 @@ def drop_path(
         return x
     keep_prob = 1 - drop_prob
     shape = (x.shape[0],) + (1,) * (x.ndim - 1)
-    random_tensor = x.new_empty(shape).bernoulli_(p=keep_prob)
+    random_tensor = paddle.bernoulli(paddle.full(shape, keep_prob, dtype=x.dtype))
     if keep_prob > 0.0 and scale_by_keep:
-        random_tensor.div_(keep_prob)
+        random_tensor = random_tensor / keep_prob
     return x * random_tensor
 
 
-class DropPath(paddle.nn.Module):
+class DropPath(paddle.nn.Layer):
     """Drop paths (Stochastic Depth) per sample  (when applied in main path of residual blocks)."""
 
     def __init__(self, drop_prob: float = 0.0, scale_by_keep: bool = True):

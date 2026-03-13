@@ -99,7 +99,7 @@ class DAdaptAdan(paddle.optimizer.Optimizer):
         for group in self.param_groups:
             group["gsq_weighted"] = 0.0
             for p in group["params"]:
-                if p.requires_grad:
+                if not p.stop_gradient:
                     state = self.state[p]
                     state["step"] = 0
                     state["s"] = paddle.zeros_like(p.data).detach()

@@ -1,11 +1,9 @@
-import math
-from typing import Iterator, Optional, TypeVar
+from typing import Iterator
 
 import numpy as np
 import paddle
 
 __all__ = ["MultisetSampler"]
-T_co = TypeVar("T_co", covariant=True)
 
 
 class MultisetSampler(paddle.io.Sampler):
@@ -39,7 +37,7 @@ class MultisetSampler(paddle.io.Sampler):
         self.max_samples = max_samples
         self.rank = rank
 
-    def __iter__(self) -> Iterator[T_co]:
+    def __iter__(self) -> Iterator[int]:
         samplers = [iter(sampler) for sampler in self.sub_samplers]
         sampler_choices = list(range(len(samplers)))
         generator = paddle.Generator()

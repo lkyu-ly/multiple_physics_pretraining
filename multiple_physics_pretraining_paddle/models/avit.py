@@ -1,17 +1,17 @@
-import sys
-
-sys.path.append("/home/lkyu/baidu/MPP/multiple_physics_pretraining_paddle")
 from functools import partial
 
 import einops
 import numpy as np
 import paddle
-from paddle_utils import *
+try:
+    from paddle_utils import *
+except ImportError:
+    from ..paddle_utils import *
 
 try:
     from mixed_modules import SpaceTimeBlock, build_spacetime_block
     from spatial_modules import SubsampledLinear, hMLP_output, hMLP_stem
-except:
+except ImportError:
     from .mixed_modules import SpaceTimeBlock, build_spacetime_block
     from .spatial_modules import SubsampledLinear, hMLP_output, hMLP_stem
 
@@ -34,7 +34,7 @@ def build_avit(params):
     return model
 
 
-class AViT(paddle.nn.Module):
+class AViT(paddle.nn.Layer):
     """
     Naive model that interweaves spatial and temporal attention blocks. Temporal attention
     acts only on the time dimension.
@@ -66,7 +66,7 @@ class AViT(paddle.nn.Module):
             inner_block = override_block
         else:
             inner_block = partial(SpaceTimeBlock, hidden_dim=embed_dim)
-        self.blocks = paddle.nn.ModuleList(
+        self.blocks = paddle.nn.LayerList(
             [inner_block(drop_path=self.dp[i]) for i in range(processor_blocks)]
         )
         self.debed = hMLP_output(
@@ -93,8 +93,8 @@ class AViT(paddle.nn.Module):
             temp_out_bias = out_head.bias
             temp_out_kernel[:, : self.debed.out_chans, :, :] = self.debed.out_kernel
             temp_out_bias[: self.debed.out_chans] = self.debed.out_bias
-            self.debed.out_kernel = paddle.nn.Parameter(temp_out_kernel)
-            self.debed.out_bias = paddle.nn.Parameter(temp_out_bias)
+            self.debed.out_kernel = temp_out_kernel
+            self.debed.out_bias = temp_out_bias
 
     def freeze_middle(self):
         for param in self.parameters():
@@ -124,7 +124,7 @@ class AViT(paddle.nn.Module):
             """data_std, data_mean = torch.std_mean(x, dim=(0, -2, -1), keepdims=True)
             paddle has no std_mean api"""
             data_std = paddle.std(x=x, axis=(0, -2, -1), keepdim=True)
-            data_mean = paddle.mean(x, dim=(0, -2, -1), keepdim=True)
+            data_mean = paddle.mean(x=x, axis=(0, -2, -1), keepdim=True)
             data_std = data_std + 1e-07
         x = (x - data_mean) / data_std
         x = einops.rearrange(x, "t b c h w -> t b h w c")
@@ -142,7 +142,7 @@ class AViT(paddle.nn.Module):
 
 
 if __name__ == "__main__":
-    print(paddle.cuda.is_available())
+    print(paddle.device.is_compiled_with_cuda())
     model = AViT().cuda()
     for n, p in model.debed.named_parameters():
         print(n, p.shape)

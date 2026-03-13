@@ -68,7 +68,9 @@ class SimpleSequentialScheduler:
         if last_epoch >= 0:
             self._step_count = last_epoch + 1
         scheduler_idx = self._get_scheduler_index()
-        self._last_lr = self.schedulers[scheduler_idx].get_last_lr()
+        current_lr = self.schedulers[scheduler_idx].get_lr()
+        self.optimizer.set_lr(current_lr)
+        self._last_lr = [current_lr]
 
     def _get_scheduler_index(self):
         """确定当前应该使用哪个调度器"""
@@ -87,7 +89,9 @@ class SimpleSequentialScheduler:
         scheduler_idx = self._get_scheduler_index()
         self.schedulers[scheduler_idx].step()
         self._step_count += 1
-        self._last_lr = [group["lr"] for group in self.optimizer.param_groups]
+        current_lr = self.schedulers[scheduler_idx].get_lr()
+        self.optimizer.set_lr(current_lr)
+        self._last_lr = [current_lr]
 
     def get_last_lr(self):
         """

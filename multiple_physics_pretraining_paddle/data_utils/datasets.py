@@ -7,12 +7,8 @@ Remember to parameterize the file paths eventually
 """
 import numpy as np
 
-try:
-    from hdf5_datasets import *
-    from mixed_dset_sampler import MultisetSampler
-except:
-    from .mixed_dset_sampler import MultisetSampler
-    from .hdf5_datasets import *
+from .hdf5_datasets import *
+from .mixed_dset_sampler import MultisetSampler
 
 import glob
 
@@ -36,7 +32,6 @@ def get_data_loader(params, paths, distributed, split="train", rank=0, train_off
         enforce_max_steps=params.enforce_max_steps,
         train_offset=train_offset,
     )
-    seed = paddle.compat.seed() if "train" == split else 0
     if distributed:
         base_sampler = paddle.io.DistributedBatchSampler
     else:
@@ -156,15 +151,14 @@ class MixedDataset(paddle.io.Dataset):
         local_idx = index - max(self.offsets[file_idx], 0)
         try:
             x, bcs, y = self.sub_dsets[file_idx][local_idx]
-        except:
-            print(
-                "FAILED AT ", file_idx, local_idx, index, int(os.environ.get("RANK", 0))
-            )
-            thisvariabledoesntexist
+        except Exception as err:
+            raise RuntimeError(
+                f"FAILED AT file_idx={file_idx} local_idx={local_idx} index={index} rank={int(os.environ.get('RANK', 0))}"
+            ) from err
         return (
             x,
             file_idx,
-            paddle.tensor(self.subset_dict[self.sub_dsets[file_idx].get_name()]),
+            paddle.to_tensor(self.subset_dict[self.sub_dsets[file_idx].get_name()]),
             bcs,
             y,
         )
