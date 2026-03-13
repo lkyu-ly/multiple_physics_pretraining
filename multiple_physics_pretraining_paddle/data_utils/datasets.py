@@ -10,7 +10,7 @@ import numpy as np
 try:
     from hdf5_datasets import *
     from mixed_dset_sampler import MultisetSampler
-except ImportError:
+except:
     from .mixed_dset_sampler import MultisetSampler
     from .hdf5_datasets import *
 

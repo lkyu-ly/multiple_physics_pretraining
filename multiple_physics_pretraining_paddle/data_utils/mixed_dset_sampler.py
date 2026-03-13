@@ -8,7 +8,7 @@ __all__ = ["MultisetSampler"]
 T_co = TypeVar("T_co", covariant=True)
 
 
-class MultisetSampler(paddle.io.Sampler[T_co]):
+class MultisetSampler(paddle.io.Sampler):
     """Sampler that restricts data loading to a subset of the dataset."""
 
     def __init__(

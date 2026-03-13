@@ -23,7 +23,7 @@ basic_config: &basic_config # Run settings
   scheduler_epochs: -1
   epoch_size: 20 # Quick validation: set to 20; for real training use 2000
   rescale_gradients: !!bool False # Activate hook that scales block gradients to norm 1
-  optimizer: "adan" # adam, adan, whatever else i end up adding - adan did better on HP sweep
+  optimizer: "adam" # adam, adan, whatever else i end up adding - adan did better on HP sweep
   scheduler: "cosine" # Only cosine implemented
   warmup_steps: 5 # Quick validation: set to 5; for real training use 1000
   learning_rate: 1e-4 # Quick validation: fixed lr; for DAdapt auto-tune set to -1

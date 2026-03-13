@@ -1,4 +1,7 @@
+from re import I
 import sys
+
+from sympy import im
 
 sys.path.append("/home/lkyu/baidu/MPP/multiple_physics_pretraining_paddle")
 import argparse
@@ -12,12 +15,22 @@ import einops
 import numpy as np
 import paddle
 import wandb
-from adan_pytorch import Adan
-from dadaptation import DAdaptAdam, DAdaptAdan
+
+# from adan_pytorch import Adan
+# from dadaptation import DAdaptAdam, DAdaptAdan
 from paddle_utils import *
 from ruamel.yaml import YAML
 from ruamel.yaml.comments import CommentedMap as ruamelDict
-from torchinfo import summary
+
+try:
+    from utils.dadapt_adam_paddle import DAdaptAdam
+    from utils.dadapt_adan_paddle import DAdaptAdan
+except:
+    from .utils.dadapt_adam_paddle import DAdaptAdam
+    from .utils.dadapt_adan_paddle import DAdaptAdan
+
+
+# from torchinfo import summary
 
 try:
     from data_utils.datasets import DSET_NAME_TO_OBJECT, get_data_loader
@@ -561,8 +574,8 @@ class Trainer:
             self.initialize_model(self.params)
             self.initialize_optimizer(self.params)
             self.initialize_scheduler(self.params)
-        if self.global_rank == 0:
-            summary(self.model)
+        # if self.global_rank == 0:
+        # summary(self.model)
         if self.params.log_to_wandb:
             wandb.watch(self.model)
         self.single_print("Starting Training Loop...")
