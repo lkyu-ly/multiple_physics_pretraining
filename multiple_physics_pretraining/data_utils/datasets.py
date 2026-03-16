@@ -65,7 +65,7 @@ def get_data_loader(params, paths, distributed, split="train", rank=0, train_off
         batch_size=int(params.batch_size),
         num_workers=params.num_data_workers,
         shuffle=False,  # (sampler is None),
-        # sampler=sampler,  # Since validation is on a subset, use a fixed random subset,
+        sampler=sampler,  # epoch_size is enforced by MultisetSampler
         drop_last=True,
         # pin_memory=torch.cuda.is_available(),
     )

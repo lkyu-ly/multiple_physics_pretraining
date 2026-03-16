@@ -68,7 +68,7 @@ class MultisetSampler(paddle.io.Sampler):
                 break
 
     def __len__(self) -> int:
-        return len(self.dataset)
+        return self.max_samples * self.batch_size
 
     def set_epoch(self, epoch: int) -> None:
         """

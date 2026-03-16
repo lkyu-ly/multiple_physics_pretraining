@@ -117,3 +117,170 @@ scheduler = SimpleSequentialScheduler(optimizer, [warmup, decay], [k])
 
 - PaddlePaddle 的调度器不直接绑定优化器
 - 需要修改 `SimpleSequentialScheduler.step()` 来调用 `optimizer.set_lr(scheduler.get_lr())`
+- warmup/decay 组合场景下，**不要**再对优化器调用 `set_lr_scheduler()`，否则后续手动 `set_lr()` 会冲突并抛出 `optimizer's learning rate can't be LRScheduler`
+
+---
+
+## 问题 2: Paddle 版训练启动与最小训练链路修复
+
+**日期**: 2026-03-13
+**文件**:
+
+- `multiple_physics_pretraining_paddle/train_basic.py`
+- `multiple_physics_pretraining_paddle/data_utils/*`
+- `multiple_physics_pretraining_paddle/models/*`
+- `multiple_physics_pretraining_paddle/utils/schedulers.py`
+
+**问题**: `paconvert` 转换后的 Paddle 代码保留了多处 PyTorch 风格导入和 API，导致训练从启动到首个 batch 之间连续报错。
+
+### 关键错误与处理
+
+#### 1. 包导入不稳定
+
+**现象**:
+
+- `ModuleNotFoundError: No module named 'hdf5_datasets'`
+- `ImportError: attempted relative import with no known parent package`
+
+**原因**:
+
+- 目录内仍混用顶层导入、相对导入和 `sys.path.append(...)`
+- `except:` 过宽，吞掉真实错误后错误地回退到另一套导入分支
+
+**解决**:
+
+- 给 `multiple_physics_pretraining_paddle/`、`data_utils/`、`models/`、`utils/` 增加 `__init__.py`
+- 包内统一使用稳定导入
+- 将导入回退收窄为 `except ImportError`
+- 删除 `sys.path.append(...)`、无关残留导入和调试代码
+
+#### 2. Paddle 类型与基类不兼容
+
+**现象**:
+
+- `TypeError: 'type' object is not subscriptable`
+- `AttributeError: module 'paddle.nn' has no attribute 'Module'`
+- `AttributeError: module 'paddle.nn' has no attribute 'Parameter'`
+
+**原因**:
+
+- 直接照搬了 PyTorch 泛型和基类写法，如 `paddle.io.Sampler[T]`、`paddle.nn.Module`
+- 参数注册仍使用 PyTorch 风格 `nn.Parameter(...)`
+
+**解决**:
+
+- `MultisetSampler` 改为继承 `paddle.io.Sampler`
+- 全部模块基类改为 `paddle.nn.Layer`
+- 可学习参数统一改为 `create_parameter(...)` 或直接复用 Paddle 层的 `weight/bias`
+
+#### 3. Paddle API 名称和签名差异
+
+**典型错误**:
+
+- `paddle.cuda.*`、`paddle.compat.*`、`paddle.as_tensor(...)`
+- `Conv2D(..., bias=False)`、`optimizer.zero_grad(...)`
+- `Tensor.tensor_split(...)`、`mean(dim=...)`
+
+**解决**:
+
+- 设备/AMP 接口改为 `paddle.device.*`、`paddle.amp.*`
+- 张量构造统一改为 `paddle.to_tensor(...)`
+- 卷积参数改为 `bias_attr=False`
+- 清梯度改为 `optimizer.clear_grad()`
+- 张量拆分改为 `paddle.split(...)`
+- 统计接口统一使用 `axis=` / `keepdim=`
+
+#### 4. 线性层权重布局与注意力实现差异
+
+**现象**:
+
+- `linear` 输入维度不匹配
+- `scaled_dot_product_attention` 在 CPU 上触发 `flash_attn` 内核缺失
+
+**原因**:
+
+- Paddle `Linear.weight` 维度布局与 PyTorch 不同
+- Paddle 内置 `scaled_dot_product_attention` 在当前 CPU 路径下不可用
+
+**解决**:
+
+- `SubsampledLinear` 中按 Paddle 权重布局调整切片方向
+- 在 `spatial_modules.py` 和 `time_modules.py` 增加 CPU 可用的注意力回退实现
+
+#### 5. 设备与 AMP 适配
+
+**现象**:
+
+- `module 'paddle' has no attribute 'cuda'`
+- `dtype.lower()` 相关异常
+- 当前环境有 GPU 版 Paddle，但无可用 GPU / cuDNN
+
+**解决**:
+
+- 设备检测改为 `paddle.device.is_compiled_with_cuda()` + `paddle.device.cuda.device_count() > 0`
+- 无可见 GPU 时强制走 CPU
+- `auto_cast` 的 `dtype` 使用字符串，如 `"float16"` / `"bfloat16"`
+- 无 GPU 时禁用 AMP，避免无意义的混精度分支
+
+### 当前结果
+
+使用以下命令：
+
+```bash
+python train_basic.py \
+  --run_name quick_test \
+  --config basic_config \
+  --yaml_config ./config/mpp_avit_ti_config.yaml
+```
+
+Paddle 版本已能够：
+
+- 正常完成导入和初始化
+- 进入训练循环
+- 连续跑过多个 batch
+- 输出训练日志，如 `Epoch 1 Batch N Train Loss ...`
+
+### 经验总结
+
+- `paconvert` 更适合“语法搬运”，不等于“行为可运行”
+- 涉及导入、参数注册、设备选择、优化器/调度器、注意力算子时，必须逐项核对 Paddle 原生 API
+- 迁移验证不要只看“能 import”，至少要验证到“首个 batch 完整前向 + 反向 + optimizer step”
+
+---
+
+## 问题 3: 快速验证配置未真实限制每个 epoch 的步数
+
+**日期**: 2026-03-13
+**文件**:
+
+- `multiple_physics_pretraining/data_utils/datasets.py`
+- `multiple_physics_pretraining/data_utils/mixed_dset_sampler.py`
+- `multiple_physics_pretraining_paddle/data_utils/datasets.py`
+- `multiple_physics_pretraining_paddle/data_utils/mixed_dset_sampler.py`
+
+**问题**: `mpp_avit_ti_config.yaml` 中已经将 `max_epochs: 3`、`epoch_size: 20` 设为快速验证配置，但 Torch 和 Paddle 版本都仍然完整遍历训练集，导致单个 epoch 跑出几百甚至更多 step。
+
+### 原因
+
+- Torch 版原本已经构造了 `MultisetSampler(max_samples=params.epoch_size)`，但 `DataLoader(..., sampler=sampler)` 被注释掉了。
+- Paddle 版没有 `sampler` 参数，因此不能直接照搬 Torch 写法；如果不补等价实现，`epoch_size` 也不会真正生效。
+- 因此配置中的 `epoch_size` 只影响了部分计数和调度，不影响真实训练步数。
+
+### 解决方案
+
+- Torch 版：恢复 `DataLoader(..., sampler=sampler)`，重新让 `MultisetSampler` 控制单个 epoch 的采样长度。
+- Paddle 版：使用官方支持的 `batch_sampler`，通过 `paddle.io.BatchSampler(sampler=..., batch_size=...)` 包装现有 `MultisetSampler`。
+- 两边同时修正 `MultisetSampler.__len__()`，使 `len(train_data_loader)` 与快速验证配置一致。
+
+### 修复结果
+
+修复后两套实现都重新遵守快速验证配置：
+
+- `train_loader_size` 从完整数据集长度变为 `20`
+- 单个 epoch 只运行约 20 个 batch
+- 能按预期快速进入下一个 epoch 并在少量 epoch 后结束训练
+
+### 备注
+
+- 这次问题**不是** `DAdaptAdam` / `DAdaptAdan` 本地 Paddle 依赖污染 Torch 版本导致的。
+- 对 Paddle 来说，正确替代 `sampler` 的方式是 `batch_sampler`，而不是简单删除采样限制逻辑。

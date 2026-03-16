@@ -44,15 +44,16 @@ def get_data_loader(params, paths, distributed, split="train", rank=0, train_off
         max_samples=params.epoch_size,
         rank=rank,
     )
-    """paddle has no params 'sampler' and 'pin_memory'
-    this is seemingly used only in distributed training
-    """
+    batch_sampler = paddle.io.BatchSampler(
+        sampler=sampler,
+        batch_size=int(params.batch_size),
+        drop_last=True,
+    )
     dataloader = paddle.io.DataLoader(
         dataset=dataset,
-        batch_size=int(params.batch_size),
+        batch_sampler=batch_sampler,
         num_workers=params.num_data_workers,
-        shuffle=False,
-        drop_last=True,
+        return_list=True,
     )
     return dataloader, dataset, sampler
 
