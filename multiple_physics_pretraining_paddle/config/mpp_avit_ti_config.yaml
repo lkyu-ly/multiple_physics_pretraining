@@ -2,14 +2,14 @@ basic_config: &basic_config # Run settings
   log_to_wandb: !!bool False # Use wandb integration
   log_to_screen: !!bool True # Log progress to screen.
   save_checkpoint: !!bool True # Save checkpoints
-  checkpoint_save_interval: 1 # Save every # epochs - also saves "best" according to val loss
+  checkpoint_save_interval: 10 # Save every # epochs - also saves "best" according to val loss
   debug_grad: !!bool True # Compute gradient/step_sizes/ect for debugging
   true_time: !!bool False # Debugging setting - sets num workers to zero and activates syncs
-  num_data_workers: 0 # Set to 0 for single-machine debugging (avoids multiprocess issues)
+  num_data_workers: 6 # Generally pulling 8 cpu per process, so using 6 for DL - not sure if best ratio
   enable_amp: !!bool False # Use automatic mixed precision - blows up with low variance fields right now
   compile: !!bool False # Compile model - Does not currently work
   gradient_checkpointing: !!bool False # Whether to use gradient checkpointing - Slow, but lower memory
-  exp_dir: "/home/lkyu/baidu/MPP" # Output path - must be absolute path, ~ is not expanded
+  exp_dir: "/home/lkyu/baidu/MPP/multiple_physics_pretraining_paddle" # Output path
   log_interval: 1 # How often to log - Don't think this is actually implemented
   pretrained: !!bool False # Whether to load a pretrained model
   # wandb settings
@@ -19,14 +19,14 @@ basic_config: &basic_config # Run settings
   # Training settings
   drop_path: 0.1
   batch_size: 1
-  max_epochs: 3 # Quick validation: set to 3; for real training use 500
+  max_epochs: 10
   scheduler_epochs: -1
-  epoch_size: 20 # Quick validation: set to 20; for real training use 2000
+  epoch_size: 20 # Artificial epoch size
   rescale_gradients: !!bool False # Activate hook that scales block gradients to norm 1
-  optimizer: "adam" # adam, adan, whatever else i end up adding - adan did better on HP sweep
+  optimizer: "adan" # adam, adan, whatever else i end up adding - adan did better on HP sweep
   scheduler: "cosine" # Only cosine implemented
-  warmup_steps: 5 # Quick validation: set to 5; for real training use 1000
-  learning_rate: 1e-4 # Quick validation: fixed lr; for DAdapt auto-tune set to -1
+  warmup_steps: 20 # Warmup when not using DAdapt
+  learning_rate: -1 # Quick validation: fixed lr; for DAdapt auto-tune set to -1
   weight_decay: 1e-3
   n_states: 12 # Number of state variables across the datasets - Can be larger than real number and things will just go unused
   state_names: ["Pressure", "Vx", "Vy", "Density", "Vx", "Vy", "Density", "Pressure"] # Should be sorted

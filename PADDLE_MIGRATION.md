@@ -284,3 +284,57 @@ Paddle 版本已能够：
 
 - 这次问题**不是** `DAdaptAdam` / `DAdaptAdan` 本地 Paddle 依赖污染 Torch 版本导致的。
 - 对 Paddle 来说，正确替代 `sampler` 的方式是 `batch_sampler`，而不是简单删除采样限制逻辑。
+
+---
+
+## 问题 4: Adan / DAdapt 自定义优化器仍保留 Torch 优化器协议
+
+**日期**: 2026-03-16
+**文件**:
+
+- `multiple_physics_pretraining_paddle/utils/adan_paddle.py`
+- `multiple_physics_pretraining_paddle/utils/dadapt_adam_paddle.py`
+- `multiple_physics_pretraining_paddle/utils/dadapt_adan_paddle.py`
+- `multiple_physics_pretraining_paddle/utils/custom_optimizer_base.py`
+- `multiple_physics_pretraining_paddle/unitTest/test_custom_optimizers.py`
+
+**问题**: `paconvert` 直接把 `adan_pytorch` / `dadaptation` 里的自定义优化器搬到了 Paddle 版，但它们仍按 `torch.optim.Optimizer` 的构造和状态管理方式工作。切换到 `adan` 或 `learning_rate: -1` 的 DAdapt 路径后，会在初始化阶段报错：
+
+- `TypeError: parameters argument should not get dict type`
+
+继续排查后还发现两类兼容问题：
+
+- 代码里依赖 `param_groups`、`state[p]` 这套 Torch 风格接口，而 Paddle 基类公开的是 `_param_groups` / `_accumulators`
+- 若直接硬套到 Paddle，`Tensor.add_(float)`、`mul_(float)`、`div_(float)` 这类标量原地操作也会继续报错
+- `adan_paddle.py` 中原 `addcmul_` 的机械转换还改变了原始更新公式的数值语义
+
+### 解决方案
+
+- 不重写算法主体，只补一个很小的兼容层 `custom_optimizer_base.py`
+- 在兼容层里统一处理：
+  - Paddle 正确的 `Optimizer.__init__(learning_rate=..., parameters=...)`
+  - Torch 风格 `param_groups` / `state`
+  - 自定义优化器的 `state_dict()` / `load_state_dict()`
+  - 调度器驱动下的当前学习率同步
+- 三个优化器文件只做最小修改：
+  - 接到兼容层上
+  - 把 Paddle 不支持的标量原地运算改成 `copy_(expr)` 等价写法
+  - 修正 `Adan` 中被错误转换的更新公式
+- 新增最小单测，验证：
+  - 参数分组构造
+  - 单步 `forward + backward + optimizer.step()`
+  - `clear_grad()`
+  - `state_dict/load_state_dict`
+
+### 修复结果
+
+- `adan + 固定 learning_rate` 可完成优化器初始化和单步更新
+- `adam + learning_rate=-1` 可进入 `DAdaptAdam`
+- `adan + learning_rate=-1` 可进入 `DAdaptAdan`
+- 冒烟训练已能越过优化器初始化并进入训练循环；后续如遇 dataloader 多进程权限问题，属于当前运行环境限制，不是优化器迁移问题
+
+### 经验总结
+
+- `paconvert` 对“自定义优化器”只能完成语法级搬运，不能保证行为级兼容
+- 迁移优化器时要重点核对三件事：基类构造协议、状态保存恢复、原地张量运算是否仍与 Paddle 等价
+- 如果只是为了让训练先跑通，优先做“兼容层 + 最小修正”，不要一开始就大规模重写优化器实现

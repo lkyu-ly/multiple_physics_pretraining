@@ -2,6 +2,19 @@ from typing import TYPE_CHECKING, Any
 
 import paddle
 
+try:
+    from utils.custom_optimizer_base import (
+        TorchStylePaddleOptimizer,
+        divide_inplace,
+        scale_inplace,
+    )
+except ImportError:
+    from .custom_optimizer_base import (
+        TorchStylePaddleOptimizer,
+        divide_inplace,
+        scale_inplace,
+    )
+
 if TYPE_CHECKING:
     pass
 else:
@@ -15,7 +28,7 @@ def to_real(x):
         return x
 
 
-class DAdaptAdan(paddle.optimizer.Optimizer):
+class DAdaptAdan(TorchStylePaddleOptimizer):
     """
     Implements Adan with D-Adaptation automatic step-sizes.
     Has not been as heavily tested as DAdaptAdam and should be considered experimental.
@@ -84,7 +97,7 @@ class DAdaptAdan(paddle.optimizer.Optimizer):
             log_every=log_every,
             growth_rate=growth_rate,
         )
-        super().__init__(params, defaults)
+        super().__init__(params, lr, defaults)
 
     @property
     def supports_memory_efficient_fp16(self):
@@ -114,6 +127,7 @@ class DAdaptAdan(paddle.optimizer.Optimizer):
             closure (callable, optional): A closure that reevaluates the model
                 and returns the loss.
         """
+        self._sync_group_lr()
         loss = None
         if closure is not None:
             loss = closure()
@@ -156,13 +170,15 @@ class DAdaptAdan(paddle.optimizer.Optimizer):
                 grad_grad = to_real(grad * grad.conj())
                 update = grad + beta2 * grad_diff
                 update_update = to_real(update * update.conj())
-                exp_avg.mul_(beta1).add_(grad, alpha=dlr * (1.0 - beta1))
-                exp_avg_diff.mul_(beta2).add_(grad_diff, alpha=dlr * (1.0 - beta2))
-                exp_avg_sq.mul_(beta3).add_(update_update, alpha=1.0 - beta3)
-                denom = exp_avg_sq.sqrt().add_(eps)
+                scale_inplace(exp_avg, beta1).add_(grad, alpha=dlr * (1.0 - beta1))
+                scale_inplace(exp_avg_diff, beta2).add_(
+                    grad_diff, alpha=dlr * (1.0 - beta2)
+                )
+                scale_inplace(exp_avg_sq, beta3).add_(update_update, alpha=1.0 - beta3)
+                denom = exp_avg_sq.sqrt() + eps
                 g_sq += grad_grad.div_(denom).sum().item()
                 s = state["s"]
-                s.mul_(beta3).add_(grad, alpha=dlr * (1.0 - beta3))
+                scale_inplace(s, beta3).add_(grad, alpha=dlr * (1.0 - beta3))
                 sksq_weighted += to_real(s * s.conj()).div_(denom).sum().item()
                 sk_l1 += s.abs().sum().item()
         gsq_weighted = beta3 * gsq_weighted + g_sq * dlr**2 * (1 - beta3)
@@ -193,15 +209,15 @@ class DAdaptAdan(paddle.optimizer.Optimizer):
                     state["exp_avg_sq"],
                 )
                 state["step"] += 1
-                denom = exp_avg_sq.sqrt().add_(eps)
-                denom = denom.astype(str(p.dtype))
+                denom = exp_avg_sq.sqrt() + eps
+                denom = denom.astype(p.dtype)
                 update = (exp_avg + beta2 * exp_avg_diff).div_(denom)
                 if no_prox:
-                    p.data.mul_(1 - dlr * decay)
+                    scale_inplace(p.data, 1 - dlr * decay)
                     p.add_(update, alpha=-1)
                 else:
                     p.add_(update, alpha=-1)
-                    p.data.div_(1 + dlr * decay)
+                    divide_inplace(p.data, 1 + dlr * decay)
                 state["pre_grad"].copy_(grad)
             group["k"] = k + 1
         return loss

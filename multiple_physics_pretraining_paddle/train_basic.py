@@ -5,10 +5,26 @@ import pickle as pkl
 import time
 from collections import OrderedDict, defaultdict
 
+# # 打开组合算子
+# export FLAGS_prim_enable_dynamic=true && export FLAGS_prim_all=true
+
+# # 打开 CINN 编译器
+# export FLAGS_use_cinn=true
+
+# # 是否打印 Program IR 信息 (用于调试)
+# export FLAGS_print_ir=false
+
+# OPEN CINN
+os.environ["FLAGS_prim_enable_dynamic"] = "true"
+os.environ["FLAGS_prim_all"] = "true"
+os.environ["FLAGS_use_cinn"] = "true"
+os.environ["FLAGS_print_ir"] = "false"
+
 import einops
 import numpy as np
 import paddle
 import wandb
+
 
 # from adan_pytorch import Adan
 # from dadaptation import DAdaptAdam, DAdaptAdan
@@ -19,6 +35,10 @@ except ImportError:
 from ruamel.yaml import YAML
 from ruamel.yaml.comments import CommentedMap as ruamelDict
 
+try:
+    from utils.adan_paddle import Adan
+except ImportError:
+    from .utils.adan_paddle import Adan
 try:
     from utils.dadapt_adam_paddle import DAdaptAdam
     from utils.dadapt_adan_paddle import DAdaptAdan
@@ -82,7 +102,11 @@ class Trainer:
             and paddle.device.cuda.device_count() > 0
         )
         self.amp_enabled = has_cuda_device and params.enable_amp
-        self.mp_type = "bfloat16" if has_cuda_device and paddle.amp.is_bfloat16_supported() else "float16"
+        self.mp_type = (
+            "bfloat16"
+            if has_cuda_device and paddle.amp.is_bfloat16_supported()
+            else "float16"
+        )
         self.iters = 0
         self.initialize_data(self.params)
         print(f"Initializing model on rank {self.global_rank}")
@@ -318,9 +342,7 @@ class Trainer:
             self.model.require_backward_grad_sync = (
                 1 + batch_idx
             ) % self.params.accum_grad == 0
-            with paddle.amp.auto_cast(
-                enable=self.amp_enabled, dtype=self.mp_type
-            ):
+            with paddle.amp.auto_cast(enable=self.amp_enabled, dtype=self.mp_type):
                 model_start = time.time()
                 output = self.model(inp, field_labels, bcs)
                 spatial_dims = tuple(range(output.ndim))[2:]
@@ -643,8 +665,7 @@ if __name__ == "__main__":
     global_rank = int(os.environ.get("RANK", 0))
     world_size = int(paddle.distributed.get_world_size())
     has_cuda_device = (
-        paddle.device.is_compiled_with_cuda()
-        and paddle.device.cuda.device_count() > 0
+        paddle.device.is_compiled_with_cuda() and paddle.device.cuda.device_count() > 0
     )
     if args.use_ddp:
         paddle.distributed.init_parallel_env()

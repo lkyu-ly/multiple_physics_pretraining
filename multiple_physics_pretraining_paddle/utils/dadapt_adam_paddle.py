@@ -6,6 +6,17 @@ from typing import TYPE_CHECKING, Any, Callable, Optional
 
 import paddle
 
+try:
+    from utils.custom_optimizer_base import (
+        TorchStylePaddleOptimizer,
+        scale_inplace,
+    )
+except ImportError:
+    from .custom_optimizer_base import (
+        TorchStylePaddleOptimizer,
+        scale_inplace,
+    )
+
 ############################## 相关utils函数，如下 ##############################
 
 def device2int(device):
@@ -22,7 +33,7 @@ else:
     _params_t = Any
 
 
-class DAdaptAdam(paddle.optimizer.Optimizer):
+class DAdaptAdam(TorchStylePaddleOptimizer):
     """
     Implements Adam with D-Adaptation automatic step-sizes.
     Leave LR set to 1 unless you encounter instability.
@@ -103,7 +114,7 @@ class DAdaptAdam(paddle.optimizer.Optimizer):
             fsdp_in_use=fsdp_in_use,
         )
         self.d0 = d0
-        super().__init__(params, defaults)
+        super().__init__(params, lr, defaults)
 
     @property
     def supports_memory_efficient_fp16(self):
@@ -120,6 +131,7 @@ class DAdaptAdam(paddle.optimizer.Optimizer):
             closure (callable, optional): A closure that reevaluates the model
                 and returns the loss.
         """
+        self._sync_group_lr()
         loss = None
         if closure is not None:
             loss = closure()
@@ -169,15 +181,19 @@ class DAdaptAdam(paddle.optimizer.Optimizer):
                 exp_avg, exp_avg_sq = state["exp_avg"], state["exp_avg_sq"]
                 s = state["s"]
                 if group_lr > 0.0:
-                    denom = exp_avg_sq.sqrt().add_(eps)
+                    denom = exp_avg_sq.sqrt() + eps
                     numerator_acum += (
                         r
                         * dlr
                         * paddle.dot(grad.flatten(), s.div(denom).flatten()).item()
                     )
-                    exp_avg.mul_(beta1).add_(grad, alpha=r * dlr * (1 - beta1))
-                    exp_avg_sq.mul_(beta2).add_((1 - beta2) * grad * grad)
-                    s.mul_(sqrt_beta2).add_(grad, alpha=dlr * (1 - sqrt_beta2))
+                    scale_inplace(exp_avg, beta1).add_(
+                        grad, alpha=r * dlr * (1 - beta1)
+                    )
+                    scale_inplace(exp_avg_sq, beta2).add_((1 - beta2) * grad * grad)
+                    scale_inplace(s, sqrt_beta2).add_(
+                        grad, alpha=dlr * (1 - sqrt_beta2)
+                    )
                     sk_l1 += r * s.abs().sum().item()
         d_hat = d
         if sk_l1 == 0:
@@ -218,9 +234,9 @@ class DAdaptAdam(paddle.optimizer.Optimizer):
                 state = self.state[p]
                 exp_avg, exp_avg_sq = state["exp_avg"], state["exp_avg_sq"]
                 state["step"] += 1
-                denom = exp_avg_sq.sqrt().add_(eps)
+                denom = exp_avg_sq.sqrt() + eps
                 if decay != 0 and decouple:
                     p.data.add_(p.data, alpha=-decay * dlr)
-                p.data.addcdiv_(exp_avg, denom, value=-1)
+                p.data.add_(exp_avg / denom, alpha=-1.0)
             group["k"] = k + 1
         return loss
