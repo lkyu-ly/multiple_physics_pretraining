@@ -1,5 +1,3 @@
-import os
-
 import paddle
 
 """
@@ -32,17 +30,14 @@ def get_data_loader(params, paths, distributed, split="train", rank=0, train_off
         enforce_max_steps=params.enforce_max_steps,
         train_offset=train_offset,
     )
-    if distributed:
-        base_sampler = paddle.io.DistributedBatchSampler
-    else:
-        base_sampler = paddle.io.RandomSampler
     sampler = MultisetSampler(
         dataset,
-        paddle.io.RandomSampler,
         params.batch_size,
+        shuffle=(split == "train"),
         distributed=distributed,
         max_samples=params.epoch_size,
         rank=rank,
+        world_size=paddle.distributed.get_world_size() if distributed else 1,
     )
     batch_sampler = paddle.io.BatchSampler(
         sampler=sampler,
@@ -153,8 +148,13 @@ class MixedDataset(paddle.io.Dataset):
         try:
             x, bcs, y = self.sub_dsets[file_idx][local_idx]
         except Exception as err:
+            current_rank = (
+                int(paddle.distributed.get_rank())
+                if paddle.distributed.is_initialized()
+                else 0
+            )
             raise RuntimeError(
-                f"FAILED AT file_idx={file_idx} local_idx={local_idx} index={index} rank={int(os.environ.get('RANK', 0))}"
+                f"FAILED AT file_idx={file_idx} local_idx={local_idx} index={index} rank={current_rank}"
             ) from err
         return (
             x,

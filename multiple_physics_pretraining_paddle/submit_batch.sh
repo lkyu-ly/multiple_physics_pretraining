@@ -31,11 +31,8 @@ module load cuda/12.1 cudnn/cuda12-8.9.0 nccl/cuda12.1-2.18.1
 source $VENVDIR/pdebench_venv/bin/activate
 set -x
 
-srun python `which torchrun` \
-	--nnodes=$SLURM_JOB_NUM_NODES \
- 	--nproc_per_node=$SLURM_GPUS_PER_NODE \
-	--rdzv_id=$SLURM_JOB_ID \
-		--rdzv_backend=c10d \
-		--rdzv_endpoint=$master_node:29500 \
-		train_basic.py --run_name $run_name --config $config --yaml_config $yaml_config --use_ddp
+GPUS=${CUDA_VISIBLE_DEVICES:-0,1,2,3,4,5,6,7}
 
+python -m paddle.distributed.launch \
+	--gpus=$GPUS \
+	train_basic.py --run_name $run_name --config $config --yaml_config $yaml_config --use_ddp

@@ -4,6 +4,7 @@ import os
 import pickle as pkl
 import time
 from collections import OrderedDict, defaultdict
+from contextlib import nullcontext
 
 # # 打开组合算子
 # export FLAGS_prim_enable_dynamic=true && export FLAGS_prim_all=true
@@ -339,66 +340,70 @@ class Trainer:
             inp = einops.rearrange(inp, "b t c h w -> t b c h w")
             data_time += time.time() - data_start
             dtime = time.time() - data_start
-            self.model.require_backward_grad_sync = (
-                1 + batch_idx
-            ) % self.params.accum_grad == 0
-            with paddle.amp.auto_cast(enable=self.amp_enabled, dtype=self.mp_type):
-                model_start = time.time()
-                output = self.model(inp, field_labels, bcs)
-                spatial_dims = tuple(range(output.ndim))[2:]
-                residuals = output - tar
-                tar_norm = 1e-07 + tar.pow(2).mean(spatial_dims, keepdim=True)
-                raw_loss = residuals.pow(2).mean(spatial_dims, keepdim=True) / tar_norm
-                loss = raw_loss.mean() / self.params.accum_grad
-                forward_end = time.time()
-                forward_time = forward_end - model_start
-                with paddle.no_grad():
-                    logs["train_l1"] += paddle.nn.functional.l1_loss(
-                        input=output, label=tar
-                    )
-                    log_nrmse = raw_loss.sqrt().mean()
-                    logs["train_nrmse"] += log_nrmse
-                    loss_logs[dset_type] += loss.item()
-                    logs["train_rmse"] += (
-                        residuals.pow(2).mean(spatial_dims).sqrt().mean()
-                    )
-                self.gscaler.scale(loss).backward()
-                backward_end = time.time()
-                backward_time = backward_end - forward_end
-                optimizer_step = 0
-                if self.model.require_backward_grad_sync:
-                    self.gscaler.unscale_(self.optimizer)
-                    paddle.nn.utils.clip_grad_norm_(
-                        parameters=self.model.parameters(), max_norm=1
-                    )
-                    self.gscaler.step(self.optimizer)
-                    self.gscaler.update()
-                    self.optimizer.clear_grad()
-                    if self.scheduler is not None:
-                        self.scheduler.step()
-                    optimizer_step = time.time() - backward_end
-                tr_time += time.time() - model_start
-                if (
-                    self.log_to_screen
-                    and batch_idx % self.params.log_interval == 0
-                    and self.global_rank == 0
-                ):
-                    print(
-                        f"Epoch {self.epoch} Batch {batch_idx} Train Loss {log_nrmse.item()}"
-                    )
-                if self.log_to_screen:
-                    print(
-                        "Total Times. Batch: {}, Rank: {}, Data Shape: {}, Data time: {}, Forward: {}, Backward: {}, Optimizer: {}".format(
-                            batch_idx,
-                            self.global_rank,
-                            inp.shape,
-                            dtime,
-                            forward_time,
-                            backward_time,
-                            optimizer_step,
+            should_sync = (1 + batch_idx) % self.params.accum_grad == 0
+            sync_context = nullcontext()
+            if paddle.distributed.is_initialized() and not should_sync:
+                sync_context = self.model.no_sync()
+            with sync_context:
+                with paddle.amp.auto_cast(enable=self.amp_enabled, dtype=self.mp_type):
+                    model_start = time.time()
+                    output = self.model(inp, field_labels, bcs)
+                    spatial_dims = tuple(range(output.ndim))[2:]
+                    residuals = output - tar
+                    tar_norm = 1e-07 + tar.pow(2).mean(spatial_dims, keepdim=True)
+                    raw_loss = residuals.pow(2).mean(
+                        spatial_dims, keepdim=True
+                    ) / tar_norm
+                    loss = raw_loss.mean() / self.params.accum_grad
+                    forward_end = time.time()
+                    forward_time = forward_end - model_start
+                    with paddle.no_grad():
+                        logs["train_l1"] += paddle.nn.functional.l1_loss(
+                            input=output, label=tar
                         )
-                    )
-                data_start = time.time()
+                        log_nrmse = raw_loss.sqrt().mean()
+                        logs["train_nrmse"] += log_nrmse
+                        loss_logs[dset_type] += loss.item()
+                        logs["train_rmse"] += (
+                            residuals.pow(2).mean(spatial_dims).sqrt().mean()
+                        )
+                    self.gscaler.scale(loss).backward()
+                    backward_end = time.time()
+                    backward_time = backward_end - forward_end
+                    optimizer_step = 0
+                    if should_sync:
+                        self.gscaler.unscale_(self.optimizer)
+                        paddle.nn.utils.clip_grad_norm_(
+                            parameters=self.model.parameters(), max_norm=1
+                        )
+                        self.gscaler.step(self.optimizer)
+                        self.gscaler.update()
+                        self.optimizer.clear_grad()
+                        if self.scheduler is not None:
+                            self.scheduler.step()
+                        optimizer_step = time.time() - backward_end
+                    tr_time += time.time() - model_start
+                    if (
+                        self.log_to_screen
+                        and batch_idx % self.params.log_interval == 0
+                        and self.global_rank == 0
+                    ):
+                        print(
+                            f"Epoch {self.epoch} Batch {batch_idx} Train Loss {log_nrmse.item()}"
+                        )
+                    if self.log_to_screen:
+                        print(
+                            "Total Times. Batch: {}, Rank: {}, Data Shape: {}, Data time: {}, Forward: {}, Backward: {}, Optimizer: {}".format(
+                                batch_idx,
+                                self.global_rank,
+                                inp.shape,
+                                dtime,
+                                forward_time,
+                                backward_time,
+                                optimizer_step,
+                            )
+                        )
+                    data_start = time.time()
         logs = {k: (v / steps) for k, v in logs.items()}
         if paddle.distributed.is_initialized():
             for key in sorted(logs.keys()):
@@ -426,6 +431,11 @@ class Trainer:
 
         Note: need to split datasets for meaningful metrics, but TBD.
         """
+        if self.params.use_ddp and paddle.distributed.is_initialized():
+            paddle.distributed.barrier()
+            if self.global_rank != 0:
+                paddle.distributed.barrier()
+                return {}
         self.model.eval()
         if full:
             cutoff = 999999999999
@@ -450,26 +460,13 @@ class Trainer:
                     for subset in subset_group.get_per_file_dsets():
                         dset_type = subset.title
                         self.single_print("VALIDATING ON", dset_type)
-                        if self.params.use_ddp:
-                            temp_loader = paddle.io.DataLoader(
-                                subset,
-                                batch_size=self.params.batch_size,
-                                num_workers=self.params.num_data_workers,
-                                # sampler=paddle.io.DistributedBatchSampler(
-                                #     dataset=subset,
-                                #     drop_last=True,
-                                #     shuffle=True,
-                                #     batch_size=1,
-                                # ),
-                            )
-                        else:
-                            temp_loader = paddle.io.DataLoader(
-                                dataset=subset,
-                                batch_size=self.params.batch_size,
-                                num_workers=self.params.num_data_workers,
-                                shuffle=True,
-                                drop_last=True,
-                            )
+                        temp_loader = paddle.io.DataLoader(
+                            dataset=subset,
+                            batch_size=self.params.batch_size,
+                            num_workers=self.params.num_data_workers,
+                            shuffle=not self.params.use_ddp,
+                            drop_last=True,
+                        )
                         count = 0
                         for batch_idx, data in enumerate(temp_loader):
                             if count > cutoff:
@@ -553,6 +550,8 @@ class Trainer:
                     if "rmse" in key:
                         logs[key] = logs[key]
             self.single_print("DONE SYNCING - NOW LOGGING")
+        if self.params.use_ddp and paddle.distributed.is_initialized():
+            paddle.distributed.barrier()
         return logs
 
     def train(self):
@@ -661,18 +660,32 @@ if __name__ == "__main__":
     args = parser.parse_args()
     params = YParams(os.path.abspath(args.yaml_config), args.config)
     params.use_ddp = args.use_ddp
-    local_rank = int(paddle.distributed.get_rank())
-    global_rank = int(os.environ.get("RANK", 0))
-    world_size = int(paddle.distributed.get_world_size())
     has_cuda_device = (
         paddle.device.is_compiled_with_cuda() and paddle.device.cuda.device_count() > 0
     )
+    global_rank = 0
+    local_rank = 0
+    world_size = 1
     if args.use_ddp:
         paddle.distributed.init_parallel_env()
+        parallel_env = paddle.distributed.ParallelEnv()
+        global_rank = int(paddle.distributed.get_rank())
+        local_rank = int(parallel_env.local_rank)
+        world_size = int(paddle.distributed.get_world_size())
         if has_cuda_device:
             paddle.device.set_device(f"gpu:{local_rank}")
+    elif has_cuda_device:
+        paddle.device.set_device("gpu:0")
     device = f"gpu:{local_rank}" if has_cuda_device else "cpu"
+    if params.batch_size % world_size != 0:
+        raise ValueError(
+            f"Global batch_size ({params.batch_size}) must be divisible by world_size ({world_size})."
+        )
     params["batch_size"] = int(params.batch_size // world_size)
+    if params.batch_size < 1:
+        raise ValueError(
+            "Per-rank batch_size became 0 after sharding. Increase the configured global batch_size."
+        )
     params["startEpoch"] = 0
     if args.sweep_id:
         jid = os.environ["SLURM_JOBID"]
@@ -696,12 +709,6 @@ if __name__ == "__main__":
             os.makedirs(os.path.join(expDir, "training_checkpoints/"))
     params["resuming"] = True if os.path.isfile(params.checkpoint_path) else False
     params["name"] = str(args.run_name)
-    if global_rank == 0:
-        logging_utils.log_to_file(
-            logger_name=None, log_filename=os.path.join(expDir, "out.log")
-        )
-        logging_utils.log_versions()
-        params.log()
     if global_rank == 0:
         logging_utils.log_to_file(
             logger_name=None, log_filename=os.path.join(expDir, "out.log")
