@@ -167,3 +167,7 @@ cython_debug/
 CLAUDE.md
 AGENTS.md
 basic_config/
+/models*/
+/*.npz
+tests/
+.codex

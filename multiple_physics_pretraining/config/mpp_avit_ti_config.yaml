@@ -1,7 +1,7 @@
 basic_config: &basic_config # Run settings
   log_to_wandb: !!bool False # Use wandb integration
   log_to_screen: !!bool True # Log progress to screen.
-  save_checkpoint: !!bool True # Save checkpoints
+  save_checkpoint: !!bool False # Save checkpoints
   checkpoint_save_interval: 10 # Save every # epochs - also saves "best" according to val loss
   debug_grad: !!bool True # Compute gradient/step_sizes/ect for debugging
   true_time: !!bool False # Debugging setting - sets num workers to zero and activates syncs
@@ -10,7 +10,7 @@ basic_config: &basic_config # Run settings
   compile: !!bool False # Compile model - Does not currently work
   gradient_checkpointing: !!bool False # Whether to use gradient checkpointing - Slow, but lower memory
   exp_dir: "/home/lkyu/baidu/MPP/multiple_physics_pretraining" # Output path
-  log_interval: 1 # How often to log - Don't think this is actually implemented
+  log_interval: 32 # How often to log - Don't think this is actually implemented
   pretrained: !!bool False # Whether to load a pretrained model
   # wandb settings
   project: "project"
@@ -18,22 +18,22 @@ basic_config: &basic_config # Run settings
   entity: "entity"
   # Training settings
   drop_path: 0.1
-  batch_size: 1
+  batch_size: 64
   max_epochs: 10
   scheduler_epochs: -1
-  epoch_size: 20 # Artificial epoch size
+  epoch_size: 32 # Artificial epoch size
   rescale_gradients: !!bool False # Activate hook that scales block gradients to norm 1
   optimizer: "adan" # adam, adan, whatever else i end up adding - adan did better on HP sweep
   scheduler: "cosine" # Only cosine implemented
-  warmup_steps: 20 # Warmup when not using DAdapt
-  learning_rate: -1 # Quick validation: fixed lr; for DAdapt auto-tune set to -1
+  warmup_steps: 1000 # Warmup when not using DAdapt
+  learning_rate: -1 # -1 means use DAdapt
   weight_decay: 1e-3
   n_states: 12 # Number of state variables across the datasets - Can be larger than real number and things will just go unused
   state_names: ["Pressure", "Vx", "Vy", "Density", "Vx", "Vy", "Density", "Pressure"] # Should be sorted
   dt: 1 # Striding of data - Not currently implemented > 1
-  n_steps: 4 # Quick validation: set to 4; for real training use 16
+  n_steps: 16 # Length of history to include in input
   enforce_max_steps: !!bool False # If false and n_steps > dataset steps, use dataset steps. Otherwise, raise Exception.
-  accum_grad: 2 # Quick validation: set to 2; for real training use 5
+  accum_grad: 5 # Real batch size is accum * batch_size, real steps/"epoch" is epoch_size / accum
   # Model settings
   model_type: "avit" # Only option so far
   block_type: "axial" # Which type of block to use - if axial, next two fields must be set to define axial ops
