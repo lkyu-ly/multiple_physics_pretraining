@@ -338,3 +338,54 @@ Paddle 版本已能够：
 - `paconvert` 对“自定义优化器”只能完成语法级搬运，不能保证行为级兼容
 - 迁移优化器时要重点核对三件事：基类构造协议、状态保存恢复、原地张量运算是否仍与 Paddle 等价
 - 如果只是为了让训练先跑通，优先做“兼容层 + 最小修正”，不要一开始就大规模重写优化器实现
+
+---
+
+## 问题 5: CINN 在训练中不生效——必须先动转静（to_static）
+
+**日期**: 2026-07-28
+**文件**: `multiple_physics_pretraining_paddle/train_basic.py`
+
+### 问题
+
+`train_basic.py` 顶部虽设置了 `FLAGS_use_cinn / FLAGS_prim_enable_dynamic / FLAGS_prim_all`，但模型前向仍是纯动态图。按 CINN 官方文档（https://www.paddlepaddle.org.cn/documentation/docs/zh/guides/paddle_v3_features/cinn_cn.html），**CINN 在训练场景下必须先 `paddle.jit.to_static` 动转静才会真正编译生效**；只开 FLAGS 不做动转静，CINN 不会接手编译，等于没优化。
+
+### 解决思路
+
+1. 在模型构建（及预训练权重加载）之后，用 `paddle.jit.to_static(model, full_graph=True)` 包裹 AViT；CINN 随即编译前向图，反向由框架自动微分生成。
+2. 用环境变量开关 CINN 与 to_static，便于 A/B 对比：`MPP_CINN`（1/0）、`MPP_TO_STATIC`（1/0，覆盖 config 的 `to_static`）。
+3. 顺带修复单卡预训练加载的既有 bug：`restore_checkpoint` 原直接用 `self.model.module.unfreeze()`，单卡无 `.module` 会崩；改为 `getattr(self.model, "module", self.model)`，且仅在有 `append_datasets` 时才 `expand_projections`（避免 `expand_projections(0)` 重建参数导致 optimizer 丢失引用）。
+
+### 关键坑（paddle 3.3.0）
+
+- **`to_static` 会强制启用 CINN，无法独立关闭**：即便显式 `FLAGS_use_cinn=false`，只要用了 `to_static`，日志仍出现 `add_cinn_pass.cc: Compiling subgraph with CINN backend`。即“to_static + CINN 关”这一组合在 3.3.0 不可达，静态图始终走 CINN。想对比“纯 PHI 静态图 vs CINN 静态图”需换旧版本或其他机制。
+- 首次前向有一次性的图构建/编译开销（本模型约 **247s**），短训练会被它主导，长训练才摊薄。
+
+### 实测对比（AViT-Ti，原版 SWE 128×128，batch 8，n_steps 16，单卡，warmup5+测20步）
+
+| 配置 | med_fwd | med_bwd | fwd+bwd | med_step | loss |
+|---|---|---|---|---|---|
+| 纯动态（原版行为） | 0.1229s | 0.0623s | 0.1852s | 0.7482s | 0.00705 |
+| to_static + CINN | 0.0580s | 0.0275s | 0.0855s | 0.6681s | 0.00723 |
+
+- 前向/反向（模型计算）**约 2.1~2.3× 提速**；数值 loss 一致（动转静未改变结果）。
+- 但 **per-step 仅快约 11%**：因为 `learning_rate=-1` 走 DAdaptAdam，单步优化器耗时约 0.57s、主导了 step 时间，而优化器不受 CINN 加速。换成 AdamW 等轻量优化器，step 提速会显著放大。
+- 原版 SWE 数据兼容性正常（`XXXX/data: (101,128,128,1)` 与简版同构，仅分辨率/样本数不同），加载与 loss 均正常。
+
+### 更新（2026-07-28）：合并开关 + AdamW 精测
+
+- **开关合并**：`MPP_CINN` 与 `MPP_TO_STATIC` 合并为单一 `MPP_USE_CINN`（默认 "1"）。开 → 显式 `to_static(full_graph=True)` + CINN flags；关 → 原版纯动态。原因：paddle 3.3.0 下 `to_static` 必启 CINN，二者本质绑定，分两个开关徒增混淆。
+- **AdamW 精测**（原版 SWE 128×128，batch 8，n_steps 16，单卡，warmup 10 + 测量 90 步，逐步计时落盘 `bench/<run>/bench_timings.npz`）：
+
+| 指标 | 纯动态 (median) | to_static+CINN (median) | 加速比 |
+|---|---|---|---|
+| forward | 0.1192s | 0.0589s | **2.02×** |
+| backward | 0.0602s | 0.0269s | **2.23×** |
+| compute (fwd+bwd) | 0.1793s | 0.0856s | **2.10×** |
+| optimizer | 0.0865s | 0.0995s | 0.87×（见下注） |
+| **total step** | **0.2676s** | **0.1865s** | **1.43×** |
+
+- **optimizer "变慢" 是计时假象**：优化器在动态图执行，不属 CINN 编译范围；CINN 异步 launch 使反向尾 kernel 同步成本落到 optimizer 计时窗口内，故 opt 测得略慢、bwd 测得略偏快。**以 total step（1.43×）为准**，它受同步边界影响最小。
+- **优化器选择主导可见收益**：同模型下 DAdaptAdam(`learning_rate=-1`) 单步 ~0.57s，per-step 提速被吞至仅 ~1.11×；换 AdamW 后升到 1.43×。评估 CINN 收益须用轻量优化器，否则被优化器开销遮蔽。
+- **数值正确性**：两端 100 步后 loss 分别 0.00744 / 0.00715（相对差 3.94%），均收敛到 ~0.007，动转静未破坏训练。
+- **编译摊销**：per-step 节省 ~81ms，break-even ~3000 步；50000 步长训练净省 ~64 min。

@@ -54,7 +54,6 @@ basic_config: &basic_config # Run settings
   embedding_offset: 0 # Use when adding extra finetuning fields
   train_data_paths:
     [
-      # Use absolute path - ~ is not auto-expanded by Python's glob/os.path
       ["/home/lkyu/baidu/PDEBench/data/2D_rdb_NA_NA", "swe", ""],
       # ["/home/lkyu/PDEBench/2D/NS_incom", "incompNS", ""],
       # ["/home/lkyu/PDEBench/2D/CFD/2D_Train_Rand", compNS, "128"],
@@ -98,3 +97,32 @@ less_frozen: &less_frozen
   <<: *finetune
   freeze_middle: !!bool True # Whether to freeze the middle layers of the model
   freeze_processor: !!bool True
+
+bench: &bench # CINN/to_static 性能对比基准：单卡，加载预训练 Ti，原版 SWE 数据，短测步
+  <<: *basic_config
+  pretrained: !!bool True
+  pretrained_ckpt_path: "/home/lkyu/baidu/MPP/models_paddle/MPP_AViT_Ti"
+  to_static: !!bool True # 动转静：CINN 训练优化的前置条件
+  to_static_full_graph: !!bool True # 全静态图，最大化 CINN 融合；若前向含动态控制流可置 False 回退
+  bench_warmup: 10 # bench 计时跳过前 N 步（含首次编译开销）
+  bench_mode: !!bool True # 跳过 validate 与 checkpoint 保存，纯训练测时
+  freeze_middle: !!bool False
+  freeze_processor: !!bool False
+  append_datasets: []
+  train_data_paths:
+    [["/home/lkyu/baidu/PDEBench/pdebench/data_download/data/2D/shallow-water", "swe", ""]]
+  valid_data_paths:
+    [["/home/lkyu/baidu/PDEBench/pdebench/data_download/data/2D/shallow-water", "swe", ""]]
+  batch_size: 8
+  accum_grad: 1
+  max_epochs: 1
+  epoch_size: 100 # ≈ 训练集一遍(800样本/batch8)：warmup10 + 测量90 步
+  optimizer: "adam" # AdamW（轻量优化器），避免 DAdaptAdam 主导 step 时间、遮蔽 CINN 提速
+  learning_rate: 1.0e-3
+  warmup_steps: 10 # 须 < epoch_size*max_epochs，否则 Cosine T_max 为负
+  enable_amp: !!bool False
+  gradient_checkpointing: !!bool False
+  save_checkpoint: !!bool False
+  log_to_wandb: !!bool False
+  log_to_screen: !!bool True
+  num_data_workers: 4
