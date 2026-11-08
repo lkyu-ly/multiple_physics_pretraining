@@ -101,3 +101,27 @@ class SimpleSequentialScheduler:
             包含当前学习率的列表
         """
         return self._last_lr
+
+
+def dadapt_cosine_scheduler(optimizer, total_steps, last_epoch=-1):
+    """为 DAdapt 系列优化器构造余弦衰减调度器（修复 lr 变负）。
+
+    DAdapt 的 config learning_rate=-1 仅是"启用 DAdapt"的哨兵值，并非真实学习率；
+    真实初始 lr 由优化器硬编码为 1.0。eta_min 必须基于 optimizer.get_lr()
+    （base_lr/100 的正下限），若误用哨兵值 -1/100=-0.01，余弦衰减末段 lr 会跌破 0
+    变负，反转参数更新方向并污染 DAdapt 的 d 估计。
+
+    Args:
+        optimizer: DAdapt 优化器实例（lr 已硬编码为 1.0）。
+        total_steps: 余弦衰减总步数（T_max）。
+        last_epoch: 恢复训练用步数偏移，默认 -1。
+    """
+    import paddle
+
+    base_lr = optimizer.get_lr()
+    return paddle.optimizer.lr.CosineAnnealingDecay(
+        eta_min=base_lr / 100,
+        learning_rate=base_lr,
+        T_max=total_steps,
+        last_epoch=last_epoch,
+    )

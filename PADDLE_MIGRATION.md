@@ -389,3 +389,30 @@ Paddle 版本已能够：
 - **优化器选择主导可见收益**：同模型下 DAdaptAdam(`learning_rate=-1`) 单步 ~0.57s，per-step 提速被吞至仅 ~1.11×；换 AdamW 后升到 1.43×。评估 CINN 收益须用轻量优化器，否则被优化器开销遮蔽。
 - **数值正确性**：两端 100 步后 loss 分别 0.00744 / 0.00715（相对差 3.94%），均收敛到 ~0.007，动转静未破坏训练。
 - **编译摊销**：per-step 节省 ~81ms，break-even ~3000 步；50000 步长训练净省 ~64 min。
+
+---
+
+## 问题 6: DAdapt 余弦衰减 lr 变负——eta_min 误用 learning_rate 哨兵值
+
+**日期**: 2026-08-06
+**文件**: `multiple_physics_pretraining_paddle/train_basic.py`（initialize_scheduler）
+
+### 问题
+
+config `learning_rate=-1`（DAdapt 哨兵值）时，训练末段 lr 变负（对方 log：epoch 10 batch 799 起 lr=-0.001055，末值 -0.00994 趋近 eta_min=-0.01）。负 lr 反转参数更新方向并污染 DAdapt 的 d 估计。
+
+### 根因
+
+initialize_scheduler 的 DAdapt 分支（`learning_rate<0`）用 `eta_min=params.learning_rate/100`。`learning_rate=-1` 是 DAdapt 的哨兵值（表示"启用 DAdapt"，非真实 lr），/100 得 eta_min=-0.01。而 DAdapt 真实 lr 由优化器硬编码为 1.0（initialize_optimizer 第 202/213 行 `lr=1.0`），作为 CosineAnnealingDecay 的 base_lr。余弦衰减从 1.0 到 eta_min=-0.01，末段约 6% 步数 lr<0。
+
+### 迁移来源
+
+**torch 原版逐字继承的上游既有缺陷**：torch 版 train_basic.py:198 同样 `eta_min=params.learning_rate/100`，理论上同样会负。迁移时该 DAdapt 调度器分支未被审查（此前 PADDLE_MIGRATION.md 只记了 else 分支 SequentialLR→SimpleSequential 和 DAdapt 优化器兼容层），风险从未被识别。
+
+### 修复思路（最小优雅重构）
+
+eta_min 应基于真实 lr 而非哨兵值。提取 `dadapt_cosine_scheduler(optimizer, total_steps)` 到 `utils/schedulers.py`：`eta_min=optimizer.get_lr()/100`（DAdapt lr=1.0 → 0.01 正下限）。initialize_scheduler 的 DAdapt 分支调用它。新增回归单测 `tests/test_dadapt_scheduler.py`（TDD：修复前 lr 变负复现、修复后全程非负）。else 分支（AdamW/Adan，lr>=0）eta_min=lr/100 已是正下限，不动。
+
+### 影响范围
+
+受影响分支（lr 会负）：adam+lr<0（DAdaptAdam）、adan+lr<0（DAdaptAdan）、sgd+lr<0（退化组合）。不受影响：adam/adan/sgd + lr>=0（else 分支 eta_min=lr/100>=0，正确）。

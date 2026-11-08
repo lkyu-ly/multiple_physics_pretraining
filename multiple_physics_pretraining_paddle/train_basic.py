@@ -15,11 +15,11 @@ from contextlib import nullcontext
 # # 是否打印 Program IR 信息 (用于调试)
 # export FLAGS_print_ir=false
 
-# 单一 CINN 开关：MPP_USE_CINN（默认 "1"）。
+# 单一 CINN 开关：MPP_USE_CINN（默认 "0"，不启用）。
 #   开 → 显式动转静 + CINN flags（paddle 3.3.0 下 to_static 必启 CINN，二者绑定）
 #   关 → 原版纯动态（两者都没有）
 # 必须 import paddle 前设置
-_MPP_USE_CINN = os.environ.get("MPP_USE_CINN", "1") == "1"
+_MPP_USE_CINN = os.environ.get("MPP_USE_CINN", "0") == "1"
 if _MPP_USE_CINN:
     os.environ["FLAGS_prim_enable_dynamic"] = "true"
     os.environ["FLAGS_prim_all"] = "true"
@@ -63,13 +63,13 @@ try:
     from data_utils.datasets import DSET_NAME_TO_OBJECT, get_data_loader
     from models.avit import build_avit
     from utils import logging_utils
-    from utils.schedulers import SimpleSequentialScheduler
+    from utils.schedulers import SimpleSequentialScheduler, dadapt_cosine_scheduler
     from utils.YParams import YParams
 except ImportError:
     from .data_utils.datasets import DSET_NAME_TO_OBJECT, get_data_loader
     from .models.avit import build_avit
     from .utils import logging_utils
-    from .utils.schedulers import SimpleSequentialScheduler
+    from .utils.schedulers import SimpleSequentialScheduler, dadapt_cosine_scheduler
     from .utils.YParams import YParams
 
 
@@ -132,7 +132,7 @@ class Trainer:
             self.startEpoch = 0
         # 动转静：与 CINN 绑定（paddle 3.3.0 下 to_static 必启 CINN），由 MPP_USE_CINN 统一控制
         # 放在预训练权重加载之后（参数对象共享，不影响已构建的 optimizer）
-        if os.environ.get("MPP_USE_CINN", "1") == "1":
+        if os.environ.get("MPP_USE_CINN", "0") == "1":
             full_graph = getattr(self.params, "to_static_full_graph", True)
             self.single_print(
                 f"[to_static] wrapping AViT with paddle.jit.to_static, full_graph={full_graph}"
@@ -238,11 +238,10 @@ class Trainer:
             sched_epochs = params.max_epochs
         if params.scheduler == "cosine":
             if self.params.learning_rate < 0:
-                tmp_lr = paddle.optimizer.lr.CosineAnnealingDecay(
+                tmp_lr = dadapt_cosine_scheduler(
+                    self.optimizer,
+                    sched_epochs * params.epoch_size,
                     last_epoch=self.startEpoch * params.epoch_size - 1,
-                    T_max=sched_epochs * params.epoch_size,
-                    eta_min=params.learning_rate / 100,
-                    learning_rate=self.optimizer.get_lr(),
                 )
                 self.optimizer.set_lr_scheduler(tmp_lr)
                 self.scheduler = tmp_lr
