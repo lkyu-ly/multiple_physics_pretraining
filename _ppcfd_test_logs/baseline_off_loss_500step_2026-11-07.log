@@ -1,0 +1,1131 @@
+[2026-11-07 15:27:44,173] [    INFO] utils.py:148 - Note: NumExpr detected 12 cores but "NUMEXPR_MAX_THREADS" not set, so enforcing safe limit of 8.
+[2026-11-07 15:27:45,886] [    INFO] logging_utils.py:31 - --------------- Versions ---------------
+[2026-11-07 15:27:45,889] [    INFO] logging_utils.py:32 - git branch: b'* develop\n  feat/G-FNO\n  feat/climax\n  feat/mpp\n  feat/phye2e\n  feat/poseidon\n  feat/prose_fd'
+[2026-11-07 15:27:45,890] [    INFO] logging_utils.py:35 - git hash: b'f366aae949a45990d5d2708c246749f922b079b7'
+[2026-11-07 15:27:45,890] [    INFO] logging_utils.py:39 - Paddle: 3.4.0
+[2026-11-07 15:27:45,890] [    INFO] logging_utils.py:40 - ----------------------------------------
+[2026-11-07 15:27:45,890] [    INFO] YParams.py:42 - ------------------ Configuration ------------------
+[2026-11-07 15:27:45,890] [    INFO] YParams.py:43 - Configuration file: /home/lkyu/baidu/MPP/_ppcfd_test_logs/mpp_avit_ti_config_cinn_500step.yaml
+[2026-11-07 15:27:45,890] [    INFO] YParams.py:44 - Configuration name: cinn
+[2026-11-07 15:27:45,890] [    INFO] YParams.py:46 - pretrained True
+[2026-11-07 15:27:45,890] [    INFO] YParams.py:46 - pretrained_ckpt_path /home/lkyu/baidu/MPP/models_paddle/MPP_AViT_Ti
+[2026-11-07 15:27:45,890] [    INFO] YParams.py:46 - to_static_full_graph True
+[2026-11-07 15:27:45,890] [    INFO] YParams.py:46 - bench_mode True
+[2026-11-07 15:27:45,890] [    INFO] YParams.py:46 - bench_warmup 10
+[2026-11-07 15:27:45,890] [    INFO] YParams.py:46 - freeze_middle False
+[2026-11-07 15:27:45,890] [    INFO] YParams.py:46 - freeze_processor False
+[2026-11-07 15:27:45,890] [    INFO] YParams.py:46 - append_datasets []
+[2026-11-07 15:27:45,890] [    INFO] YParams.py:46 - optimizer adam
+[2026-11-07 15:27:45,890] [    INFO] YParams.py:46 - learning_rate 0.001
+[2026-11-07 15:27:45,891] [    INFO] YParams.py:46 - warmup_steps 10
+[2026-11-07 15:27:45,891] [    INFO] YParams.py:46 - batch_size 8
+[2026-11-07 15:27:45,891] [    INFO] YParams.py:46 - accum_grad 1
+[2026-11-07 15:27:45,891] [    INFO] YParams.py:46 - max_epochs 5
+[2026-11-07 15:27:45,891] [    INFO] YParams.py:46 - epoch_size 100
+[2026-11-07 15:27:45,891] [    INFO] YParams.py:46 - train_data_paths [['/home/lkyu/baidu/PDEBench/pdebench/data_download/data/2D/shallow-water', 'swe', '']]
+[2026-11-07 15:27:45,891] [    INFO] YParams.py:46 - valid_data_paths [['/home/lkyu/baidu/PDEBench/pdebench/data_download/data/2D/shallow-water', 'swe', '']]
+[2026-11-07 15:27:45,891] [    INFO] YParams.py:46 - log_to_wandb False
+[2026-11-07 15:27:45,891] [    INFO] YParams.py:46 - log_to_screen True
+[2026-11-07 15:27:45,891] [    INFO] YParams.py:46 - save_checkpoint True
+[2026-11-07 15:27:45,891] [    INFO] YParams.py:46 - checkpoint_save_interval 10
+[2026-11-07 15:27:45,891] [    INFO] YParams.py:46 - debug_grad True
+[2026-11-07 15:27:45,891] [    INFO] YParams.py:46 - true_time False
+[2026-11-07 15:27:45,891] [    INFO] YParams.py:46 - num_data_workers 6
+[2026-11-07 15:27:45,891] [    INFO] YParams.py:46 - enable_amp False
+[2026-11-07 15:27:45,891] [    INFO] YParams.py:46 - compile False
+[2026-11-07 15:27:45,891] [    INFO] YParams.py:46 - gradient_checkpointing False
+[2026-11-07 15:27:45,891] [    INFO] YParams.py:46 - exp_dir ~/MPP
+[2026-11-07 15:27:45,892] [    INFO] YParams.py:46 - log_interval 1
+[2026-11-07 15:27:45,892] [    INFO] YParams.py:46 - project project
+[2026-11-07 15:27:45,892] [    INFO] YParams.py:46 - group debugging
+[2026-11-07 15:27:45,892] [    INFO] YParams.py:46 - entity entity
+[2026-11-07 15:27:45,892] [    INFO] YParams.py:46 - drop_path 0.1
+[2026-11-07 15:27:45,892] [    INFO] YParams.py:46 - scheduler_epochs -1
+[2026-11-07 15:27:45,892] [    INFO] YParams.py:46 - rescale_gradients False
+[2026-11-07 15:27:45,892] [    INFO] YParams.py:46 - scheduler cosine
+[2026-11-07 15:27:45,892] [    INFO] YParams.py:46 - weight_decay 0.001
+[2026-11-07 15:27:45,892] [    INFO] YParams.py:46 - n_states 12
+[2026-11-07 15:27:45,892] [    INFO] YParams.py:46 - state_names ['Pressure', 'Vx', 'Vy', 'Density', 'Vx', 'Vy', 'Density', 'Pressure']
+[2026-11-07 15:27:45,892] [    INFO] YParams.py:46 - dt 1
+[2026-11-07 15:27:45,892] [    INFO] YParams.py:46 - n_steps 16
+[2026-11-07 15:27:45,892] [    INFO] YParams.py:46 - enforce_max_steps False
+[2026-11-07 15:27:45,892] [    INFO] YParams.py:46 - model_type avit
+[2026-11-07 15:27:45,892] [    INFO] YParams.py:46 - block_type axial
+[2026-11-07 15:27:45,892] [    INFO] YParams.py:46 - time_type attention
+[2026-11-07 15:27:45,892] [    INFO] YParams.py:46 - space_type axial_attention
+[2026-11-07 15:27:45,893] [    INFO] YParams.py:46 - tie_fields False
+[2026-11-07 15:27:45,893] [    INFO] YParams.py:46 - embed_dim 192
+[2026-11-07 15:27:45,893] [    INFO] YParams.py:46 - num_heads 3
+[2026-11-07 15:27:45,893] [    INFO] YParams.py:46 - processor_blocks 12
+[2026-11-07 15:27:45,893] [    INFO] YParams.py:46 - patch_size [16, 16]
+[2026-11-07 15:27:45,893] [    INFO] YParams.py:46 - bias_type rel
+[2026-11-07 15:27:45,893] [    INFO] YParams.py:46 - train_val_test [0.8, 0.1, 0.1]
+[2026-11-07 15:27:45,893] [    INFO] YParams.py:46 - augmentation False
+[2026-11-07 15:27:45,893] [    INFO] YParams.py:46 - use_all_fields True
+[2026-11-07 15:27:45,893] [    INFO] YParams.py:46 - tie_batches False
+[2026-11-07 15:27:45,893] [    INFO] YParams.py:46 - extended_names False
+[2026-11-07 15:27:45,893] [    INFO] YParams.py:46 - embedding_offset 0
+[2026-11-07 15:27:45,893] [    INFO] YParams.py:46 - startEpoch 0
+[2026-11-07 15:27:45,893] [    INFO] YParams.py:46 - old_exp_dir /tmp/mpp_acc_off
+[2026-11-07 15:27:45,893] [    INFO] YParams.py:46 - experiment_dir /tmp/mpp_acc_off
+[2026-11-07 15:27:45,893] [    INFO] YParams.py:46 - checkpoint_path /tmp/mpp_acc_off/training_checkpoints/ckpt.tar
+[2026-11-07 15:27:45,893] [    INFO] YParams.py:46 - best_checkpoint_path /tmp/mpp_acc_off/training_checkpoints/best_ckpt.tar
+[2026-11-07 15:27:45,893] [    INFO] YParams.py:46 - old_checkpoint_path /tmp/mpp_acc_off/training_checkpoints/best_ckpt.tar
+[2026-11-07 15:27:45,894] [    INFO] YParams.py:46 - resuming False
+[2026-11-07 15:27:45,894] [    INFO] YParams.py:46 - name /tmp/mpp_acc_off
+[2026-11-07 15:27:45,894] [    INFO] YParams.py:47 - ---------------------------------------------------
+W1107 15:27:46.107280 434107 gpu_resources.cc:116] Please NOTE: device: 0, GPU Compute Capability: 8.9, Driver API Version: 13.4, Runtime API Version: 13.0
+W1107 15:27:46.108187 434107 dynamic_loader.cc:423] The third-party dynamic library (libcuda.so) that Paddle depends on is not configured correctly. (error code is libcuda.so: cannot open shared object file: No such file or directory)
+  Suggestions:
+  1. Check if the third-party dynamic library (e.g. CUDA, CUDNN) is installed correctly and its version is matched with paddlepaddle you installed.
+  2. Configure third-party dynamic library environment variables as follows:
+  - Linux: set LD_LIBRARY_PATH by `export LD_LIBRARY_PATH=...`
+  - Windows: set PATH by `set PATH=XXX;%PATH%`
+  - Mac: set  DYLD_LIBRARY_PATH by `export DYLD_LIBRARY_PATH=...` [Note: After Mac OS 10.11, using the DYLD_LIBRARY_PATH is impossible unless System Integrity Protection (SIP) is disabled.]
+all prim enabled:  False
+Initializing data on rank 0
+Initializing model on rank 0
+Model parameter count: 7285884
+Starting from pretrained model at /home/lkyu/baidu/MPP/models_paddle/MPP_AViT_Ti
+Starting Training Loop...
+train_loader_size 100 68000
+Epoch 1 Batch 0 Train Loss 0.007387715391814709
+Total Times. Batch: 0, Rank: 0, Data Shape: paddle.Size([16, 8, 1, 128, 128]), Data time: 0.17754292488098145, Forward: 1.2240939140319824, Backward: 1.1442444324493408, Optimizer: 0.1294412612915039
+Epoch 1 Batch 1 Train Loss 0.006787482183426619
+Total Times. Batch: 1, Rank: 0, Data Shape: paddle.Size([16, 8, 1, 128, 128]), Data time: 0.0015912055969238281, Forward: 0.09099388122558594, Backward: 0.06350159645080566, Optimizer: 0.08266520500183105
+Epoch 1 Batch 2 Train Loss 0.025318551808595657
+Total Times. Batch: 2, Rank: 0, Data Shape: paddle.Size([16, 8, 1, 128, 128]), Data time: 0.0016243457794189453, Forward: 0.11034059524536133, Backward: 0.0606389045715332, Optimizer: 0.06752204895019531
+Epoch 1 Batch 3 Train Loss 0.012716053985059261
+Total Times. Batch: 3, Rank: 0, Data Shape: paddle.Size([16, 8, 1, 128, 128]), Data time: 0.0016858577728271484, Forward: 0.08815765380859375, Backward: 0.05898427963256836, Optimizer: 0.06569051742553711
+Epoch 1 Batch 4 Train Loss 0.008393842726945877
+Total Times. Batch: 4, Rank: 0, Data Shape: paddle.Size([16, 8, 1, 128, 128]), Data time: 0.001680612564086914, Forward: 0.08640336990356445, Backward: 0.05896878242492676, Optimizer: 0.06493759155273438
+Epoch 1 Batch 5 Train Loss 0.010576092638075352
+Total Times. Batch: 5, Rank: 0, Data Shape: paddle.Size([16, 8, 1, 128, 128]), Data time: 0.0015108585357666016, Forward: 0.09075522422790527, Backward: 0.059266090393066406, Optimizer: 0.06783437728881836
+Epoch 1 Batch 6 Train Loss 0.01759960502386093
+Total Times. Batch: 6, Rank: 0, Data Shape: paddle.Size([16, 8, 1, 128, 128]), Data time: 0.0014867782592773438, Forward: 0.08469843864440918, Backward: 0.05843305587768555, Optimizer: 0.06612062454223633
+Epoch 1 Batch 7 Train Loss 0.016457149758934975
+Total Times. Batch: 7, Rank: 0, Data Shape: paddle.Size([16, 8, 1, 128, 128]), Data time: 0.0018312931060791016, Forward: 0.0838155746459961, Backward: 0.058945417404174805, Optimizer: 0.06605768203735352
+Epoch 1 Batch 8 Train Loss 0.011144928634166718
+Total Times. Batch: 8, Rank: 0, Data Shape: paddle.Size([16, 8, 1, 128, 128]), Data time: 0.0014655590057373047, Forward: 0.08320188522338867, Backward: 0.06100296974182129, Optimizer: 0.06587600708007812
+Epoch 1 Batch 9 Train Loss 0.010287821292877197
+Total Times. Batch: 9, Rank: 0, Data Shape: paddle.Size([16, 8, 1, 128, 128]), Data time: 0.0014412403106689453, Forward: 0.1108388900756836, Backward: 0.05757451057434082, Optimizer: 0.06669354438781738
+Epoch 1 Batch 10 Train Loss 0.011215164326131344
+Total Times. Batch: 10, Rank: 0, Data Shape: paddle.Size([16, 8, 1, 128, 128]), Data time: 0.0016782283782958984, Forward: 0.08829045295715332, Backward: 0.05904650688171387, Optimizer: 0.08822464942932129
+Epoch 1 Batch 11 Train Loss 0.01019321195781231
+Total Times. Batch: 11, Rank: 0, Data Shape: paddle.Size([16, 8, 1, 128, 128]), Data time: 0.0019252300262451172, Forward: 0.09788870811462402, Backward: 0.057625770568847656, Optimizer: 0.06757211685180664
+Epoch 1 Batch 12 Train Loss 0.01667546108365059
+Total Times. Batch: 12, Rank: 0, Data Shape: paddle.Size([16, 8, 1, 128, 128]), Data time: 0.0015778541564941406, Forward: 0.08204936981201172, Backward: 0.0581049919128418, Optimizer: 0.06602168083190918
+Epoch 1 Batch 13 Train Loss 0.012442572042346
+Total Times. Batch: 13, Rank: 0, Data Shape: paddle.Size([16, 8, 1, 128, 128]), Data time: 0.0016829967498779297, Forward: 0.08898091316223145, Backward: 0.05740976333618164, Optimizer: 0.06616091728210449
+Epoch 1 Batch 14 Train Loss 0.014061428606510162
+Total Times. Batch: 14, Rank: 0, Data Shape: paddle.Size([16, 8, 1, 128, 128]), Data time: 0.0015485286712646484, Forward: 0.11115288734436035, Backward: 0.059781789779663086, Optimizer: 0.06815695762634277
+Epoch 1 Batch 15 Train Loss 0.010050557553768158
+Total Times. Batch: 15, Rank: 0, Data Shape: paddle.Size([16, 8, 1, 128, 128]), Data time: 0.0014896392822265625, Forward: 0.09553694725036621, Backward: 0.05821061134338379, Optimizer: 0.06521058082580566
+Epoch 1 Batch 16 Train Loss 0.009700004011392593
+Total Times. Batch: 16, Rank: 0, Data Shape: paddle.Size([16, 8, 1, 128, 128]), Data time: 0.0015344619750976562, Forward: 0.09971094131469727, Backward: 0.06353974342346191, Optimizer: 0.0874321460723877
+Epoch 1 Batch 17 Train Loss 0.011653659865260124
+Total Times. Batch: 17, Rank: 0, Data Shape: paddle.Size([16, 8, 1, 128, 128]), Data time: 0.001657724380493164, Forward: 0.09113383293151855, Backward: 0.0584719181060791, Optimizer: 0.06927013397216797
+Epoch 1 Batch 18 Train Loss 0.010645909234881401
+Total Times. Batch: 18, Rank: 0, Data Shape: paddle.Size([16, 8, 1, 128, 128]), Data time: 0.0016875267028808594, Forward: 0.08587145805358887, Backward: 0.05773162841796875, Optimizer: 0.06789278984069824
+Epoch 1 Batch 19 Train Loss 0.01171707734465599
+Total Times. Batch: 19, Rank: 0, Data Shape: paddle.Size([16, 8, 1, 128, 128]), Data time: 0.0015773773193359375, Forward: 0.0863041877746582, Backward: 0.05869317054748535, Optimizer: 0.06590843200683594
+Epoch 1 Batch 20 Train Loss 0.011589748784899712
+Total Times. Batch: 20, Rank: 0, Data Shape: paddle.Size([16, 8, 1, 128, 128]), Data time: 0.0014257431030273438, Forward: 0.0817415714263916, Backward: 0.058812618255615234, Optimizer: 0.06585502624511719
+Epoch 1 Batch 21 Train Loss 0.010159792378544807
+Total Times. Batch: 21, Rank: 0, Data Shape: paddle.Size([16, 8, 1, 128, 128]), Data time: 0.001432180404663086, Forward: 0.08417367935180664, Backward: 0.059275150299072266, Optimizer: 0.06560254096984863
+Epoch 1 Batch 22 Train Loss 0.009569908492267132
+Total Times. Batch: 22, Rank: 0, Data Shape: paddle.Size([16, 8, 1, 128, 128]), Data time: 0.0015740394592285156, Forward: 0.08142590522766113, Backward: 0.058063507080078125, Optimizer: 0.06641769409179688
+Epoch 1 Batch 23 Train Loss 0.010789027437567711
+Total Times. Batch: 23, Rank: 0, Data Shape: paddle.Size([16, 8, 1, 128, 128]), Data time: 0.001764059066772461, Forward: 0.09090399742126465, Backward: 0.05967569351196289, Optimizer: 0.06672000885009766
+Epoch 1 Batch 24 Train Loss 0.011123028583824635
+Total Times. Batch: 24, Rank: 0, Data Shape: paddle.Size([16, 8, 1, 128, 128]), Data time: 0.0015294551849365234, Forward: 0.08880949020385742, Backward: 0.06722760200500488, Optimizer: 0.06617116928100586
+Epoch 1 Batch 25 Train Loss 0.009411375969648361
+Total Times. Batch: 25, Rank: 0, Data Shape: paddle.Size([16, 8, 1, 128, 128]), Data time: 0.0014865398406982422, Forward: 0.08188652992248535, Backward: 0.058351755142211914, Optimizer: 0.06551432609558105
+Epoch 1 Batch 26 Train Loss 0.009721068665385246
+Total Times. Batch: 26, Rank: 0, Data Shape: paddle.Size([16, 8, 1, 128, 128]), Data time: 0.001661539077758789, Forward: 0.10327863693237305, Backward: 0.05766868591308594, Optimizer: 0.0660085678100586
+Epoch 1 Batch 27 Train Loss 0.010764269158244133
+Total Times. Batch: 27, Rank: 0, Data Shape: paddle.Size([16, 8, 1, 128, 128]), Data time: 0.0014829635620117188, Forward: 0.1015462875366211, Backward: 0.057492971420288086, Optimizer: 0.06635022163391113
+Epoch 1 Batch 28 Train Loss 0.009117240086197853
+Total Times. Batch: 28, Rank: 0, Data Shape: paddle.Size([16, 8, 1, 128, 128]), Data time: 0.0015311241149902344, Forward: 0.0861351490020752, Backward: 0.06303715705871582, Optimizer: 0.06970977783203125
+Epoch 1 Batch 29 Train Loss 0.009424945339560509
+Total Times. Batch: 29, Rank: 0, Data Shape: paddle.Size([16, 8, 1, 128, 128]), Data time: 0.0015685558319091797, Forward: 0.0946648120880127, Backward: 0.06900501251220703, Optimizer: 0.06567144393920898
+Epoch 1 Batch 30 Train Loss 0.01008613407611847
+Total Times. Batch: 30, Rank: 0, Data Shape: paddle.Size([16, 8, 1, 128, 128]), Data time: 0.0013895034790039062, Forward: 0.08425450325012207, Backward: 0.05774521827697754, Optimizer: 0.06581759452819824
+Epoch 1 Batch 31 Train Loss 0.009699346497654915
+Total Times. Batch: 31, Rank: 0, Data Shape: paddle.Size([16, 8, 1, 128, 128]), Data time: 0.0016460418701171875, Forward: 0.08606290817260742, Backward: 0.05859708786010742, Optimizer: 0.06682777404785156
+Epoch 1 Batch 32 Train Loss 0.009373826906085014
+Total Times. Batch: 32, Rank: 0, Data Shape: paddle.Size([16, 8, 1, 128, 128]), Data time: 0.0015916824340820312, Forward: 0.09717798233032227, Backward: 0.06183004379272461, Optimizer: 0.06817269325256348
+Epoch 1 Batch 33 Train Loss 0.009322871454060078
+Total Times. Batch: 33, Rank: 0, Data Shape: paddle.Size([16, 8, 1, 128, 128]), Data time: 0.0014681816101074219, Forward: 0.10931539535522461, Backward: 0.0615692138671875, Optimizer: 0.06730866432189941
+Epoch 1 Batch 34 Train Loss 0.00862521305680275
+Total Times. Batch: 34, Rank: 0, Data Shape: paddle.Size([16, 8, 1, 128, 128]), Data time: 0.0017058849334716797, Forward: 0.11371231079101562, Backward: 0.06147027015686035, Optimizer: 0.06990432739257812
+Epoch 1 Batch 35 Train Loss 0.00837000273168087
+Total Times. Batch: 35, Rank: 0, Data Shape: paddle.Size([16, 8, 1, 128, 128]), Data time: 0.003373861312866211, Forward: 0.08763504028320312, Backward: 0.059740543365478516, Optimizer: 0.06685662269592285
+Epoch 1 Batch 36 Train Loss 0.009389673359692097
+Total Times. Batch: 36, Rank: 0, Data Shape: paddle.Size([16, 8, 1, 128, 128]), Data time: 0.002321958541870117, Forward: 0.1174929141998291, Backward: 0.05931973457336426, Optimizer: 0.07476019859313965
+Epoch 1 Batch 37 Train Loss 0.008710271678864956
+Total Times. Batch: 37, Rank: 0, Data Shape: paddle.Size([16, 8, 1, 128, 128]), Data time: 0.0015363693237304688, Forward: 0.08153629302978516, Backward: 0.05712246894836426, Optimizer: 0.0664210319519043
+Epoch 1 Batch 38 Train Loss 0.009056055918335915
+Total Times. Batch: 38, Rank: 0, Data Shape: paddle.Size([16, 8, 1, 128, 128]), Data time: 0.0014629364013671875, Forward: 0.10384225845336914, Backward: 0.06169772148132324, Optimizer: 0.06647372245788574
+Epoch 1 Batch 39 Train Loss 0.010183325037360191
+Total Times. Batch: 39, Rank: 0, Data Shape: paddle.Size([16, 8, 1, 128, 128]), Data time: 0.0015535354614257812, Forward: 0.09241437911987305, Backward: 0.0626840591430664, Optimizer: 0.06798911094665527
+Epoch 1 Batch 40 Train Loss 0.00790245458483696
+Total Times. Batch: 40, Rank: 0, Data Shape: paddle.Size([16, 8, 1, 128, 128]), Data time: 0.0014197826385498047, Forward: 0.0854642391204834, Backward: 0.06161332130432129, Optimizer: 0.06795740127563477
+Epoch 1 Batch 41 Train Loss 0.008340002968907356
+Total Times. Batch: 41, Rank: 0, Data Shape: paddle.Size([16, 8, 1, 128, 128]), Data time: 0.0020334720611572266, Forward: 0.09343552589416504, Backward: 0.062485456466674805, Optimizer: 0.0690460205078125
+Epoch 1 Batch 42 Train Loss 0.00962078757584095
+Total Times. Batch: 42, Rank: 0, Data Shape: paddle.Size([16, 8, 1, 128, 128]), Data time: 0.0015430450439453125, Forward: 0.10527324676513672, Backward: 0.06174468994140625, Optimizer: 0.09330439567565918
+Epoch 1 Batch 43 Train Loss 0.008052675984799862
+Total Times. Batch: 43, Rank: 0, Data Shape: paddle.Size([16, 8, 1, 128, 128]), Data time: 0.0014827251434326172, Forward: 0.14167118072509766, Backward: 0.06417155265808105, Optimizer: 0.0637819766998291
+Epoch 1 Batch 44 Train Loss 0.008859768509864807
+Total Times. Batch: 44, Rank: 0, Data Shape: paddle.Size([16, 8, 1, 128, 128]), Data time: 0.001630544662475586, Forward: 0.1272258758544922, Backward: 0.05996131896972656, Optimizer: 0.0693051815032959
+Epoch 1 Batch 45 Train Loss 0.0085443751886487
+Total Times. Batch: 45, Rank: 0, Data Shape: paddle.Size([16, 8, 1, 128, 128]), Data time: 0.0015671253204345703, Forward: 0.12350273132324219, Backward: 0.06100106239318848, Optimizer: 0.07055330276489258
+Epoch 1 Batch 46 Train Loss 0.007929708808660507
+Total Times. Batch: 46, Rank: 0, Data Shape: paddle.Size([16, 8, 1, 128, 128]), Data time: 0.0017344951629638672, Forward: 0.10505056381225586, Backward: 0.06783938407897949, Optimizer: 0.06636333465576172
+Epoch 1 Batch 47 Train Loss 0.00815446488559246
+Total Times. Batch: 47, Rank: 0, Data Shape: paddle.Size([16, 8, 1, 128, 128]), Data time: 0.0016255378723144531, Forward: 0.09679269790649414, Backward: 0.06660652160644531, Optimizer: 0.07261228561401367
+Epoch 1 Batch 48 Train Loss 0.008727089501917362
+Total Times. Batch: 48, Rank: 0, Data Shape: paddle.Size([16, 8, 1, 128, 128]), Data time: 0.0014591217041015625, Forward: 0.1218409538269043, Backward: 0.06124258041381836, Optimizer: 0.07594013214111328
+Epoch 1 Batch 49 Train Loss 0.007681778632104397
+Total Times. Batch: 49, Rank: 0, Data Shape: paddle.Size([16, 8, 1, 128, 128]), Data time: 0.0016574859619140625, Forward: 0.11104249954223633, Backward: 0.05892038345336914, Optimizer: 0.06584668159484863
+Epoch 1 Batch 50 Train Loss 0.00840504840016365
+Total Times. Batch: 50, Rank: 0, Data Shape: paddle.Size([16, 8, 1, 128, 128]), Data time: 0.0019996166229248047, Forward: 0.09304285049438477, Backward: 0.06003141403198242, Optimizer: 0.08024263381958008
+Epoch 1 Batch 51 Train Loss 0.008108401671051979
+Total Times. Batch: 51, Rank: 0, Data Shape: paddle.Size([16, 8, 1, 128, 128]), Data time: 0.001463174819946289, Forward: 0.10149550437927246, Backward: 0.0596616268157959, Optimizer: 0.06731247901916504
+Epoch 1 Batch 52 Train Loss 0.007757474668323994
+Total Times. Batch: 52, Rank: 0, Data Shape: paddle.Size([16, 8, 1, 128, 128]), Data time: 0.0021266937255859375, Forward: 0.09385180473327637, Backward: 0.0583949089050293, Optimizer: 0.06884026527404785
+Epoch 1 Batch 53 Train Loss 0.008232096210122108
+Total Times. Batch: 53, Rank: 0, Data Shape: paddle.Size([16, 8, 1, 128, 128]), Data time: 0.001775979995727539, Forward: 0.09119248390197754, Backward: 0.06145167350769043, Optimizer: 0.07042646408081055
+Epoch 1 Batch 54 Train Loss 0.007553291507065296
+Total Times. Batch: 54, Rank: 0, Data Shape: paddle.Size([16, 8, 1, 128, 128]), Data time: 0.0014410018920898438, Forward: 0.08644962310791016, Backward: 0.05946207046508789, Optimizer: 0.06758642196655273
+Epoch 1 Batch 55 Train Loss 0.007768601644784212
+Total Times. Batch: 55, Rank: 0, Data Shape: paddle.Size([16, 8, 1, 128, 128]), Data time: 0.0015511512756347656, Forward: 0.09287619590759277, Backward: 0.05862569808959961, Optimizer: 0.06792354583740234
+Epoch 1 Batch 56 Train Loss 0.007345014251768589
+Total Times. Batch: 56, Rank: 0, Data Shape: paddle.Size([16, 8, 1, 128, 128]), Data time: 0.0016942024230957031, Forward: 0.08655285835266113, Backward: 0.05881071090698242, Optimizer: 0.06872987747192383
+Epoch 1 Batch 57 Train Loss 0.007480191066861153
+Total Times. Batch: 57, Rank: 0, Data Shape: paddle.Size([16, 8, 1, 128, 128]), Data time: 0.0016770362854003906, Forward: 0.09817695617675781, Backward: 0.05854916572570801, Optimizer: 0.06728911399841309
+Epoch 1 Batch 58 Train Loss 0.007488396018743515
+Total Times. Batch: 58, Rank: 0, Data Shape: paddle.Size([16, 8, 1, 128, 128]), Data time: 0.0018389225006103516, Forward: 0.08565974235534668, Backward: 0.05905890464782715, Optimizer: 0.07506132125854492
+Epoch 1 Batch 59 Train Loss 0.007947858422994614
+Total Times. Batch: 59, Rank: 0, Data Shape: paddle.Size([16, 8, 1, 128, 128]), Data time: 0.0019495487213134766, Forward: 0.09722447395324707, Backward: 0.06435751914978027, Optimizer: 0.07303357124328613
+Epoch 1 Batch 60 Train Loss 0.007886545732617378
+Total Times. Batch: 60, Rank: 0, Data Shape: paddle.Size([16, 8, 1, 128, 128]), Data time: 0.001664876937866211, Forward: 0.08990478515625, Backward: 0.05843234062194824, Optimizer: 0.06476688385009766
+Epoch 1 Batch 61 Train Loss 0.0066131120547652245
+Total Times. Batch: 61, Rank: 0, Data Shape: paddle.Size([16, 8, 1, 128, 128]), Data time: 0.0016226768493652344, Forward: 0.08493208885192871, Backward: 0.07025337219238281, Optimizer: 0.05589652061462402
+Epoch 1 Batch 62 Train Loss 0.007116319611668587
+Total Times. Batch: 62, Rank: 0, Data Shape: paddle.Size([16, 8, 1, 128, 128]), Data time: 0.0015408992767333984, Forward: 0.08987760543823242, Backward: 0.05985522270202637, Optimizer: 0.06735730171203613
+Epoch 1 Batch 63 Train Loss 0.007862504571676254
+Total Times. Batch: 63, Rank: 0, Data Shape: paddle.Size([16, 8, 1, 128, 128]), Data time: 0.0016434192657470703, Forward: 0.08710360527038574, Backward: 0.05916762351989746, Optimizer: 0.06709885597229004
+Epoch 1 Batch 64 Train Loss 0.0074080657213926315
+Total Times. Batch: 64, Rank: 0, Data Shape: paddle.Size([16, 8, 1, 128, 128]), Data time: 0.001634359359741211, Forward: 0.10014057159423828, Backward: 0.058554887771606445, Optimizer: 0.06576895713806152
+Epoch 1 Batch 65 Train Loss 0.007554736919701099
+Total Times. Batch: 65, Rank: 0, Data Shape: paddle.Size([16, 8, 1, 128, 128]), Data time: 0.0014500617980957031, Forward: 0.1025395393371582, Backward: 0.061612606048583984, Optimizer: 0.07905888557434082
+Epoch 1 Batch 66 Train Loss 0.008330952376127243
+Total Times. Batch: 66, Rank: 0, Data Shape: paddle.Size([16, 8, 1, 128, 128]), Data time: 0.00179290771484375, Forward: 0.11096811294555664, Backward: 0.0638432502746582, Optimizer: 0.07323050498962402
+Epoch 1 Batch 67 Train Loss 0.007650439627468586
+Total Times. Batch: 67, Rank: 0, Data Shape: paddle.Size([16, 8, 1, 128, 128]), Data time: 0.0015540122985839844, Forward: 0.09506869316101074, Backward: 0.06622648239135742, Optimizer: 0.061662912368774414
+Epoch 1 Batch 68 Train Loss 0.007685499265789986
+Total Times. Batch: 68, Rank: 0, Data Shape: paddle.Size([16, 8, 1, 128, 128]), Data time: 0.0022084712982177734, Forward: 0.0935969352722168, Backward: 0.06209850311279297, Optimizer: 0.06519246101379395
+Epoch 1 Batch 69 Train Loss 0.007624089252203703
+Total Times. Batch: 69, Rank: 0, Data Shape: paddle.Size([16, 8, 1, 128, 128]), Data time: 0.0014662742614746094, Forward: 0.10590195655822754, Backward: 0.05892038345336914, Optimizer: 0.06609869003295898
+Epoch 1 Batch 70 Train Loss 0.008659126237034798
+Total Times. Batch: 70, Rank: 0, Data Shape: paddle.Size([16, 8, 1, 128, 128]), Data time: 0.0015604496002197266, Forward: 0.09786319732666016, Backward: 0.06633925437927246, Optimizer: 0.07773447036743164
+Epoch 1 Batch 71 Train Loss 0.007285601459443569
+Total Times. Batch: 71, Rank: 0, Data Shape: paddle.Size([16, 8, 1, 128, 128]), Data time: 0.0014488697052001953, Forward: 0.09851574897766113, Backward: 0.06159329414367676, Optimizer: 0.062042236328125
+Epoch 1 Batch 72 Train Loss 0.007570750080049038
+Total Times. Batch: 72, Rank: 0, Data Shape: paddle.Size([16, 8, 1, 128, 128]), Data time: 0.0014433860778808594, Forward: 0.08879947662353516, Backward: 0.05794119834899902, Optimizer: 0.06685161590576172
+Epoch 1 Batch 73 Train Loss 0.007417552173137665
+Total Times. Batch: 73, Rank: 0, Data Shape: paddle.Size([16, 8, 1, 128, 128]), Data time: 0.001468658447265625, Forward: 0.08857369422912598, Backward: 0.05793642997741699, Optimizer: 0.06676602363586426
+Epoch 1 Batch 74 Train Loss 0.007428904063999653
+Total Times. Batch: 74, Rank: 0, Data Shape: paddle.Size([16, 8, 1, 128, 128]), Data time: 0.0014917850494384766, Forward: 0.12629008293151855, Backward: 0.060417890548706055, Optimizer: 0.06495094299316406
+Epoch 1 Batch 75 Train Loss 0.008104893378913403
+Total Times. Batch: 75, Rank: 0, Data Shape: paddle.Size([16, 8, 1, 128, 128]), Data time: 0.001493215560913086, Forward: 0.09070396423339844, Backward: 0.05933713912963867, Optimizer: 0.06449031829833984
+Epoch 1 Batch 76 Train Loss 0.007386340294033289
+Total Times. Batch: 76, Rank: 0, Data Shape: paddle.Size([16, 8, 1, 128, 128]), Data time: 0.0014815330505371094, Forward: 0.0894157886505127, Backward: 0.058767080307006836, Optimizer: 0.06604123115539551
+Epoch 1 Batch 77 Train Loss 0.007845699787139893
+Total Times. Batch: 77, Rank: 0, Data Shape: paddle.Size([16, 8, 1, 128, 128]), Data time: 0.0015039443969726562, Forward: 0.09509801864624023, Backward: 0.06018424034118652, Optimizer: 0.06603789329528809
+Epoch 1 Batch 78 Train Loss 0.007463432382792234
+Total Times. Batch: 78, Rank: 0, Data Shape: paddle.Size([16, 8, 1, 128, 128]), Data time: 0.0015101432800292969, Forward: 0.11794471740722656, Backward: 0.06520915031433105, Optimizer: 0.06542038917541504
+Epoch 1 Batch 79 Train Loss 0.006948746740818024
+Total Times. Batch: 79, Rank: 0, Data Shape: paddle.Size([16, 8, 1, 128, 128]), Data time: 0.0015158653259277344, Forward: 0.10488057136535645, Backward: 0.058040618896484375, Optimizer: 0.06569480895996094
+Epoch 1 Batch 80 Train Loss 0.007386671379208565
+Total Times. Batch: 80, Rank: 0, Data Shape: paddle.Size([16, 8, 1, 128, 128]), Data time: 0.0015416145324707031, Forward: 0.08812117576599121, Backward: 0.0583040714263916, Optimizer: 0.06613564491271973
+Epoch 1 Batch 81 Train Loss 0.008291579782962799
+Total Times. Batch: 81, Rank: 0, Data Shape: paddle.Size([16, 8, 1, 128, 128]), Data time: 0.0014193058013916016, Forward: 0.08815407752990723, Backward: 0.057604074478149414, Optimizer: 0.07484555244445801
+Epoch 1 Batch 82 Train Loss 0.007624846883118153
+Total Times. Batch: 82, Rank: 0, Data Shape: paddle.Size([16, 8, 1, 128, 128]), Data time: 0.0014328956604003906, Forward: 0.1155080795288086, Backward: 0.058499813079833984, Optimizer: 0.06551098823547363
+Epoch 1 Batch 83 Train Loss 0.007164832670241594
+Total Times. Batch: 83, Rank: 0, Data Shape: paddle.Size([16, 8, 1, 128, 128]), Data time: 0.0015130043029785156, Forward: 0.1170356273651123, Backward: 0.06058931350708008, Optimizer: 0.08031940460205078
+Epoch 1 Batch 84 Train Loss 0.007422516588121653
+Total Times. Batch: 84, Rank: 0, Data Shape: paddle.Size([16, 8, 1, 128, 128]), Data time: 0.0014269351959228516, Forward: 0.1027841567993164, Backward: 0.07644867897033691, Optimizer: 0.05568957328796387
+Epoch 1 Batch 85 Train Loss 0.007116388529539108
+Total Times. Batch: 85, Rank: 0, Data Shape: paddle.Size([16, 8, 1, 128, 128]), Data time: 0.0019397735595703125, Forward: 0.11885476112365723, Backward: 0.05822634696960449, Optimizer: 0.08507609367370605
+Epoch 1 Batch 86 Train Loss 0.008347302675247192
+Total Times. Batch: 86, Rank: 0, Data Shape: paddle.Size([16, 8, 1, 128, 128]), Data time: 0.0017206668853759766, Forward: 0.10529685020446777, Backward: 0.07485318183898926, Optimizer: 0.06695365905761719
+Epoch 1 Batch 87 Train Loss 0.0074003878980875015
+Total Times. Batch: 87, Rank: 0, Data Shape: paddle.Size([16, 8, 1, 128, 128]), Data time: 0.0017342567443847656, Forward: 0.10798382759094238, Backward: 0.05931377410888672, Optimizer: 0.0669698715209961
+Epoch 1 Batch 88 Train Loss 0.007653188891708851
+Total Times. Batch: 88, Rank: 0, Data Shape: paddle.Size([16, 8, 1, 128, 128]), Data time: 0.0016818046569824219, Forward: 0.08485889434814453, Backward: 0.058585166931152344, Optimizer: 0.06983780860900879
+Epoch 1 Batch 89 Train Loss 0.006750382017344236
+Total Times. Batch: 89, Rank: 0, Data Shape: paddle.Size([16, 8, 1, 128, 128]), Data time: 0.0013790130615234375, Forward: 0.0945432186126709, Backward: 0.059142351150512695, Optimizer: 0.06589770317077637
+Epoch 1 Batch 90 Train Loss 0.006902022287249565
+Total Times. Batch: 90, Rank: 0, Data Shape: paddle.Size([16, 8, 1, 128, 128]), Data time: 0.001745462417602539, Forward: 0.10371041297912598, Backward: 0.06381678581237793, Optimizer: 0.06648135185241699
+Epoch 1 Batch 91 Train Loss 0.006933330558240414
+Total Times. Batch: 91, Rank: 0, Data Shape: paddle.Size([16, 8, 1, 128, 128]), Data time: 0.0014023780822753906, Forward: 0.11177587509155273, Backward: 0.06380558013916016, Optimizer: 0.060875654220581055
+Epoch 1 Batch 92 Train Loss 0.0073957014828920364
+Total Times. Batch: 92, Rank: 0, Data Shape: paddle.Size([16, 8, 1, 128, 128]), Data time: 0.0013875961303710938, Forward: 0.10999464988708496, Backward: 0.05829310417175293, Optimizer: 0.06513214111328125
+Epoch 1 Batch 93 Train Loss 0.007620593532919884
+Total Times. Batch: 93, Rank: 0, Data Shape: paddle.Size([16, 8, 1, 128, 128]), Data time: 0.0013861656188964844, Forward: 0.09102678298950195, Backward: 0.06800436973571777, Optimizer: 0.05570483207702637
+Epoch 1 Batch 94 Train Loss 0.006773995701223612
+Total Times. Batch: 94, Rank: 0, Data Shape: paddle.Size([16, 8, 1, 128, 128]), Data time: 0.0014126300811767578, Forward: 0.08750534057617188, Backward: 0.058440446853637695, Optimizer: 0.06577682495117188
+Epoch 1 Batch 95 Train Loss 0.006819508038461208
+Total Times. Batch: 95, Rank: 0, Data Shape: paddle.Size([16, 8, 1, 128, 128]), Data time: 0.0013203620910644531, Forward: 0.10616540908813477, Backward: 0.05909872055053711, Optimizer: 0.06773042678833008
+Epoch 1 Batch 96 Train Loss 0.007939765229821205
+Total Times. Batch: 96, Rank: 0, Data Shape: paddle.Size([16, 8, 1, 128, 128]), Data time: 0.0014579296112060547, Forward: 0.1100320816040039, Backward: 0.05771470069885254, Optimizer: 0.07538437843322754
+Epoch 1 Batch 97 Train Loss 0.008254898712038994
+Total Times. Batch: 97, Rank: 0, Data Shape: paddle.Size([16, 8, 1, 128, 128]), Data time: 0.0013813972473144531, Forward: 0.10220956802368164, Backward: 0.07563352584838867, Optimizer: 0.06069016456604004
+Epoch 1 Batch 98 Train Loss 0.007157979533076286
+Total Times. Batch: 98, Rank: 0, Data Shape: paddle.Size([16, 8, 1, 128, 128]), Data time: 0.001375436782836914, Forward: 0.09089422225952148, Backward: 0.09482908248901367, Optimizer: 0.04319047927856445
+Epoch 1 Batch 99 Train Loss 0.007348677143454552
+Total Times. Batch: 99, Rank: 0, Data Shape: paddle.Size([16, 8, 1, 128, 128]), Data time: 0.00154876708984375, Forward: 0.08861851692199707, Backward: 0.05797171592712402, Optimizer: 0.0667717456817627
+[BENCH] measured=90 warmup=10 | fwd med=0.0949 mean=0.0980 std=0.0123 | bwd med=0.0594 mean=0.0614 | opt med=0.0668 | step med=0.2236 mean=0.2275 std=0.0153 | loss0=0.011215 lossN=0.007349
+[BENCH] saved bench_timings.npz to /tmp/mpp_acc_off
+all reduces executed!
+Time for train 25.860349655151367. For valid: 1.430511474609375e-06. For postprocessing:0.13547778129577637
+Time taken for epoch 1 is 25.9959499835968 sec
+Train loss: Tensor(shape=[1], dtype=float32, place=Place(gpu:0), stop_gradient=True,
+       [0.00901559]). Valid loss: 0.0
+train_loader_size 100 68000
+Epoch 2 Batch 0 Train Loss 0.008172273635864258
+Total Times. Batch: 0, Rank: 0, Data Shape: paddle.Size([16, 8, 1, 128, 128]), Data time: 0.17594671249389648, Forward: 0.16331124305725098, Backward: 0.06727290153503418, Optimizer: 0.08406448364257812
+Epoch 2 Batch 1 Train Loss 0.007132320664823055
+Total Times. Batch: 1, Rank: 0, Data Shape: paddle.Size([16, 8, 1, 128, 128]), Data time: 0.0015916824340820312, Forward: 0.10629510879516602, Backward: 0.06073594093322754, Optimizer: 0.0665426254272461
+Epoch 2 Batch 2 Train Loss 0.008529427461326122
+Total Times. Batch: 2, Rank: 0, Data Shape: paddle.Size([16, 8, 1, 128, 128]), Data time: 0.0015175342559814453, Forward: 0.10381484031677246, Backward: 0.063446044921875, Optimizer: 0.0634160041809082
+Epoch 2 Batch 3 Train Loss 0.006665209773927927
+Total Times. Batch: 3, Rank: 0, Data Shape: paddle.Size([16, 8, 1, 128, 128]), Data time: 0.0014257431030273438, Forward: 0.10445833206176758, Backward: 0.06760382652282715, Optimizer: 0.08050704002380371
+Epoch 2 Batch 4 Train Loss 0.007507618982344866
+Total Times. Batch: 4, Rank: 0, Data Shape: paddle.Size([16, 8, 1, 128, 128]), Data time: 0.0016169548034667969, Forward: 0.0886533260345459, Backward: 0.08153438568115234, Optimizer: 0.05501604080200195
+Epoch 2 Batch 5 Train Loss 0.007464222609996796
+Total Times. Batch: 5, Rank: 0, Data Shape: paddle.Size([16, 8, 1, 128, 128]), Data time: 0.0019390583038330078, Forward: 0.148512601852417, Backward: 0.0699164867401123, Optimizer: 0.058809757232666016
+Epoch 2 Batch 6 Train Loss 0.008452231995761395
+Total Times. Batch: 6, Rank: 0, Data Shape: paddle.Size([16, 8, 1, 128, 128]), Data time: 0.0014591217041015625, Forward: 0.09730720520019531, Backward: 0.0601506233215332, Optimizer: 0.07444000244140625
+Epoch 2 Batch 7 Train Loss 0.007758382707834244
+Total Times. Batch: 7, Rank: 0, Data Shape: paddle.Size([16, 8, 1, 128, 128]), Data time: 0.0019237995147705078, Forward: 0.11286520957946777, Backward: 0.06561446189880371, Optimizer: 0.0808706283569336
+Epoch 2 Batch 8 Train Loss 0.00700698746368289
+Total Times. Batch: 8, Rank: 0, Data Shape: paddle.Size([16, 8, 1, 128, 128]), Data time: 0.0020880699157714844, Forward: 0.1179513931274414, Backward: 0.05901026725769043, Optimizer: 0.06588387489318848
+Epoch 2 Batch 9 Train Loss 0.008397253230214119
+Total Times. Batch: 9, Rank: 0, Data Shape: paddle.Size([16, 8, 1, 128, 128]), Data time: 0.001493692398071289, Forward: 0.10583639144897461, Backward: 0.06003522872924805, Optimizer: 0.07725048065185547
+Epoch 2 Batch 10 Train Loss 0.008714444935321808
+Total Times. Batch: 10, Rank: 0, Data Shape: paddle.Size([16, 8, 1, 128, 128]), Data time: 0.0016407966613769531, Forward: 0.08616280555725098, Backward: 0.06777501106262207, Optimizer: 0.08790397644042969
+Epoch 2 Batch 11 Train Loss 0.007350455038249493
+Total Times. Batch: 11, Rank: 0, Data Shape: paddle.Size([16, 8, 1, 128, 128]), Data time: 0.0014641284942626953, Forward: 0.12477803230285645, Backward: 0.06725788116455078, Optimizer: 0.06490635871887207
+Epoch 2 Batch 12 Train Loss 0.008413450792431831
+Total Times. Batch: 12, Rank: 0, Data Shape: paddle.Size([16, 8, 1, 128, 128]), Data time: 0.0018918514251708984, Forward: 0.11399650573730469, Backward: 0.06628298759460449, Optimizer: 0.0689384937286377
+Epoch 2 Batch 13 Train Loss 0.00790652446448803
+Total Times. Batch: 13, Rank: 0, Data Shape: paddle.Size([16, 8, 1, 128, 128]), Data time: 0.0015895366668701172, Forward: 0.11669611930847168, Backward: 0.06550455093383789, Optimizer: 0.07623815536499023
+Epoch 2 Batch 14 Train Loss 0.008472342044115067
+Total Times. Batch: 14, Rank: 0, Data Shape: paddle.Size([16, 8, 1, 128, 128]), Data time: 0.0013689994812011719, Forward: 0.09179067611694336, Backward: 0.06370306015014648, Optimizer: 0.09938931465148926
+Epoch 2 Batch 15 Train Loss 0.007044889032840729
+Total Times. Batch: 15, Rank: 0, Data Shape: paddle.Size([16, 8, 1, 128, 128]), Data time: 0.001556396484375, Forward: 0.11202025413513184, Backward: 0.06023716926574707, Optimizer: 0.09077620506286621
+Epoch 2 Batch 16 Train Loss 0.006728160195052624
+Total Times. Batch: 16, Rank: 0, Data Shape: paddle.Size([16, 8, 1, 128, 128]), Data time: 0.001529693603515625, Forward: 0.10755443572998047, Backward: 0.06721353530883789, Optimizer: 0.08406710624694824
+Epoch 2 Batch 17 Train Loss 0.008036306127905846
+Total Times. Batch: 17, Rank: 0, Data Shape: paddle.Size([16, 8, 1, 128, 128]), Data time: 0.0015075206756591797, Forward: 0.09659314155578613, Backward: 0.07499194145202637, Optimizer: 0.05029439926147461
+Epoch 2 Batch 18 Train Loss 0.00713309645652771
+Total Times. Batch: 18, Rank: 0, Data Shape: paddle.Size([16, 8, 1, 128, 128]), Data time: 0.0016264915466308594, Forward: 0.12594890594482422, Backward: 0.08549189567565918, Optimizer: 0.08020424842834473
+Epoch 2 Batch 19 Train Loss 0.007809430360794067
+Total Times. Batch: 19, Rank: 0, Data Shape: paddle.Size([16, 8, 1, 128, 128]), Data time: 0.0018341541290283203, Forward: 0.1120002269744873, Backward: 0.0725257396697998, Optimizer: 0.07072806358337402
+Epoch 2 Batch 20 Train Loss 0.007709612138569355
+Total Times. Batch: 20, Rank: 0, Data Shape: paddle.Size([16, 8, 1, 128, 128]), Data time: 0.0014977455139160156, Forward: 0.1037912368774414, Backward: 0.06224536895751953, Optimizer: 0.06989145278930664
+Epoch 2 Batch 21 Train Loss 0.007388193625956774
+Total Times. Batch: 21, Rank: 0, Data Shape: paddle.Size([16, 8, 1, 128, 128]), Data time: 0.0025963783264160156, Forward: 0.13094139099121094, Backward: 0.06700825691223145, Optimizer: 0.06990170478820801
+Epoch 2 Batch 22 Train Loss 0.007150216959416866
+Total Times. Batch: 22, Rank: 0, Data Shape: paddle.Size([16, 8, 1, 128, 128]), Data time: 0.0015850067138671875, Forward: 0.09388995170593262, Backward: 0.05786871910095215, Optimizer: 0.07339835166931152
+Epoch 2 Batch 23 Train Loss 0.007820669561624527
+Total Times. Batch: 23, Rank: 0, Data Shape: paddle.Size([16, 8, 1, 128, 128]), Data time: 0.0015666484832763672, Forward: 0.11444664001464844, Backward: 0.06051445007324219, Optimizer: 0.07056212425231934
+Epoch 2 Batch 24 Train Loss 0.0076303668320178986
+Total Times. Batch: 24, Rank: 0, Data Shape: paddle.Size([16, 8, 1, 128, 128]), Data time: 0.0015614032745361328, Forward: 0.11133503913879395, Backward: 0.0591282844543457, Optimizer: 0.0691230297088623
+Epoch 2 Batch 25 Train Loss 0.007068496197462082
+Total Times. Batch: 25, Rank: 0, Data Shape: paddle.Size([16, 8, 1, 128, 128]), Data time: 0.0016608238220214844, Forward: 0.08925819396972656, Backward: 0.05798220634460449, Optimizer: 0.06885790824890137
+Epoch 2 Batch 26 Train Loss 0.007115071639418602
+Total Times. Batch: 26, Rank: 0, Data Shape: paddle.Size([16, 8, 1, 128, 128]), Data time: 0.0015559196472167969, Forward: 0.08720183372497559, Backward: 0.05786442756652832, Optimizer: 0.06726813316345215
+Epoch 2 Batch 27 Train Loss 0.00820675678551197
+Total Times. Batch: 27, Rank: 0, Data Shape: paddle.Size([16, 8, 1, 128, 128]), Data time: 0.0015366077423095703, Forward: 0.08355093002319336, Backward: 0.07089352607727051, Optimizer: 0.06464982032775879
+Epoch 2 Batch 28 Train Loss 0.007098408415913582
+Total Times. Batch: 28, Rank: 0, Data Shape: paddle.Size([16, 8, 1, 128, 128]), Data time: 0.001737356185913086, Forward: 0.09392142295837402, Backward: 0.057639360427856445, Optimizer: 0.06776595115661621
+Epoch 2 Batch 29 Train Loss 0.006863812915980816
+Total Times. Batch: 29, Rank: 0, Data Shape: paddle.Size([16, 8, 1, 128, 128]), Data time: 0.0014560222625732422, Forward: 0.09360337257385254, Backward: 0.058124542236328125, Optimizer: 0.06887269020080566
+Epoch 2 Batch 30 Train Loss 0.007588062435388565
+Total Times. Batch: 30, Rank: 0, Data Shape: paddle.Size([16, 8, 1, 128, 128]), Data time: 0.0017549991607666016, Forward: 0.0884561538696289, Backward: 0.05968189239501953, Optimizer: 0.07126498222351074
+Epoch 2 Batch 31 Train Loss 0.007656917907297611
+Total Times. Batch: 31, Rank: 0, Data Shape: paddle.Size([16, 8, 1, 128, 128]), Data time: 0.0015158653259277344, Forward: 0.09317326545715332, Backward: 0.05856776237487793, Optimizer: 0.06644749641418457
+Epoch 2 Batch 32 Train Loss 0.007347232662141323
+Total Times. Batch: 32, Rank: 0, Data Shape: paddle.Size([16, 8, 1, 128, 128]), Data time: 0.0014443397521972656, Forward: 0.08747744560241699, Backward: 0.0587310791015625, Optimizer: 0.06588363647460938
+Epoch 2 Batch 33 Train Loss 0.007528016809374094
+Total Times. Batch: 33, Rank: 0, Data Shape: paddle.Size([16, 8, 1, 128, 128]), Data time: 0.0016818046569824219, Forward: 0.09234762191772461, Backward: 0.058393239974975586, Optimizer: 0.06914663314819336
+Epoch 2 Batch 34 Train Loss 0.006922256201505661
+Total Times. Batch: 34, Rank: 0, Data Shape: paddle.Size([16, 8, 1, 128, 128]), Data time: 0.0016469955444335938, Forward: 0.08794379234313965, Backward: 0.0579991340637207, Optimizer: 0.06943583488464355
+Epoch 2 Batch 35 Train Loss 0.0073092104867100716
+Total Times. Batch: 35, Rank: 0, Data Shape: paddle.Size([16, 8, 1, 128, 128]), Data time: 0.0015134811401367188, Forward: 0.09216523170471191, Backward: 0.05858659744262695, Optimizer: 0.0841214656829834
+Epoch 2 Batch 36 Train Loss 0.007451734505593777
+Total Times. Batch: 36, Rank: 0, Data Shape: paddle.Size([16, 8, 1, 128, 128]), Data time: 0.002177000045776367, Forward: 0.10159921646118164, Backward: 0.06531000137329102, Optimizer: 0.07459831237792969
+Epoch 2 Batch 37 Train Loss 0.0072076753713190556
+Total Times. Batch: 37, Rank: 0, Data Shape: paddle.Size([16, 8, 1, 128, 128]), Data time: 0.0015859603881835938, Forward: 0.09114718437194824, Backward: 0.060822486877441406, Optimizer: 0.0660254955291748
+Epoch 2 Batch 38 Train Loss 0.007432744838297367
+Total Times. Batch: 38, Rank: 0, Data Shape: paddle.Size([16, 8, 1, 128, 128]), Data time: 0.001493215560913086, Forward: 0.08590197563171387, Backward: 0.05912327766418457, Optimizer: 0.06545877456665039
+Epoch 2 Batch 39 Train Loss 0.008100870996713638
+Total Times. Batch: 39, Rank: 0, Data Shape: paddle.Size([16, 8, 1, 128, 128]), Data time: 0.0014469623565673828, Forward: 0.08729171752929688, Backward: 0.06007838249206543, Optimizer: 0.06542348861694336
+Epoch 2 Batch 40 Train Loss 0.006791264750063419
+Total Times. Batch: 40, Rank: 0, Data Shape: paddle.Size([16, 8, 1, 128, 128]), Data time: 0.0014986991882324219, Forward: 0.09183859825134277, Backward: 0.058676719665527344, Optimizer: 0.0653836727142334
+Epoch 2 Batch 41 Train Loss 0.007567904889583588
+Total Times. Batch: 41, Rank: 0, Data Shape: paddle.Size([16, 8, 1, 128, 128]), Data time: 0.0014810562133789062, Forward: 0.08321070671081543, Backward: 0.058583736419677734, Optimizer: 0.06487226486206055
+Epoch 2 Batch 42 Train Loss 0.00812031701207161
+Total Times. Batch: 42, Rank: 0, Data Shape: paddle.Size([16, 8, 1, 128, 128]), Data time: 0.0014536380767822266, Forward: 0.09237861633300781, Backward: 0.05938458442687988, Optimizer: 0.06540775299072266
+Epoch 2 Batch 43 Train Loss 0.00675656832754612
+Total Times. Batch: 43, Rank: 0, Data Shape: paddle.Size([16, 8, 1, 128, 128]), Data time: 0.0017960071563720703, Forward: 0.08572816848754883, Backward: 0.060282230377197266, Optimizer: 0.06800484657287598
+Epoch 2 Batch 44 Train Loss 0.007324258331209421
+Total Times. Batch: 44, Rank: 0, Data Shape: paddle.Size([16, 8, 1, 128, 128]), Data time: 0.0015561580657958984, Forward: 0.09213900566101074, Backward: 0.05858254432678223, Optimizer: 0.07538247108459473
+Epoch 2 Batch 45 Train Loss 0.007475011050701141
+Total Times. Batch: 45, Rank: 0, Data Shape: paddle.Size([16, 8, 1, 128, 128]), Data time: 0.0016171932220458984, Forward: 0.08729147911071777, Backward: 0.05871748924255371, Optimizer: 0.06570768356323242
+Epoch 2 Batch 46 Train Loss 0.006958873942494392
+Total Times. Batch: 46, Rank: 0, Data Shape: paddle.Size([16, 8, 1, 128, 128]), Data time: 0.0015587806701660156, Forward: 0.08300971984863281, Backward: 0.05900835990905762, Optimizer: 0.06616830825805664
+Epoch 2 Batch 47 Train Loss 0.00726389279589057
+Total Times. Batch: 47, Rank: 0, Data Shape: paddle.Size([16, 8, 1, 128, 128]), Data time: 0.0015151500701904297, Forward: 0.09210968017578125, Backward: 0.059203386306762695, Optimizer: 0.06543850898742676
+Epoch 2 Batch 48 Train Loss 0.00797814317047596
+Total Times. Batch: 48, Rank: 0, Data Shape: paddle.Size([16, 8, 1, 128, 128]), Data time: 0.0015702247619628906, Forward: 0.08870816230773926, Backward: 0.060842037200927734, Optimizer: 0.06805729866027832
+Epoch 2 Batch 49 Train Loss 0.006726084277033806
+Total Times. Batch: 49, Rank: 0, Data Shape: paddle.Size([16, 8, 1, 128, 128]), Data time: 0.0016736984252929688, Forward: 0.08669376373291016, Backward: 0.05879974365234375, Optimizer: 0.06690835952758789
+Epoch 2 Batch 50 Train Loss 0.007136845495551825
+Total Times. Batch: 50, Rank: 0, Data Shape: paddle.Size([16, 8, 1, 128, 128]), Data time: 0.0014972686767578125, Forward: 0.0859842300415039, Backward: 0.059295654296875, Optimizer: 0.06694316864013672
+Epoch 2 Batch 51 Train Loss 0.00712643563747406
+Total Times. Batch: 51, Rank: 0, Data Shape: paddle.Size([16, 8, 1, 128, 128]), Data time: 0.001531839370727539, Forward: 0.08300995826721191, Backward: 0.05838775634765625, Optimizer: 0.06569242477416992
+Epoch 2 Batch 52 Train Loss 0.006971841678023338
+Total Times. Batch: 52, Rank: 0, Data Shape: paddle.Size([16, 8, 1, 128, 128]), Data time: 0.0015327930450439453, Forward: 0.09340906143188477, Backward: 0.06538820266723633, Optimizer: 0.06813383102416992
+Epoch 2 Batch 53 Train Loss 0.007048582658171654
+Total Times. Batch: 53, Rank: 0, Data Shape: paddle.Size([16, 8, 1, 128, 128]), Data time: 0.001758575439453125, Forward: 0.09350204467773438, Backward: 0.05919289588928223, Optimizer: 0.06900286674499512
+Epoch 2 Batch 54 Train Loss 0.006968454457819462
+Total Times. Batch: 54, Rank: 0, Data Shape: paddle.Size([16, 8, 1, 128, 128]), Data time: 0.001678466796875, Forward: 0.08705854415893555, Backward: 0.05848526954650879, Optimizer: 0.06743335723876953
+Epoch 2 Batch 55 Train Loss 0.006891322322189808
+Total Times. Batch: 55, Rank: 0, Data Shape: paddle.Size([16, 8, 1, 128, 128]), Data time: 0.0015902519226074219, Forward: 0.09388351440429688, Backward: 0.05993795394897461, Optimizer: 0.06809377670288086
+Epoch 2 Batch 56 Train Loss 0.006751724518835545
+Total Times. Batch: 56, Rank: 0, Data Shape: paddle.Size([16, 8, 1, 128, 128]), Data time: 0.0017523765563964844, Forward: 0.09037566184997559, Backward: 0.06012916564941406, Optimizer: 0.08469247817993164
+Epoch 2 Batch 57 Train Loss 0.00708802230656147
+Total Times. Batch: 57, Rank: 0, Data Shape: paddle.Size([16, 8, 1, 128, 128]), Data time: 0.0014774799346923828, Forward: 0.0903174877166748, Backward: 0.06447339057922363, Optimizer: 0.08020591735839844
+Epoch 2 Batch 58 Train Loss 0.007085027638822794
+Total Times. Batch: 58, Rank: 0, Data Shape: paddle.Size([16, 8, 1, 128, 128]), Data time: 0.0014476776123046875, Forward: 0.10466742515563965, Backward: 0.060041189193725586, Optimizer: 0.06582903861999512
+Epoch 2 Batch 59 Train Loss 0.006968682631850243
+Total Times. Batch: 59, Rank: 0, Data Shape: paddle.Size([16, 8, 1, 128, 128]), Data time: 0.0015900135040283203, Forward: 0.0885622501373291, Backward: 0.059026479721069336, Optimizer: 0.06532430648803711
+Epoch 2 Batch 60 Train Loss 0.007096993736922741
+Total Times. Batch: 60, Rank: 0, Data Shape: paddle.Size([16, 8, 1, 128, 128]), Data time: 0.0023736953735351562, Forward: 0.1086738109588623, Backward: 0.05910801887512207, Optimizer: 0.06618976593017578
+Epoch 2 Batch 61 Train Loss 0.006090614944696426
+Total Times. Batch: 61, Rank: 0, Data Shape: paddle.Size([16, 8, 1, 128, 128]), Data time: 0.001544952392578125, Forward: 0.12180376052856445, Backward: 0.06704044342041016, Optimizer: 0.06133270263671875
+Epoch 2 Batch 62 Train Loss 0.006317705847322941
+Total Times. Batch: 62, Rank: 0, Data Shape: paddle.Size([16, 8, 1, 128, 128]), Data time: 0.0015130043029785156, Forward: 0.10316014289855957, Backward: 0.058320045471191406, Optimizer: 0.06668996810913086
+Epoch 2 Batch 63 Train Loss 0.007441498339176178
+Total Times. Batch: 63, Rank: 0, Data Shape: paddle.Size([16, 8, 1, 128, 128]), Data time: 0.0015437602996826172, Forward: 0.10413551330566406, Backward: 0.06611943244934082, Optimizer: 0.060279130935668945
+Epoch 2 Batch 64 Train Loss 0.006704340688884258
+Total Times. Batch: 64, Rank: 0, Data Shape: paddle.Size([16, 8, 1, 128, 128]), Data time: 0.001581430435180664, Forward: 0.10633444786071777, Backward: 0.0735630989074707, Optimizer: 0.08828544616699219
+Epoch 2 Batch 65 Train Loss 0.007161356508731842
+Total Times. Batch: 65, Rank: 0, Data Shape: paddle.Size([16, 8, 1, 128, 128]), Data time: 0.0016183853149414062, Forward: 0.10727834701538086, Backward: 0.0594325065612793, Optimizer: 0.0825808048248291
+Epoch 2 Batch 66 Train Loss 0.007861461490392685
+Total Times. Batch: 66, Rank: 0, Data Shape: paddle.Size([16, 8, 1, 128, 128]), Data time: 0.0014338493347167969, Forward: 0.10018706321716309, Backward: 0.06545901298522949, Optimizer: 0.05887460708618164
+Epoch 2 Batch 67 Train Loss 0.006940832361578941
+Total Times. Batch: 67, Rank: 0, Data Shape: paddle.Size([16, 8, 1, 128, 128]), Data time: 0.0019228458404541016, Forward: 0.11614441871643066, Backward: 0.0646216869354248, Optimizer: 0.06625914573669434
+Epoch 2 Batch 68 Train Loss 0.006699633784592152
+Total Times. Batch: 68, Rank: 0, Data Shape: paddle.Size([16, 8, 1, 128, 128]), Data time: 0.0016207695007324219, Forward: 0.09805583953857422, Backward: 0.06050992012023926, Optimizer: 0.06872963905334473
+Epoch 2 Batch 69 Train Loss 0.007405566982924938
+Total Times. Batch: 69, Rank: 0, Data Shape: paddle.Size([16, 8, 1, 128, 128]), Data time: 0.0015110969543457031, Forward: 0.1121208667755127, Backward: 0.06491637229919434, Optimizer: 0.07442426681518555
+Epoch 2 Batch 70 Train Loss 0.0074779074639081955
+Total Times. Batch: 70, Rank: 0, Data Shape: paddle.Size([16, 8, 1, 128, 128]), Data time: 0.0016641616821289062, Forward: 0.09354090690612793, Backward: 0.07172346115112305, Optimizer: 0.07006502151489258
+Epoch 2 Batch 71 Train Loss 0.006836044602096081
+Total Times. Batch: 71, Rank: 0, Data Shape: paddle.Size([16, 8, 1, 128, 128]), Data time: 0.0016155242919921875, Forward: 0.08887648582458496, Backward: 0.0632169246673584, Optimizer: 0.07096004486083984
+Epoch 2 Batch 72 Train Loss 0.007028021849691868
+Total Times. Batch: 72, Rank: 0, Data Shape: paddle.Size([16, 8, 1, 128, 128]), Data time: 0.0016734600067138672, Forward: 0.09117770195007324, Backward: 0.06184816360473633, Optimizer: 0.06824803352355957
+Epoch 2 Batch 73 Train Loss 0.007278808858245611
+Total Times. Batch: 73, Rank: 0, Data Shape: paddle.Size([16, 8, 1, 128, 128]), Data time: 0.0016949176788330078, Forward: 0.1206960678100586, Backward: 0.0586087703704834, Optimizer: 0.06842613220214844
+Epoch 2 Batch 74 Train Loss 0.006462732329964638
+Total Times. Batch: 74, Rank: 0, Data Shape: paddle.Size([16, 8, 1, 128, 128]), Data time: 0.001585245132446289, Forward: 0.09601116180419922, Backward: 0.05789971351623535, Optimizer: 0.0666501522064209
+Epoch 2 Batch 75 Train Loss 0.006923044566065073
+Total Times. Batch: 75, Rank: 0, Data Shape: paddle.Size([16, 8, 1, 128, 128]), Data time: 0.0014667510986328125, Forward: 0.08675932884216309, Backward: 0.05833554267883301, Optimizer: 0.07614445686340332
+Epoch 2 Batch 76 Train Loss 0.007013889029622078
+Total Times. Batch: 76, Rank: 0, Data Shape: paddle.Size([16, 8, 1, 128, 128]), Data time: 0.0015799999237060547, Forward: 0.08517122268676758, Backward: 0.05777931213378906, Optimizer: 0.06850266456604004
+Epoch 2 Batch 77 Train Loss 0.007635610643774271
+Total Times. Batch: 77, Rank: 0, Data Shape: paddle.Size([16, 8, 1, 128, 128]), Data time: 0.001468658447265625, Forward: 0.09126663208007812, Backward: 0.0581049919128418, Optimizer: 0.06689786911010742
+Epoch 2 Batch 78 Train Loss 0.006808065809309483
+Total Times. Batch: 78, Rank: 0, Data Shape: paddle.Size([16, 8, 1, 128, 128]), Data time: 0.0015630722045898438, Forward: 0.0930640697479248, Backward: 0.05955767631530762, Optimizer: 0.06841611862182617
+Epoch 2 Batch 79 Train Loss 0.0064741503447294235
+Total Times. Batch: 79, Rank: 0, Data Shape: paddle.Size([16, 8, 1, 128, 128]), Data time: 0.0016138553619384766, Forward: 0.09035587310791016, Backward: 0.0575869083404541, Optimizer: 0.06710338592529297
+Epoch 2 Batch 80 Train Loss 0.006746543571352959
+Total Times. Batch: 80, Rank: 0, Data Shape: paddle.Size([16, 8, 1, 128, 128]), Data time: 0.001482248306274414, Forward: 0.08533120155334473, Backward: 0.0581507682800293, Optimizer: 0.06787109375
+Epoch 2 Batch 81 Train Loss 0.007365738973021507
+Total Times. Batch: 81, Rank: 0, Data Shape: paddle.Size([16, 8, 1, 128, 128]), Data time: 0.0015475749969482422, Forward: 0.08632326126098633, Backward: 0.057871341705322266, Optimizer: 0.06936097145080566
+Epoch 2 Batch 82 Train Loss 0.006866040639579296
+Total Times. Batch: 82, Rank: 0, Data Shape: paddle.Size([16, 8, 1, 128, 128]), Data time: 0.0015757083892822266, Forward: 0.0921485424041748, Backward: 0.05810737609863281, Optimizer: 0.0703728199005127
+Epoch 2 Batch 83 Train Loss 0.006575286854058504
+Total Times. Batch: 83, Rank: 0, Data Shape: paddle.Size([16, 8, 1, 128, 128]), Data time: 0.0017361640930175781, Forward: 0.08501386642456055, Backward: 0.05853128433227539, Optimizer: 0.06887626647949219
+Epoch 2 Batch 84 Train Loss 0.006992351729422808
+Total Times. Batch: 84, Rank: 0, Data Shape: paddle.Size([16, 8, 1, 128, 128]), Data time: 0.0017879009246826172, Forward: 0.08985710144042969, Backward: 0.05904579162597656, Optimizer: 0.06706643104553223
+Epoch 2 Batch 85 Train Loss 0.006586761213839054
+Total Times. Batch: 85, Rank: 0, Data Shape: paddle.Size([16, 8, 1, 128, 128]), Data time: 0.001566171646118164, Forward: 0.10121965408325195, Backward: 0.06097221374511719, Optimizer: 0.06986236572265625
+Epoch 2 Batch 86 Train Loss 0.007324462756514549
+Total Times. Batch: 86, Rank: 0, Data Shape: paddle.Size([16, 8, 1, 128, 128]), Data time: 0.002074003219604492, Forward: 0.12188339233398438, Backward: 0.06224942207336426, Optimizer: 0.07230186462402344
+Epoch 2 Batch 87 Train Loss 0.006798645481467247
+Total Times. Batch: 87, Rank: 0, Data Shape: paddle.Size([16, 8, 1, 128, 128]), Data time: 0.0017004013061523438, Forward: 0.09747457504272461, Backward: 0.061310529708862305, Optimizer: 0.07102441787719727
+Epoch 2 Batch 88 Train Loss 0.007584939710795879
+Total Times. Batch: 88, Rank: 0, Data Shape: paddle.Size([16, 8, 1, 128, 128]), Data time: 0.0016913414001464844, Forward: 0.10653829574584961, Backward: 0.06235218048095703, Optimizer: 0.07188272476196289
+Epoch 2 Batch 89 Train Loss 0.00626108143478632
+Total Times. Batch: 89, Rank: 0, Data Shape: paddle.Size([16, 8, 1, 128, 128]), Data time: 0.0015718936920166016, Forward: 0.0964210033416748, Backward: 0.06274223327636719, Optimizer: 0.07706880569458008
+Epoch 2 Batch 90 Train Loss 0.0065676374360919
+Total Times. Batch: 90, Rank: 0, Data Shape: paddle.Size([16, 8, 1, 128, 128]), Data time: 0.0016665458679199219, Forward: 0.09640336036682129, Backward: 0.06154894828796387, Optimizer: 0.06845855712890625
+Epoch 2 Batch 91 Train Loss 0.00623115710914135
+Total Times. Batch: 91, Rank: 0, Data Shape: paddle.Size([16, 8, 1, 128, 128]), Data time: 0.0016183853149414062, Forward: 0.10094428062438965, Backward: 0.05891227722167969, Optimizer: 0.06717085838317871
+Epoch 2 Batch 92 Train Loss 0.006872280966490507
+Total Times. Batch: 92, Rank: 0, Data Shape: paddle.Size([16, 8, 1, 128, 128]), Data time: 0.0014104843139648438, Forward: 0.09606003761291504, Backward: 0.05848336219787598, Optimizer: 0.06663370132446289
+Epoch 2 Batch 93 Train Loss 0.006970715243369341
+Total Times. Batch: 93, Rank: 0, Data Shape: paddle.Size([16, 8, 1, 128, 128]), Data time: 0.0014510154724121094, Forward: 0.08424139022827148, Backward: 0.05807805061340332, Optimizer: 0.06649184226989746
+Epoch 2 Batch 94 Train Loss 0.00639263354241848
+Total Times. Batch: 94, Rank: 0, Data Shape: paddle.Size([16, 8, 1, 128, 128]), Data time: 0.0015926361083984375, Forward: 0.09138083457946777, Backward: 0.060073137283325195, Optimizer: 0.06931829452514648
+Epoch 2 Batch 95 Train Loss 0.006625323090702295
+Total Times. Batch: 95, Rank: 0, Data Shape: paddle.Size([16, 8, 1, 128, 128]), Data time: 0.001415252685546875, Forward: 0.0890042781829834, Backward: 0.06023740768432617, Optimizer: 0.0723409652709961
+Epoch 2 Batch 96 Train Loss 0.007473542355000973
+Total Times. Batch: 96, Rank: 0, Data Shape: paddle.Size([16, 8, 1, 128, 128]), Data time: 0.001531839370727539, Forward: 0.08557748794555664, Backward: 0.05748891830444336, Optimizer: 0.06972980499267578
+Epoch 2 Batch 97 Train Loss 0.007839549332857132
+Total Times. Batch: 97, Rank: 0, Data Shape: paddle.Size([16, 8, 1, 128, 128]), Data time: 0.0015957355499267578, Forward: 0.09111285209655762, Backward: 0.05803251266479492, Optimizer: 0.06641459465026855
+Epoch 2 Batch 98 Train Loss 0.006928499788045883
+Total Times. Batch: 98, Rank: 0, Data Shape: paddle.Size([16, 8, 1, 128, 128]), Data time: 0.0014958381652832031, Forward: 0.08905529975891113, Backward: 0.05821371078491211, Optimizer: 0.0678260326385498
+Epoch 2 Batch 99 Train Loss 0.007084693759679794
+Total Times. Batch: 99, Rank: 0, Data Shape: paddle.Size([16, 8, 1, 128, 128]), Data time: 0.0019693374633789062, Forward: 0.0820763111114502, Backward: 0.06024909019470215, Optimizer: 0.06856346130371094
+[BENCH] measured=90 warmup=10 | fwd med=0.0923 mean=0.0964 std=0.0114 | bwd med=0.0595 mean=0.0614 | opt med=0.0684 | step med=0.2214 mean=0.2279 std=0.0169 | loss0=0.008714 lossN=0.007085
+[BENCH] saved bench_timings.npz to /tmp/mpp_acc_off
+all reduces executed!
+Time for train 23.847959518432617. For valid: 3.0994415283203125e-06. For postprocessing:0.10397481918334961
+Time taken for epoch 2 is 23.95200777053833 sec
+Train loss: Tensor(shape=[1], dtype=float32, place=Place(gpu:0), stop_gradient=True,
+       [0.00724037]). Valid loss: 0.0
+train_loader_size 100 68000
+Epoch 3 Batch 0 Train Loss 0.0072609372437000275
+Total Times. Batch: 0, Rank: 0, Data Shape: paddle.Size([16, 8, 1, 128, 128]), Data time: 0.11922526359558105, Forward: 0.1434319019317627, Backward: 0.0648953914642334, Optimizer: 0.06879949569702148
+Epoch 3 Batch 1 Train Loss 0.006550907157361507
+Total Times. Batch: 1, Rank: 0, Data Shape: paddle.Size([16, 8, 1, 128, 128]), Data time: 0.001495361328125, Forward: 0.09322500228881836, Backward: 0.05839991569519043, Optimizer: 0.09219217300415039
+Epoch 3 Batch 2 Train Loss 0.00792093388736248
+Total Times. Batch: 2, Rank: 0, Data Shape: paddle.Size([16, 8, 1, 128, 128]), Data time: 0.0015802383422851562, Forward: 0.10429787635803223, Backward: 0.058512210845947266, Optimizer: 0.07026124000549316
+Epoch 3 Batch 3 Train Loss 0.006363418884575367
+Total Times. Batch: 3, Rank: 0, Data Shape: paddle.Size([16, 8, 1, 128, 128]), Data time: 0.001659393310546875, Forward: 0.09363865852355957, Backward: 0.05875515937805176, Optimizer: 0.06997251510620117
+Epoch 3 Batch 4 Train Loss 0.007023409008979797
+Total Times. Batch: 4, Rank: 0, Data Shape: paddle.Size([16, 8, 1, 128, 128]), Data time: 0.001462697982788086, Forward: 0.09195280075073242, Backward: 0.05979514122009277, Optimizer: 0.06794953346252441
+Epoch 3 Batch 5 Train Loss 0.007045290432870388
+Total Times. Batch: 5, Rank: 0, Data Shape: paddle.Size([16, 8, 1, 128, 128]), Data time: 0.0016603469848632812, Forward: 0.09427475929260254, Backward: 0.05907797813415527, Optimizer: 0.0655355453491211
+Epoch 3 Batch 6 Train Loss 0.007691970560699701
+Total Times. Batch: 6, Rank: 0, Data Shape: paddle.Size([16, 8, 1, 128, 128]), Data time: 0.0014734268188476562, Forward: 0.09824514389038086, Backward: 0.06165504455566406, Optimizer: 0.06706929206848145
+Epoch 3 Batch 7 Train Loss 0.007089606020599604
+Total Times. Batch: 7, Rank: 0, Data Shape: paddle.Size([16, 8, 1, 128, 128]), Data time: 0.0016045570373535156, Forward: 0.08620023727416992, Backward: 0.06064438819885254, Optimizer: 0.06668424606323242
+Epoch 3 Batch 8 Train Loss 0.0065166521817445755
+Total Times. Batch: 8, Rank: 0, Data Shape: paddle.Size([16, 8, 1, 128, 128]), Data time: 0.0014791488647460938, Forward: 0.09623432159423828, Backward: 0.05781102180480957, Optimizer: 0.06908297538757324
+Epoch 3 Batch 9 Train Loss 0.007192644290626049
+Total Times. Batch: 9, Rank: 0, Data Shape: paddle.Size([16, 8, 1, 128, 128]), Data time: 0.0016143321990966797, Forward: 0.09297323226928711, Backward: 0.05788397789001465, Optimizer: 0.06886863708496094
+Epoch 3 Batch 10 Train Loss 0.007643810473382473
+Total Times. Batch: 10, Rank: 0, Data Shape: paddle.Size([16, 8, 1, 128, 128]), Data time: 0.0014481544494628906, Forward: 0.08671736717224121, Backward: 0.058249473571777344, Optimizer: 0.06756949424743652
+Epoch 3 Batch 11 Train Loss 0.006641673855483532
+Total Times. Batch: 11, Rank: 0, Data Shape: paddle.Size([16, 8, 1, 128, 128]), Data time: 0.0016179084777832031, Forward: 0.0882713794708252, Backward: 0.05804109573364258, Optimizer: 0.08672595024108887
+Epoch 3 Batch 12 Train Loss 0.0075790733098983765
+Total Times. Batch: 12, Rank: 0, Data Shape: paddle.Size([16, 8, 1, 128, 128]), Data time: 0.0014483928680419922, Forward: 0.09084844589233398, Backward: 0.05808901786804199, Optimizer: 0.06550240516662598
+Epoch 3 Batch 13 Train Loss 0.006782380864024162
+Total Times. Batch: 13, Rank: 0, Data Shape: paddle.Size([16, 8, 1, 128, 128]), Data time: 0.0015892982482910156, Forward: 0.08717083930969238, Backward: 0.06458187103271484, Optimizer: 0.061636924743652344
+Epoch 3 Batch 14 Train Loss 0.007605209946632385
+Total Times. Batch: 14, Rank: 0, Data Shape: paddle.Size([16, 8, 1, 128, 128]), Data time: 0.001714944839477539, Forward: 0.12584829330444336, Backward: 0.0661780834197998, Optimizer: 0.05868935585021973
+Epoch 3 Batch 15 Train Loss 0.00754160713404417
+Total Times. Batch: 15, Rank: 0, Data Shape: paddle.Size([16, 8, 1, 128, 128]), Data time: 0.001538991928100586, Forward: 0.09927582740783691, Backward: 0.059422969818115234, Optimizer: 0.06592512130737305
+Epoch 3 Batch 16 Train Loss 0.006271492689847946
+Total Times. Batch: 16, Rank: 0, Data Shape: paddle.Size([16, 8, 1, 128, 128]), Data time: 0.0017728805541992188, Forward: 0.10179996490478516, Backward: 0.06155252456665039, Optimizer: 0.06999468803405762
+Epoch 3 Batch 17 Train Loss 0.007206139154732227
+Total Times. Batch: 17, Rank: 0, Data Shape: paddle.Size([16, 8, 1, 128, 128]), Data time: 0.0017054080963134766, Forward: 0.0876321792602539, Backward: 0.06110239028930664, Optimizer: 0.07324576377868652
+Epoch 3 Batch 18 Train Loss 0.006402676925063133
+Total Times. Batch: 18, Rank: 0, Data Shape: paddle.Size([16, 8, 1, 128, 128]), Data time: 0.0014963150024414062, Forward: 0.09355616569519043, Backward: 0.057939767837524414, Optimizer: 0.07133913040161133
+Epoch 3 Batch 19 Train Loss 0.007040310651063919
+Total Times. Batch: 19, Rank: 0, Data Shape: paddle.Size([16, 8, 1, 128, 128]), Data time: 0.0016045570373535156, Forward: 0.08742713928222656, Backward: 0.05890703201293945, Optimizer: 0.06586575508117676
+Epoch 3 Batch 20 Train Loss 0.007240307983011007
+Total Times. Batch: 20, Rank: 0, Data Shape: paddle.Size([16, 8, 1, 128, 128]), Data time: 0.0015721321105957031, Forward: 0.0984656810760498, Backward: 0.06316208839416504, Optimizer: 0.06479382514953613
+Epoch 3 Batch 21 Train Loss 0.00738889817148447
+Total Times. Batch: 21, Rank: 0, Data Shape: paddle.Size([16, 8, 1, 128, 128]), Data time: 0.001543283462524414, Forward: 0.08299660682678223, Backward: 0.06281328201293945, Optimizer: 0.0698556900024414
+Epoch 3 Batch 22 Train Loss 0.006671728566288948
+Total Times. Batch: 22, Rank: 0, Data Shape: paddle.Size([16, 8, 1, 128, 128]), Data time: 0.0015113353729248047, Forward: 0.10476422309875488, Backward: 0.06887626647949219, Optimizer: 0.0695803165435791
+Epoch 3 Batch 23 Train Loss 0.007151517551392317
+Total Times. Batch: 23, Rank: 0, Data Shape: paddle.Size([16, 8, 1, 128, 128]), Data time: 0.001560211181640625, Forward: 0.08425354957580566, Backward: 0.057958126068115234, Optimizer: 0.0664980411529541
+Epoch 3 Batch 24 Train Loss 0.006868091877549887
+Total Times. Batch: 24, Rank: 0, Data Shape: paddle.Size([16, 8, 1, 128, 128]), Data time: 0.0018696784973144531, Forward: 0.08443522453308105, Backward: 0.05727386474609375, Optimizer: 0.06779146194458008
+Epoch 3 Batch 25 Train Loss 0.006496057845652103
+Total Times. Batch: 25, Rank: 0, Data Shape: paddle.Size([16, 8, 1, 128, 128]), Data time: 0.0015974044799804688, Forward: 0.09291529655456543, Backward: 0.06184744834899902, Optimizer: 0.06559085845947266
+Epoch 3 Batch 26 Train Loss 0.0071508875116705894
+Total Times. Batch: 26, Rank: 0, Data Shape: paddle.Size([16, 8, 1, 128, 128]), Data time: 0.0016963481903076172, Forward: 0.10114908218383789, Backward: 0.05875587463378906, Optimizer: 0.0658407211303711
+Epoch 3 Batch 27 Train Loss 0.007225281558930874
+Total Times. Batch: 27, Rank: 0, Data Shape: paddle.Size([16, 8, 1, 128, 128]), Data time: 0.0015573501586914062, Forward: 0.10026264190673828, Backward: 0.06472396850585938, Optimizer: 0.06563615798950195
+Epoch 3 Batch 28 Train Loss 0.006738484837114811
+Total Times. Batch: 28, Rank: 0, Data Shape: paddle.Size([16, 8, 1, 128, 128]), Data time: 0.0015184879302978516, Forward: 0.09380793571472168, Backward: 0.06517457962036133, Optimizer: 0.06257748603820801
+Epoch 3 Batch 29 Train Loss 0.006585158407688141
+Total Times. Batch: 29, Rank: 0, Data Shape: paddle.Size([16, 8, 1, 128, 128]), Data time: 0.0016775131225585938, Forward: 0.08481001853942871, Backward: 0.060672760009765625, Optimizer: 0.06535840034484863
+Epoch 3 Batch 30 Train Loss 0.006958362180739641
+Total Times. Batch: 30, Rank: 0, Data Shape: paddle.Size([16, 8, 1, 128, 128]), Data time: 0.0014638900756835938, Forward: 0.08414220809936523, Backward: 0.05955672264099121, Optimizer: 0.0659029483795166
+Epoch 3 Batch 31 Train Loss 0.007089845836162567
+Total Times. Batch: 31, Rank: 0, Data Shape: paddle.Size([16, 8, 1, 128, 128]), Data time: 0.0015349388122558594, Forward: 0.08414268493652344, Backward: 0.05835700035095215, Optimizer: 0.0654900074005127
+Epoch 3 Batch 32 Train Loss 0.00735441641882062
+Total Times. Batch: 32, Rank: 0, Data Shape: paddle.Size([16, 8, 1, 128, 128]), Data time: 0.0014493465423583984, Forward: 0.09309530258178711, Backward: 0.06596159934997559, Optimizer: 0.059224843978881836
+Epoch 3 Batch 33 Train Loss 0.00707857683300972
+Total Times. Batch: 33, Rank: 0, Data Shape: paddle.Size([16, 8, 1, 128, 128]), Data time: 0.0015745162963867188, Forward: 0.08662843704223633, Backward: 0.05867457389831543, Optimizer: 0.06983232498168945
+Epoch 3 Batch 34 Train Loss 0.00621154997497797
+Total Times. Batch: 34, Rank: 0, Data Shape: paddle.Size([16, 8, 1, 128, 128]), Data time: 0.0015375614166259766, Forward: 0.11377120018005371, Backward: 0.05989789962768555, Optimizer: 0.0673220157623291
+Epoch 3 Batch 35 Train Loss 0.006530767772346735
+Total Times. Batch: 35, Rank: 0, Data Shape: paddle.Size([16, 8, 1, 128, 128]), Data time: 0.0015535354614257812, Forward: 0.08632469177246094, Backward: 0.05926156044006348, Optimizer: 0.06645894050598145
+Epoch 3 Batch 36 Train Loss 0.0070306649431586266
+Total Times. Batch: 36, Rank: 0, Data Shape: paddle.Size([16, 8, 1, 128, 128]), Data time: 0.0014829635620117188, Forward: 0.08479142189025879, Backward: 0.06700563430786133, Optimizer: 0.0891268253326416
+Epoch 3 Batch 37 Train Loss 0.007547858636826277
+Total Times. Batch: 37, Rank: 0, Data Shape: paddle.Size([16, 8, 1, 128, 128]), Data time: 0.00139617919921875, Forward: 0.09500861167907715, Backward: 0.05928230285644531, Optimizer: 0.066741943359375
+Epoch 3 Batch 38 Train Loss 0.0071132732555270195
+Total Times. Batch: 38, Rank: 0, Data Shape: paddle.Size([16, 8, 1, 128, 128]), Data time: 0.0015308856964111328, Forward: 0.08640074729919434, Backward: 0.06099867820739746, Optimizer: 0.08324384689331055
+Epoch 3 Batch 39 Train Loss 0.007730715908110142
+Total Times. Batch: 39, Rank: 0, Data Shape: paddle.Size([16, 8, 1, 128, 128]), Data time: 0.0014946460723876953, Forward: 0.11386251449584961, Backward: 0.0603485107421875, Optimizer: 0.06822514533996582
+Epoch 3 Batch 40 Train Loss 0.006627071648836136
+Total Times. Batch: 40, Rank: 0, Data Shape: paddle.Size([16, 8, 1, 128, 128]), Data time: 0.002078533172607422, Forward: 0.12308311462402344, Backward: 0.05817604064941406, Optimizer: 0.06670594215393066
+Epoch 3 Batch 41 Train Loss 0.00689720269292593
+Total Times. Batch: 41, Rank: 0, Data Shape: paddle.Size([16, 8, 1, 128, 128]), Data time: 0.0015118122100830078, Forward: 0.08432197570800781, Backward: 0.05829930305480957, Optimizer: 0.06665468215942383
+Epoch 3 Batch 42 Train Loss 0.007585016079246998
+Total Times. Batch: 42, Rank: 0, Data Shape: paddle.Size([16, 8, 1, 128, 128]), Data time: 0.0015184879302978516, Forward: 0.10890007019042969, Backward: 0.058511972427368164, Optimizer: 0.06916308403015137
+Epoch 3 Batch 43 Train Loss 0.006178455427289009
+Total Times. Batch: 43, Rank: 0, Data Shape: paddle.Size([16, 8, 1, 128, 128]), Data time: 0.0015990734100341797, Forward: 0.10976576805114746, Backward: 0.06390142440795898, Optimizer: 0.06618833541870117
+Epoch 3 Batch 44 Train Loss 0.007097719237208366
+Total Times. Batch: 44, Rank: 0, Data Shape: paddle.Size([16, 8, 1, 128, 128]), Data time: 0.0016198158264160156, Forward: 0.089935302734375, Backward: 0.06361770629882812, Optimizer: 0.07219743728637695
+Epoch 3 Batch 45 Train Loss 0.007102662697434425
+Total Times. Batch: 45, Rank: 0, Data Shape: paddle.Size([16, 8, 1, 128, 128]), Data time: 0.0017991065979003906, Forward: 0.09599900245666504, Backward: 0.062296390533447266, Optimizer: 0.0694732666015625
+Epoch 3 Batch 46 Train Loss 0.006352932192385197
+Total Times. Batch: 46, Rank: 0, Data Shape: paddle.Size([16, 8, 1, 128, 128]), Data time: 0.0015964508056640625, Forward: 0.08789706230163574, Backward: 0.0611879825592041, Optimizer: 0.0692436695098877
+Epoch 3 Batch 47 Train Loss 0.006779756862670183
+Total Times. Batch: 47, Rank: 0, Data Shape: paddle.Size([16, 8, 1, 128, 128]), Data time: 0.0014309883117675781, Forward: 0.08863544464111328, Backward: 0.05848431587219238, Optimizer: 0.06880545616149902
+Epoch 3 Batch 48 Train Loss 0.0074458736926317215
+Total Times. Batch: 48, Rank: 0, Data Shape: paddle.Size([16, 8, 1, 128, 128]), Data time: 0.0020177364349365234, Forward: 0.11241722106933594, Backward: 0.06382060050964355, Optimizer: 0.07065916061401367
+Epoch 3 Batch 49 Train Loss 0.007082980126142502
+Total Times. Batch: 49, Rank: 0, Data Shape: paddle.Size([16, 8, 1, 128, 128]), Data time: 0.0016694068908691406, Forward: 0.10218596458435059, Backward: 0.06177783012390137, Optimizer: 0.06728935241699219
+Epoch 3 Batch 50 Train Loss 0.006789879873394966
+Total Times. Batch: 50, Rank: 0, Data Shape: paddle.Size([16, 8, 1, 128, 128]), Data time: 0.001538991928100586, Forward: 0.08736753463745117, Backward: 0.0601959228515625, Optimizer: 0.08215761184692383
+Epoch 3 Batch 51 Train Loss 0.00664961151778698
+Total Times. Batch: 51, Rank: 0, Data Shape: paddle.Size([16, 8, 1, 128, 128]), Data time: 0.001667022705078125, Forward: 0.10311031341552734, Backward: 0.06811881065368652, Optimizer: 0.06438732147216797
+Epoch 3 Batch 52 Train Loss 0.006691635586321354
+Total Times. Batch: 52, Rank: 0, Data Shape: paddle.Size([16, 8, 1, 128, 128]), Data time: 0.0014536380767822266, Forward: 0.09822559356689453, Backward: 0.05872035026550293, Optimizer: 0.07742118835449219
+Epoch 3 Batch 53 Train Loss 0.007201903499662876
+Total Times. Batch: 53, Rank: 0, Data Shape: paddle.Size([16, 8, 1, 128, 128]), Data time: 0.0017600059509277344, Forward: 0.10468220710754395, Backward: 0.05776333808898926, Optimizer: 0.0674448013305664
+Epoch 3 Batch 54 Train Loss 0.006510434206575155
+Total Times. Batch: 54, Rank: 0, Data Shape: paddle.Size([16, 8, 1, 128, 128]), Data time: 0.0015773773193359375, Forward: 0.10687136650085449, Backward: 0.07249140739440918, Optimizer: 0.055518388748168945
+Epoch 3 Batch 55 Train Loss 0.006830576807260513
+Total Times. Batch: 55, Rank: 0, Data Shape: paddle.Size([16, 8, 1, 128, 128]), Data time: 0.0015215873718261719, Forward: 0.08588886260986328, Backward: 0.05988883972167969, Optimizer: 0.07479715347290039
+Epoch 3 Batch 56 Train Loss 0.006593319587409496
+Total Times. Batch: 56, Rank: 0, Data Shape: paddle.Size([16, 8, 1, 128, 128]), Data time: 0.001522064208984375, Forward: 0.11516857147216797, Backward: 0.059717655181884766, Optimizer: 0.06637859344482422
+Epoch 3 Batch 57 Train Loss 0.006890581455081701
+Total Times. Batch: 57, Rank: 0, Data Shape: paddle.Size([16, 8, 1, 128, 128]), Data time: 0.002444744110107422, Forward: 0.08427286148071289, Backward: 0.05867767333984375, Optimizer: 0.0652613639831543
+Epoch 3 Batch 58 Train Loss 0.006676989607512951
+Total Times. Batch: 58, Rank: 0, Data Shape: paddle.Size([16, 8, 1, 128, 128]), Data time: 0.0015377998352050781, Forward: 0.08774089813232422, Backward: 0.05974888801574707, Optimizer: 0.06611943244934082
+Epoch 3 Batch 59 Train Loss 0.006753440015017986
+Total Times. Batch: 59, Rank: 0, Data Shape: paddle.Size([16, 8, 1, 128, 128]), Data time: 0.0015735626220703125, Forward: 0.08674836158752441, Backward: 0.06037116050720215, Optimizer: 0.06579279899597168
+Epoch 3 Batch 60 Train Loss 0.006688589695841074
+Total Times. Batch: 60, Rank: 0, Data Shape: paddle.Size([16, 8, 1, 128, 128]), Data time: 0.0015442371368408203, Forward: 0.09065032005310059, Backward: 0.0589747428894043, Optimizer: 0.06668424606323242
+Epoch 3 Batch 61 Train Loss 0.006099032703787088
+Total Times. Batch: 61, Rank: 0, Data Shape: paddle.Size([16, 8, 1, 128, 128]), Data time: 0.0015804767608642578, Forward: 0.08668327331542969, Backward: 0.05877351760864258, Optimizer: 0.0681610107421875
+Epoch 3 Batch 62 Train Loss 0.006233830004930496
+Total Times. Batch: 62, Rank: 0, Data Shape: paddle.Size([16, 8, 1, 128, 128]), Data time: 0.0016257762908935547, Forward: 0.09648895263671875, Backward: 0.06162667274475098, Optimizer: 0.07404947280883789
+Epoch 3 Batch 63 Train Loss 0.006979172118008137
+Total Times. Batch: 63, Rank: 0, Data Shape: paddle.Size([16, 8, 1, 128, 128]), Data time: 0.0020363330841064453, Forward: 0.09711313247680664, Backward: 0.06299853324890137, Optimizer: 0.07012557983398438
+Epoch 3 Batch 64 Train Loss 0.006765964441001415
+Total Times. Batch: 64, Rank: 0, Data Shape: paddle.Size([16, 8, 1, 128, 128]), Data time: 0.00148773193359375, Forward: 0.08752918243408203, Backward: 0.05836081504821777, Optimizer: 0.06867218017578125
+Epoch 3 Batch 65 Train Loss 0.006789777893573046
+Total Times. Batch: 65, Rank: 0, Data Shape: paddle.Size([16, 8, 1, 128, 128]), Data time: 0.0020363330841064453, Forward: 0.08260822296142578, Backward: 0.05774044990539551, Optimizer: 0.06664013862609863
+Epoch 3 Batch 66 Train Loss 0.008280022069811821
+Total Times. Batch: 66, Rank: 0, Data Shape: paddle.Size([16, 8, 1, 128, 128]), Data time: 0.0015375614166259766, Forward: 0.08645081520080566, Backward: 0.05975747108459473, Optimizer: 0.06905293464660645
+Epoch 3 Batch 67 Train Loss 0.006626036949455738
+Total Times. Batch: 67, Rank: 0, Data Shape: paddle.Size([16, 8, 1, 128, 128]), Data time: 0.0015702247619628906, Forward: 0.0857841968536377, Backward: 0.0578923225402832, Optimizer: 0.06719017028808594
+Epoch 3 Batch 68 Train Loss 0.0068784188479185104
+Total Times. Batch: 68, Rank: 0, Data Shape: paddle.Size([16, 8, 1, 128, 128]), Data time: 0.0017347335815429688, Forward: 0.08740711212158203, Backward: 0.05812644958496094, Optimizer: 0.06690740585327148
+Epoch 3 Batch 69 Train Loss 0.007210571318864822
+Total Times. Batch: 69, Rank: 0, Data Shape: paddle.Size([16, 8, 1, 128, 128]), Data time: 0.0017621517181396484, Forward: 0.08995389938354492, Backward: 0.05791163444519043, Optimizer: 0.06586027145385742
+Epoch 3 Batch 70 Train Loss 0.0073702652007341385
+Total Times. Batch: 70, Rank: 0, Data Shape: paddle.Size([16, 8, 1, 128, 128]), Data time: 0.0014982223510742188, Forward: 0.08318519592285156, Backward: 0.05765938758850098, Optimizer: 0.0657956600189209
+Epoch 3 Batch 71 Train Loss 0.006596162915229797
+Total Times. Batch: 71, Rank: 0, Data Shape: paddle.Size([16, 8, 1, 128, 128]), Data time: 0.001497030258178711, Forward: 0.08910989761352539, Backward: 0.05831480026245117, Optimizer: 0.06614112854003906
+Epoch 3 Batch 72 Train Loss 0.006715664640069008
+Total Times. Batch: 72, Rank: 0, Data Shape: paddle.Size([16, 8, 1, 128, 128]), Data time: 0.0016379356384277344, Forward: 0.0835871696472168, Backward: 0.05906486511230469, Optimizer: 0.06757020950317383
+Epoch 3 Batch 73 Train Loss 0.006780585739761591
+Total Times. Batch: 73, Rank: 0, Data Shape: paddle.Size([16, 8, 1, 128, 128]), Data time: 0.00148773193359375, Forward: 0.08551216125488281, Backward: 0.05983257293701172, Optimizer: 0.06870079040527344
+Epoch 3 Batch 74 Train Loss 0.0062534380704164505
+Total Times. Batch: 74, Rank: 0, Data Shape: paddle.Size([16, 8, 1, 128, 128]), Data time: 0.0015439987182617188, Forward: 0.08459043502807617, Backward: 0.05828428268432617, Optimizer: 0.06629037857055664
+Epoch 3 Batch 75 Train Loss 0.0067443521693348885
+Total Times. Batch: 75, Rank: 0, Data Shape: paddle.Size([16, 8, 1, 128, 128]), Data time: 0.0014684200286865234, Forward: 0.08536505699157715, Backward: 0.057802438735961914, Optimizer: 0.06803536415100098
+Epoch 3 Batch 76 Train Loss 0.0070108650252223015
+Total Times. Batch: 76, Rank: 0, Data Shape: paddle.Size([16, 8, 1, 128, 128]), Data time: 0.0014483928680419922, Forward: 0.08356118202209473, Backward: 0.05855417251586914, Optimizer: 0.09119319915771484
+Epoch 3 Batch 77 Train Loss 0.007174071855843067
+Total Times. Batch: 77, Rank: 0, Data Shape: paddle.Size([16, 8, 1, 128, 128]), Data time: 0.0014007091522216797, Forward: 0.08513355255126953, Backward: 0.05884695053100586, Optimizer: 0.06803035736083984
+Epoch 3 Batch 78 Train Loss 0.006203286349773407
+Total Times. Batch: 78, Rank: 0, Data Shape: paddle.Size([16, 8, 1, 128, 128]), Data time: 0.001650094985961914, Forward: 0.0911705493927002, Backward: 0.059237003326416016, Optimizer: 0.06527495384216309
+Epoch 3 Batch 79 Train Loss 0.006132433656603098
+Total Times. Batch: 79, Rank: 0, Data Shape: paddle.Size([16, 8, 1, 128, 128]), Data time: 0.0014543533325195312, Forward: 0.08393001556396484, Backward: 0.05871701240539551, Optimizer: 0.06605029106140137
+Epoch 3 Batch 80 Train Loss 0.007010403089225292
+Total Times. Batch: 80, Rank: 0, Data Shape: paddle.Size([16, 8, 1, 128, 128]), Data time: 0.0016865730285644531, Forward: 0.08933639526367188, Backward: 0.05905771255493164, Optimizer: 0.06697344779968262
+Epoch 3 Batch 81 Train Loss 0.007072132080793381
+Total Times. Batch: 81, Rank: 0, Data Shape: paddle.Size([16, 8, 1, 128, 128]), Data time: 0.001720428466796875, Forward: 0.08803820610046387, Backward: 0.058825016021728516, Optimizer: 0.06774258613586426
+Epoch 3 Batch 82 Train Loss 0.006939742248505354
+Total Times. Batch: 82, Rank: 0, Data Shape: paddle.Size([16, 8, 1, 128, 128]), Data time: 0.0016183853149414062, Forward: 0.09739995002746582, Backward: 0.07366704940795898, Optimizer: 0.05394387245178223
+Epoch 3 Batch 83 Train Loss 0.00669111218303442
+Total Times. Batch: 83, Rank: 0, Data Shape: paddle.Size([16, 8, 1, 128, 128]), Data time: 0.0016374588012695312, Forward: 0.09961986541748047, Backward: 0.058751821517944336, Optimizer: 0.06556320190429688
+Epoch 3 Batch 84 Train Loss 0.00684860534965992
+Total Times. Batch: 84, Rank: 0, Data Shape: paddle.Size([16, 8, 1, 128, 128]), Data time: 0.0015499591827392578, Forward: 0.08928656578063965, Backward: 0.05915069580078125, Optimizer: 0.06641674041748047
+Epoch 3 Batch 85 Train Loss 0.00703270873054862
+Total Times. Batch: 85, Rank: 0, Data Shape: paddle.Size([16, 8, 1, 128, 128]), Data time: 0.0015521049499511719, Forward: 0.08650732040405273, Backward: 0.06238532066345215, Optimizer: 0.07045292854309082
+Epoch 3 Batch 86 Train Loss 0.0072526647709310055
+Total Times. Batch: 86, Rank: 0, Data Shape: paddle.Size([16, 8, 1, 128, 128]), Data time: 0.0018219947814941406, Forward: 0.08489322662353516, Backward: 0.05875253677368164, Optimizer: 0.06542611122131348
+Epoch 3 Batch 87 Train Loss 0.006973966956138611
+Total Times. Batch: 87, Rank: 0, Data Shape: paddle.Size([16, 8, 1, 128, 128]), Data time: 0.0015587806701660156, Forward: 0.08710312843322754, Backward: 0.06382155418395996, Optimizer: 0.06198740005493164
+Epoch 3 Batch 88 Train Loss 0.007145972922444344
+Total Times. Batch: 88, Rank: 0, Data Shape: paddle.Size([16, 8, 1, 128, 128]), Data time: 0.0016036033630371094, Forward: 0.09673357009887695, Backward: 0.05876946449279785, Optimizer: 0.06479787826538086
+Epoch 3 Batch 89 Train Loss 0.006327137351036072
+Total Times. Batch: 89, Rank: 0, Data Shape: paddle.Size([16, 8, 1, 128, 128]), Data time: 0.0014412403106689453, Forward: 0.0867462158203125, Backward: 0.059526681900024414, Optimizer: 0.08990001678466797
+Epoch 3 Batch 90 Train Loss 0.006762239150702953
+Total Times. Batch: 90, Rank: 0, Data Shape: paddle.Size([16, 8, 1, 128, 128]), Data time: 0.0014200210571289062, Forward: 0.09331059455871582, Backward: 0.060487985610961914, Optimizer: 0.06754255294799805
+Epoch 3 Batch 91 Train Loss 0.006343014072626829
+Total Times. Batch: 91, Rank: 0, Data Shape: paddle.Size([16, 8, 1, 128, 128]), Data time: 0.001580953598022461, Forward: 0.08898663520812988, Backward: 0.058522701263427734, Optimizer: 0.06652450561523438
+Epoch 3 Batch 92 Train Loss 0.0067262593656778336
+Total Times. Batch: 92, Rank: 0, Data Shape: paddle.Size([16, 8, 1, 128, 128]), Data time: 0.0013699531555175781, Forward: 0.08765077590942383, Backward: 0.05902910232543945, Optimizer: 0.06703686714172363
+Epoch 3 Batch 93 Train Loss 0.0070424871519207954
+Total Times. Batch: 93, Rank: 0, Data Shape: paddle.Size([16, 8, 1, 128, 128]), Data time: 0.0014033317565917969, Forward: 0.08680486679077148, Backward: 0.05855202674865723, Optimizer: 0.06870317459106445
+Epoch 3 Batch 94 Train Loss 0.006448063999414444
+Total Times. Batch: 94, Rank: 0, Data Shape: paddle.Size([16, 8, 1, 128, 128]), Data time: 0.0014607906341552734, Forward: 0.08206868171691895, Backward: 0.06068253517150879, Optimizer: 0.06840896606445312
+Epoch 3 Batch 95 Train Loss 0.006669020280241966
+Total Times. Batch: 95, Rank: 0, Data Shape: paddle.Size([16, 8, 1, 128, 128]), Data time: 0.0013661384582519531, Forward: 0.08294486999511719, Backward: 0.059244394302368164, Optimizer: 0.06893372535705566
+Epoch 3 Batch 96 Train Loss 0.00734643405303359
+Total Times. Batch: 96, Rank: 0, Data Shape: paddle.Size([16, 8, 1, 128, 128]), Data time: 0.001476287841796875, Forward: 0.09293627738952637, Backward: 0.05748486518859863, Optimizer: 0.0668022632598877
+Epoch 3 Batch 97 Train Loss 0.007294692099094391
+Total Times. Batch: 97, Rank: 0, Data Shape: paddle.Size([16, 8, 1, 128, 128]), Data time: 0.001520395278930664, Forward: 0.08969950675964355, Backward: 0.05739116668701172, Optimizer: 0.08869457244873047
+Epoch 3 Batch 98 Train Loss 0.0066562313586473465
+Total Times. Batch: 98, Rank: 0, Data Shape: paddle.Size([16, 8, 1, 128, 128]), Data time: 0.0013489723205566406, Forward: 0.11585617065429688, Backward: 0.06677079200744629, Optimizer: 0.05811643600463867
+Epoch 3 Batch 99 Train Loss 0.007322677411139011
+Total Times. Batch: 99, Rank: 0, Data Shape: paddle.Size([16, 8, 1, 128, 128]), Data time: 0.001402139663696289, Forward: 0.09022784233093262, Backward: 0.05866837501525879, Optimizer: 0.07372546195983887
+[BENCH] measured=90 warmup=10 | fwd med=0.0885 mean=0.0926 std=0.0097 | bwd med=0.0592 mean=0.0605 | opt med=0.0670 | step med=0.2178 mean=0.2216 std=0.0113 | loss0=0.007644 lossN=0.007323
+[BENCH] saved bench_timings.npz to /tmp/mpp_acc_off
+all reduces executed!
+Time for train 23.04419732093811. For valid: 3.5762786865234375e-06. For postprocessing:0.10509514808654785
+Time taken for epoch 3 is 23.149367809295654 sec
+Train loss: Tensor(shape=[1], dtype=float32, place=Place(gpu:0), stop_gradient=True,
+       [0.00691709]). Valid loss: 0.0
+train_loader_size 100 68000
+Epoch 4 Batch 0 Train Loss 0.0072212014347314835
+Total Times. Batch: 0, Rank: 0, Data Shape: paddle.Size([16, 8, 1, 128, 128]), Data time: 0.09869265556335449, Forward: 0.11402630805969238, Backward: 0.05995512008666992, Optimizer: 0.0679483413696289
+Epoch 4 Batch 1 Train Loss 0.00636533135548234
+Total Times. Batch: 1, Rank: 0, Data Shape: paddle.Size([16, 8, 1, 128, 128]), Data time: 0.0015497207641601562, Forward: 0.08522725105285645, Backward: 0.05908703804016113, Optimizer: 0.06562066078186035
+Epoch 4 Batch 2 Train Loss 0.007581043988466263
+Total Times. Batch: 2, Rank: 0, Data Shape: paddle.Size([16, 8, 1, 128, 128]), Data time: 0.002154111862182617, Forward: 0.08358049392700195, Backward: 0.05925107002258301, Optimizer: 0.06651496887207031
+Epoch 4 Batch 3 Train Loss 0.006515864282846451
+Total Times. Batch: 3, Rank: 0, Data Shape: paddle.Size([16, 8, 1, 128, 128]), Data time: 0.0017774105072021484, Forward: 0.08157968521118164, Backward: 0.06483936309814453, Optimizer: 0.05911612510681152
+Epoch 4 Batch 4 Train Loss 0.006838853470981121
+Total Times. Batch: 4, Rank: 0, Data Shape: paddle.Size([16, 8, 1, 128, 128]), Data time: 0.0017671585083007812, Forward: 0.08428382873535156, Backward: 0.05862164497375488, Optimizer: 0.06506705284118652
+Epoch 4 Batch 5 Train Loss 0.0070356568321585655
+Total Times. Batch: 5, Rank: 0, Data Shape: paddle.Size([16, 8, 1, 128, 128]), Data time: 0.001749277114868164, Forward: 0.08903288841247559, Backward: 0.05862593650817871, Optimizer: 0.06472206115722656
+Epoch 4 Batch 6 Train Loss 0.007000104524195194
+Total Times. Batch: 6, Rank: 0, Data Shape: paddle.Size([16, 8, 1, 128, 128]), Data time: 0.001699209213256836, Forward: 0.08519387245178223, Backward: 0.058774471282958984, Optimizer: 0.06586098670959473
+Epoch 4 Batch 7 Train Loss 0.007151530124247074
+Total Times. Batch: 7, Rank: 0, Data Shape: paddle.Size([16, 8, 1, 128, 128]), Data time: 0.0015904903411865234, Forward: 0.08582854270935059, Backward: 0.06020307540893555, Optimizer: 0.08345913887023926
+Epoch 4 Batch 8 Train Loss 0.0068276613019406796
+Total Times. Batch: 8, Rank: 0, Data Shape: paddle.Size([16, 8, 1, 128, 128]), Data time: 0.0015828609466552734, Forward: 0.0993351936340332, Backward: 0.06799602508544922, Optimizer: 0.06078028678894043
+Epoch 4 Batch 9 Train Loss 0.0068959123454988
+Total Times. Batch: 9, Rank: 0, Data Shape: paddle.Size([16, 8, 1, 128, 128]), Data time: 0.0016791820526123047, Forward: 0.09825444221496582, Backward: 0.05800771713256836, Optimizer: 0.06950163841247559
+Epoch 4 Batch 10 Train Loss 0.00776252243667841
+Total Times. Batch: 10, Rank: 0, Data Shape: paddle.Size([16, 8, 1, 128, 128]), Data time: 0.0016067028045654297, Forward: 0.09039974212646484, Backward: 0.06769800186157227, Optimizer: 0.0612034797668457
+Epoch 4 Batch 11 Train Loss 0.006661128718405962
+Total Times. Batch: 11, Rank: 0, Data Shape: paddle.Size([16, 8, 1, 128, 128]), Data time: 0.0017430782318115234, Forward: 0.11207056045532227, Backward: 0.0656900405883789, Optimizer: 0.06812119483947754
+Epoch 4 Batch 12 Train Loss 0.007140384521335363
+Total Times. Batch: 12, Rank: 0, Data Shape: paddle.Size([16, 8, 1, 128, 128]), Data time: 0.0015926361083984375, Forward: 0.09360170364379883, Backward: 0.10135054588317871, Optimizer: 0.03226304054260254
+Epoch 4 Batch 13 Train Loss 0.006373311392962933
+Total Times. Batch: 13, Rank: 0, Data Shape: paddle.Size([16, 8, 1, 128, 128]), Data time: 0.0018489360809326172, Forward: 0.13520073890686035, Backward: 0.06389474868774414, Optimizer: 0.0883016586303711
+Epoch 4 Batch 14 Train Loss 0.007293423637747765
+Total Times. Batch: 14, Rank: 0, Data Shape: paddle.Size([16, 8, 1, 128, 128]), Data time: 0.0015172958374023438, Forward: 0.08709859848022461, Backward: 0.05815577507019043, Optimizer: 0.06655645370483398
+Epoch 4 Batch 15 Train Loss 0.006790924817323685
+Total Times. Batch: 15, Rank: 0, Data Shape: paddle.Size([16, 8, 1, 128, 128]), Data time: 0.0017139911651611328, Forward: 0.08868265151977539, Backward: 0.06160473823547363, Optimizer: 0.07086420059204102
+Epoch 4 Batch 16 Train Loss 0.006533509120345116
+Total Times. Batch: 16, Rank: 0, Data Shape: paddle.Size([16, 8, 1, 128, 128]), Data time: 0.0015447139739990234, Forward: 0.0855717658996582, Backward: 0.05899214744567871, Optimizer: 0.06835103034973145
+Epoch 4 Batch 17 Train Loss 0.0068306103348731995
+Total Times. Batch: 17, Rank: 0, Data Shape: paddle.Size([16, 8, 1, 128, 128]), Data time: 0.0015516281127929688, Forward: 0.08673810958862305, Backward: 0.05874037742614746, Optimizer: 0.06689906120300293
+Epoch 4 Batch 18 Train Loss 0.0062276702374219894
+Total Times. Batch: 18, Rank: 0, Data Shape: paddle.Size([16, 8, 1, 128, 128]), Data time: 0.0016798973083496094, Forward: 0.0830228328704834, Backward: 0.05778765678405762, Optimizer: 0.06586003303527832
+Epoch 4 Batch 19 Train Loss 0.006964978761970997
+Total Times. Batch: 19, Rank: 0, Data Shape: paddle.Size([16, 8, 1, 128, 128]), Data time: 0.0016689300537109375, Forward: 0.09384632110595703, Backward: 0.06104898452758789, Optimizer: 0.06720948219299316
+Epoch 4 Batch 20 Train Loss 0.007148679345846176
+Total Times. Batch: 20, Rank: 0, Data Shape: paddle.Size([16, 8, 1, 128, 128]), Data time: 0.0014832019805908203, Forward: 0.09337639808654785, Backward: 0.05930495262145996, Optimizer: 0.06647038459777832
+Epoch 4 Batch 21 Train Loss 0.006945543922483921
+Total Times. Batch: 21, Rank: 0, Data Shape: paddle.Size([16, 8, 1, 128, 128]), Data time: 0.0015804767608642578, Forward: 0.09065365791320801, Backward: 0.05898427963256836, Optimizer: 0.06585049629211426
+Epoch 4 Batch 22 Train Loss 0.006608591414988041
+Total Times. Batch: 22, Rank: 0, Data Shape: paddle.Size([16, 8, 1, 128, 128]), Data time: 0.001583099365234375, Forward: 0.12917304039001465, Backward: 0.059041500091552734, Optimizer: 0.06533384323120117
+Epoch 4 Batch 23 Train Loss 0.0067342412658035755
+Total Times. Batch: 23, Rank: 0, Data Shape: paddle.Size([16, 8, 1, 128, 128]), Data time: 0.0017147064208984375, Forward: 0.08783268928527832, Backward: 0.05857658386230469, Optimizer: 0.06516098976135254
+Epoch 4 Batch 24 Train Loss 0.006967343855649233
+Total Times. Batch: 24, Rank: 0, Data Shape: paddle.Size([16, 8, 1, 128, 128]), Data time: 0.0015988349914550781, Forward: 0.10030174255371094, Backward: 0.06174659729003906, Optimizer: 0.06859827041625977
+Epoch 4 Batch 25 Train Loss 0.006551044061779976
+Total Times. Batch: 25, Rank: 0, Data Shape: paddle.Size([16, 8, 1, 128, 128]), Data time: 0.0018706321716308594, Forward: 0.08606338500976562, Backward: 0.06164717674255371, Optimizer: 0.07094812393188477
+Epoch 4 Batch 26 Train Loss 0.006788473576307297
+Total Times. Batch: 26, Rank: 0, Data Shape: paddle.Size([16, 8, 1, 128, 128]), Data time: 0.0020568370819091797, Forward: 0.09147524833679199, Backward: 0.06341671943664551, Optimizer: 0.07306218147277832
+Epoch 4 Batch 27 Train Loss 0.008023876696825027
+Total Times. Batch: 27, Rank: 0, Data Shape: paddle.Size([16, 8, 1, 128, 128]), Data time: 0.0021333694458007812, Forward: 0.10541868209838867, Backward: 0.05973625183105469, Optimizer: 0.06688070297241211
+Epoch 4 Batch 28 Train Loss 0.006519394926726818
+Total Times. Batch: 28, Rank: 0, Data Shape: paddle.Size([16, 8, 1, 128, 128]), Data time: 0.0015375614166259766, Forward: 0.08820462226867676, Backward: 0.0626521110534668, Optimizer: 0.06811237335205078
+Epoch 4 Batch 29 Train Loss 0.0062306663021445274
+Total Times. Batch: 29, Rank: 0, Data Shape: paddle.Size([16, 8, 1, 128, 128]), Data time: 0.001622915267944336, Forward: 0.08826828002929688, Backward: 0.07292842864990234, Optimizer: 0.0589296817779541
+Epoch 4 Batch 30 Train Loss 0.007054437417536974
+Total Times. Batch: 30, Rank: 0, Data Shape: paddle.Size([16, 8, 1, 128, 128]), Data time: 0.0019063949584960938, Forward: 0.09344339370727539, Backward: 0.059183597564697266, Optimizer: 0.06520628929138184
+Epoch 4 Batch 31 Train Loss 0.006758761592209339
+Total Times. Batch: 31, Rank: 0, Data Shape: paddle.Size([16, 8, 1, 128, 128]), Data time: 0.0015950202941894531, Forward: 0.08216166496276855, Backward: 0.059511661529541016, Optimizer: 0.0656728744506836
+Epoch 4 Batch 32 Train Loss 0.006960014346987009
+Total Times. Batch: 32, Rank: 0, Data Shape: paddle.Size([16, 8, 1, 128, 128]), Data time: 0.0017156600952148438, Forward: 0.09467649459838867, Backward: 0.06464791297912598, Optimizer: 0.07167673110961914
+Epoch 4 Batch 33 Train Loss 0.0071273017674684525
+Total Times. Batch: 33, Rank: 0, Data Shape: paddle.Size([16, 8, 1, 128, 128]), Data time: 0.0016078948974609375, Forward: 0.09674763679504395, Backward: 0.06611156463623047, Optimizer: 0.06995296478271484
+Epoch 4 Batch 34 Train Loss 0.0065973368473351
+Total Times. Batch: 34, Rank: 0, Data Shape: paddle.Size([16, 8, 1, 128, 128]), Data time: 0.0015115737915039062, Forward: 0.09426116943359375, Backward: 0.05971884727478027, Optimizer: 0.08797025680541992
+Epoch 4 Batch 35 Train Loss 0.00670684315264225
+Total Times. Batch: 35, Rank: 0, Data Shape: paddle.Size([16, 8, 1, 128, 128]), Data time: 0.0015017986297607422, Forward: 0.08431482315063477, Backward: 0.0574648380279541, Optimizer: 0.0684199333190918
+Epoch 4 Batch 36 Train Loss 0.006902183406054974
+Total Times. Batch: 36, Rank: 0, Data Shape: paddle.Size([16, 8, 1, 128, 128]), Data time: 0.0019063949584960938, Forward: 0.08956217765808105, Backward: 0.06939339637756348, Optimizer: 0.05498909950256348
+Epoch 4 Batch 37 Train Loss 0.006872567348182201
+Total Times. Batch: 37, Rank: 0, Data Shape: paddle.Size([16, 8, 1, 128, 128]), Data time: 0.0015151500701904297, Forward: 0.0836629867553711, Backward: 0.05867505073547363, Optimizer: 0.07160353660583496
+Epoch 4 Batch 38 Train Loss 0.0068675559014081955
+Total Times. Batch: 38, Rank: 0, Data Shape: paddle.Size([16, 8, 1, 128, 128]), Data time: 0.001506805419921875, Forward: 0.08786821365356445, Backward: 0.05986309051513672, Optimizer: 0.07401347160339355
+Epoch 4 Batch 39 Train Loss 0.007457006722688675
+Total Times. Batch: 39, Rank: 0, Data Shape: paddle.Size([16, 8, 1, 128, 128]), Data time: 0.0018029212951660156, Forward: 0.08720088005065918, Backward: 0.05791950225830078, Optimizer: 0.06617164611816406
+Epoch 4 Batch 40 Train Loss 0.006298135034739971
+Total Times. Batch: 40, Rank: 0, Data Shape: paddle.Size([16, 8, 1, 128, 128]), Data time: 0.0015249252319335938, Forward: 0.08460259437561035, Backward: 0.057558536529541016, Optimizer: 0.06540298461914062
+Epoch 4 Batch 41 Train Loss 0.007047739811241627
+Total Times. Batch: 41, Rank: 0, Data Shape: paddle.Size([16, 8, 1, 128, 128]), Data time: 0.0016274452209472656, Forward: 0.08673262596130371, Backward: 0.057398080825805664, Optimizer: 0.0670936107635498
+Epoch 4 Batch 42 Train Loss 0.0073813279159367085
+Total Times. Batch: 42, Rank: 0, Data Shape: paddle.Size([16, 8, 1, 128, 128]), Data time: 0.0014483928680419922, Forward: 0.10575628280639648, Backward: 0.06102943420410156, Optimizer: 0.07009625434875488
+Epoch 4 Batch 43 Train Loss 0.006278502754867077
+Total Times. Batch: 43, Rank: 0, Data Shape: paddle.Size([16, 8, 1, 128, 128]), Data time: 0.0017521381378173828, Forward: 0.08991336822509766, Backward: 0.06059575080871582, Optimizer: 0.0688021183013916
+Epoch 4 Batch 44 Train Loss 0.007040734402835369
+Total Times. Batch: 44, Rank: 0, Data Shape: paddle.Size([16, 8, 1, 128, 128]), Data time: 0.0015404224395751953, Forward: 0.08346891403198242, Backward: 0.05863022804260254, Optimizer: 0.06529760360717773
+Epoch 4 Batch 45 Train Loss 0.007062798831611872
+Total Times. Batch: 45, Rank: 0, Data Shape: paddle.Size([16, 8, 1, 128, 128]), Data time: 0.0015208721160888672, Forward: 0.10199761390686035, Backward: 0.05968117713928223, Optimizer: 0.06564760208129883
+Epoch 4 Batch 46 Train Loss 0.00636519817635417
+Total Times. Batch: 46, Rank: 0, Data Shape: paddle.Size([16, 8, 1, 128, 128]), Data time: 0.0015096664428710938, Forward: 0.08591723442077637, Backward: 0.05928754806518555, Optimizer: 0.06838178634643555
+Epoch 4 Batch 47 Train Loss 0.007093061227351427
+Total Times. Batch: 47, Rank: 0, Data Shape: paddle.Size([16, 8, 1, 128, 128]), Data time: 0.0016148090362548828, Forward: 0.08679628372192383, Backward: 0.05990791320800781, Optimizer: 0.06701540946960449
+Epoch 4 Batch 48 Train Loss 0.008092153817415237
+Total Times. Batch: 48, Rank: 0, Data Shape: paddle.Size([16, 8, 1, 128, 128]), Data time: 0.0017120838165283203, Forward: 0.08261847496032715, Backward: 0.0696403980255127, Optimizer: 0.05380511283874512
+Epoch 4 Batch 49 Train Loss 0.00616050511598587
+Total Times. Batch: 49, Rank: 0, Data Shape: paddle.Size([16, 8, 1, 128, 128]), Data time: 0.0015301704406738281, Forward: 0.11224889755249023, Backward: 0.06238532066345215, Optimizer: 0.06756758689880371
+Epoch 4 Batch 50 Train Loss 0.007114840671420097
+Total Times. Batch: 50, Rank: 0, Data Shape: paddle.Size([16, 8, 1, 128, 128]), Data time: 0.0015828609466552734, Forward: 0.11073613166809082, Backward: 0.0652620792388916, Optimizer: 0.06666088104248047
+Epoch 4 Batch 51 Train Loss 0.006856529973447323
+Total Times. Batch: 51, Rank: 0, Data Shape: paddle.Size([16, 8, 1, 128, 128]), Data time: 0.0014586448669433594, Forward: 0.0896141529083252, Backward: 0.06070876121520996, Optimizer: 0.06747841835021973
+Epoch 4 Batch 52 Train Loss 0.006757746450603008
+Total Times. Batch: 52, Rank: 0, Data Shape: paddle.Size([16, 8, 1, 128, 128]), Data time: 0.0015642642974853516, Forward: 0.1200568675994873, Backward: 0.05913877487182617, Optimizer: 0.08712339401245117
+Epoch 4 Batch 53 Train Loss 0.007058263756334782
+Total Times. Batch: 53, Rank: 0, Data Shape: paddle.Size([16, 8, 1, 128, 128]), Data time: 0.001989126205444336, Forward: 0.08578944206237793, Backward: 0.061530351638793945, Optimizer: 0.06746816635131836
+Epoch 4 Batch 54 Train Loss 0.006744232028722763
+Total Times. Batch: 54, Rank: 0, Data Shape: paddle.Size([16, 8, 1, 128, 128]), Data time: 0.0015234947204589844, Forward: 0.09719562530517578, Backward: 0.08084988594055176, Optimizer: 0.06167960166931152
+Epoch 4 Batch 55 Train Loss 0.00689338706433773
+Total Times. Batch: 55, Rank: 0, Data Shape: paddle.Size([16, 8, 1, 128, 128]), Data time: 0.0015478134155273438, Forward: 0.08370327949523926, Backward: 0.06386995315551758, Optimizer: 0.0661015510559082
+Epoch 4 Batch 56 Train Loss 0.006407621316611767
+Total Times. Batch: 56, Rank: 0, Data Shape: paddle.Size([16, 8, 1, 128, 128]), Data time: 0.001847982406616211, Forward: 0.1045372486114502, Backward: 0.061531782150268555, Optimizer: 0.06726312637329102
+Epoch 4 Batch 57 Train Loss 0.006999816745519638
+Total Times. Batch: 57, Rank: 0, Data Shape: paddle.Size([16, 8, 1, 128, 128]), Data time: 0.0014307498931884766, Forward: 0.08277535438537598, Backward: 0.057511329650878906, Optimizer: 0.06614279747009277
+Epoch 4 Batch 58 Train Loss 0.006631006952375174
+Total Times. Batch: 58, Rank: 0, Data Shape: paddle.Size([16, 8, 1, 128, 128]), Data time: 0.0014979839324951172, Forward: 0.08330416679382324, Backward: 0.05765247344970703, Optimizer: 0.06624078750610352
+Epoch 4 Batch 59 Train Loss 0.006953854579478502
+Total Times. Batch: 59, Rank: 0, Data Shape: paddle.Size([16, 8, 1, 128, 128]), Data time: 0.0014526844024658203, Forward: 0.10073685646057129, Backward: 0.05887436866760254, Optimizer: 0.0954437255859375
+Epoch 4 Batch 60 Train Loss 0.00689143780618906
+Total Times. Batch: 60, Rank: 0, Data Shape: paddle.Size([16, 8, 1, 128, 128]), Data time: 0.0014317035675048828, Forward: 0.11448144912719727, Backward: 0.06006312370300293, Optimizer: 0.08545708656311035
+Epoch 4 Batch 61 Train Loss 0.005787993781268597
+Total Times. Batch: 61, Rank: 0, Data Shape: paddle.Size([16, 8, 1, 128, 128]), Data time: 0.0014674663543701172, Forward: 0.09166955947875977, Backward: 0.05836772918701172, Optimizer: 0.06771516799926758
+Epoch 4 Batch 62 Train Loss 0.006349609699100256
+Total Times. Batch: 62, Rank: 0, Data Shape: paddle.Size([16, 8, 1, 128, 128]), Data time: 0.0015325546264648438, Forward: 0.08340930938720703, Backward: 0.05828404426574707, Optimizer: 0.0863797664642334
+Epoch 4 Batch 63 Train Loss 0.006898718886077404
+Total Times. Batch: 63, Rank: 0, Data Shape: paddle.Size([16, 8, 1, 128, 128]), Data time: 0.0015442371368408203, Forward: 0.09825992584228516, Backward: 0.05891227722167969, Optimizer: 0.0700979232788086
+Epoch 4 Batch 64 Train Loss 0.006628221832215786
+Total Times. Batch: 64, Rank: 0, Data Shape: paddle.Size([16, 8, 1, 128, 128]), Data time: 0.0015666484832763672, Forward: 0.09402132034301758, Backward: 0.060936689376831055, Optimizer: 0.0657958984375
+Epoch 4 Batch 65 Train Loss 0.006655777804553509
+Total Times. Batch: 65, Rank: 0, Data Shape: paddle.Size([16, 8, 1, 128, 128]), Data time: 0.001611948013305664, Forward: 0.08638811111450195, Backward: 0.05861687660217285, Optimizer: 0.06791186332702637
+Epoch 4 Batch 66 Train Loss 0.0074741169810295105
+Total Times. Batch: 66, Rank: 0, Data Shape: paddle.Size([16, 8, 1, 128, 128]), Data time: 0.0017209053039550781, Forward: 0.11812257766723633, Backward: 0.08955740928649902, Optimizer: 0.05294156074523926
+Epoch 4 Batch 67 Train Loss 0.006662803702056408
+Total Times. Batch: 67, Rank: 0, Data Shape: paddle.Size([16, 8, 1, 128, 128]), Data time: 0.0016779899597167969, Forward: 0.11799740791320801, Backward: 0.06620144844055176, Optimizer: 0.07674241065979004
+Epoch 4 Batch 68 Train Loss 0.007011177949607372
+Total Times. Batch: 68, Rank: 0, Data Shape: paddle.Size([16, 8, 1, 128, 128]), Data time: 0.0021758079528808594, Forward: 0.10599422454833984, Backward: 0.06985068321228027, Optimizer: 0.07058000564575195
+Epoch 4 Batch 69 Train Loss 0.00685491506010294
+Total Times. Batch: 69, Rank: 0, Data Shape: paddle.Size([16, 8, 1, 128, 128]), Data time: 0.0020210742950439453, Forward: 0.11775398254394531, Backward: 0.07680153846740723, Optimizer: 0.09308767318725586
+Epoch 4 Batch 70 Train Loss 0.0072737401351332664
+Total Times. Batch: 70, Rank: 0, Data Shape: paddle.Size([16, 8, 1, 128, 128]), Data time: 0.0019333362579345703, Forward: 0.13093996047973633, Backward: 0.059152841567993164, Optimizer: 0.07708978652954102
+Epoch 4 Batch 71 Train Loss 0.006517098285257816
+Total Times. Batch: 71, Rank: 0, Data Shape: paddle.Size([16, 8, 1, 128, 128]), Data time: 0.0014824867248535156, Forward: 0.11150503158569336, Backward: 0.06152534484863281, Optimizer: 0.07009124755859375
+Epoch 4 Batch 72 Train Loss 0.00688682496547699
+Total Times. Batch: 72, Rank: 0, Data Shape: paddle.Size([16, 8, 1, 128, 128]), Data time: 0.0016329288482666016, Forward: 0.08612227439880371, Backward: 0.06799602508544922, Optimizer: 0.07805371284484863
+Epoch 4 Batch 73 Train Loss 0.006861227098852396
+Total Times. Batch: 73, Rank: 0, Data Shape: paddle.Size([16, 8, 1, 128, 128]), Data time: 0.0018718242645263672, Forward: 0.09795355796813965, Backward: 0.06497597694396973, Optimizer: 0.08850216865539551
+Epoch 4 Batch 74 Train Loss 0.006081544328480959
+Total Times. Batch: 74, Rank: 0, Data Shape: paddle.Size([16, 8, 1, 128, 128]), Data time: 0.0016031265258789062, Forward: 0.14564990997314453, Backward: 0.05865025520324707, Optimizer: 0.06656074523925781
+Epoch 4 Batch 75 Train Loss 0.006703764200210571
+Total Times. Batch: 75, Rank: 0, Data Shape: paddle.Size([16, 8, 1, 128, 128]), Data time: 0.0014362335205078125, Forward: 0.12709283828735352, Backward: 0.059603214263916016, Optimizer: 0.06891059875488281
+Epoch 4 Batch 76 Train Loss 0.007097134366631508
+Total Times. Batch: 76, Rank: 0, Data Shape: paddle.Size([16, 8, 1, 128, 128]), Data time: 0.0015244483947753906, Forward: 0.09063386917114258, Backward: 0.0582578182220459, Optimizer: 0.06916165351867676
+Epoch 4 Batch 77 Train Loss 0.00711316941305995
+Total Times. Batch: 77, Rank: 0, Data Shape: paddle.Size([16, 8, 1, 128, 128]), Data time: 0.0014684200286865234, Forward: 0.0942685604095459, Backward: 0.059689998626708984, Optimizer: 0.09029078483581543
+Epoch 4 Batch 78 Train Loss 0.006265872158110142
+Total Times. Batch: 78, Rank: 0, Data Shape: paddle.Size([16, 8, 1, 128, 128]), Data time: 0.0014569759368896484, Forward: 0.1017916202545166, Backward: 0.057917118072509766, Optimizer: 0.07197809219360352
+Epoch 4 Batch 79 Train Loss 0.0060271089896559715
+Total Times. Batch: 79, Rank: 0, Data Shape: paddle.Size([16, 8, 1, 128, 128]), Data time: 0.0019326210021972656, Forward: 0.08718323707580566, Backward: 0.06018209457397461, Optimizer: 0.06585431098937988
+Epoch 4 Batch 80 Train Loss 0.006773428525775671
+Total Times. Batch: 80, Rank: 0, Data Shape: paddle.Size([16, 8, 1, 128, 128]), Data time: 0.0017185211181640625, Forward: 0.08945202827453613, Backward: 0.06792807579040527, Optimizer: 0.06720495223999023
+Epoch 4 Batch 81 Train Loss 0.007117460016161203
+Total Times. Batch: 81, Rank: 0, Data Shape: paddle.Size([16, 8, 1, 128, 128]), Data time: 0.0016024112701416016, Forward: 0.08658099174499512, Backward: 0.05875992774963379, Optimizer: 0.06736135482788086
+Epoch 4 Batch 82 Train Loss 0.0065317898988723755
+Total Times. Batch: 82, Rank: 0, Data Shape: paddle.Size([16, 8, 1, 128, 128]), Data time: 0.001435995101928711, Forward: 0.08242344856262207, Backward: 0.05897235870361328, Optimizer: 0.06653881072998047
+Epoch 4 Batch 83 Train Loss 0.00628859456628561
+Total Times. Batch: 83, Rank: 0, Data Shape: paddle.Size([16, 8, 1, 128, 128]), Data time: 0.0014948844909667969, Forward: 0.09613275527954102, Backward: 0.0590519905090332, Optimizer: 0.06700754165649414
+Epoch 4 Batch 84 Train Loss 0.006659116130322218
+Total Times. Batch: 84, Rank: 0, Data Shape: paddle.Size([16, 8, 1, 128, 128]), Data time: 0.0015552043914794922, Forward: 0.1171572208404541, Backward: 0.060152530670166016, Optimizer: 0.06926178932189941
+Epoch 4 Batch 85 Train Loss 0.0064918845891952515
+Total Times. Batch: 85, Rank: 0, Data Shape: paddle.Size([16, 8, 1, 128, 128]), Data time: 0.0014805793762207031, Forward: 0.09274697303771973, Backward: 0.058838605880737305, Optimizer: 0.06628990173339844
+Epoch 4 Batch 86 Train Loss 0.007119509857147932
+Total Times. Batch: 86, Rank: 0, Data Shape: paddle.Size([16, 8, 1, 128, 128]), Data time: 0.0015406608581542969, Forward: 0.08365988731384277, Backward: 0.05738186836242676, Optimizer: 0.08518385887145996
+Epoch 4 Batch 87 Train Loss 0.006509751081466675
+Total Times. Batch: 87, Rank: 0, Data Shape: paddle.Size([16, 8, 1, 128, 128]), Data time: 0.0014655590057373047, Forward: 0.08434748649597168, Backward: 0.05868864059448242, Optimizer: 0.067962646484375
+Epoch 4 Batch 88 Train Loss 0.0069554708898067474
+Total Times. Batch: 88, Rank: 0, Data Shape: paddle.Size([16, 8, 1, 128, 128]), Data time: 0.0017879009246826172, Forward: 0.09900808334350586, Backward: 0.0711820125579834, Optimizer: 0.061197757720947266
+Epoch 4 Batch 89 Train Loss 0.006162756588310003
+Total Times. Batch: 89, Rank: 0, Data Shape: paddle.Size([16, 8, 1, 128, 128]), Data time: 0.0015492439270019531, Forward: 0.10186624526977539, Backward: 0.06471800804138184, Optimizer: 0.07216668128967285
+Epoch 4 Batch 90 Train Loss 0.006631474010646343
+Total Times. Batch: 90, Rank: 0, Data Shape: paddle.Size([16, 8, 1, 128, 128]), Data time: 0.0015370845794677734, Forward: 0.09413743019104004, Backward: 0.06044602394104004, Optimizer: 0.065704345703125
+Epoch 4 Batch 91 Train Loss 0.006083263084292412
+Total Times. Batch: 91, Rank: 0, Data Shape: paddle.Size([16, 8, 1, 128, 128]), Data time: 0.001453399658203125, Forward: 0.08693623542785645, Backward: 0.05883955955505371, Optimizer: 0.07222676277160645
+Epoch 4 Batch 92 Train Loss 0.006552373990416527
+Total Times. Batch: 92, Rank: 0, Data Shape: paddle.Size([16, 8, 1, 128, 128]), Data time: 0.004012107849121094, Forward: 0.09208106994628906, Backward: 0.05959439277648926, Optimizer: 0.07264280319213867
+Epoch 4 Batch 93 Train Loss 0.006898251362144947
+Total Times. Batch: 93, Rank: 0, Data Shape: paddle.Size([16, 8, 1, 128, 128]), Data time: 0.0014226436614990234, Forward: 0.08377599716186523, Backward: 0.05800676345825195, Optimizer: 0.07312345504760742
+Epoch 4 Batch 94 Train Loss 0.00621464429423213
+Total Times. Batch: 94, Rank: 0, Data Shape: paddle.Size([16, 8, 1, 128, 128]), Data time: 0.001615285873413086, Forward: 0.08981800079345703, Backward: 0.05797529220581055, Optimizer: 0.06746315956115723
+Epoch 4 Batch 95 Train Loss 0.006076234858483076
+Total Times. Batch: 95, Rank: 0, Data Shape: paddle.Size([16, 8, 1, 128, 128]), Data time: 0.0014503002166748047, Forward: 0.0881812572479248, Backward: 0.05747175216674805, Optimizer: 0.06756949424743652
+Epoch 4 Batch 96 Train Loss 0.007223715074360371
+Total Times. Batch: 96, Rank: 0, Data Shape: paddle.Size([16, 8, 1, 128, 128]), Data time: 0.0013761520385742188, Forward: 0.08353805541992188, Backward: 0.11511683464050293, Optimizer: 0.04169154167175293
+Epoch 4 Batch 97 Train Loss 0.007224586792290211
+Total Times. Batch: 97, Rank: 0, Data Shape: paddle.Size([16, 8, 1, 128, 128]), Data time: 0.0014829635620117188, Forward: 0.09236860275268555, Backward: 0.08514928817749023, Optimizer: 0.059771060943603516
+Epoch 4 Batch 98 Train Loss 0.00648632925003767
+Total Times. Batch: 98, Rank: 0, Data Shape: paddle.Size([16, 8, 1, 128, 128]), Data time: 0.0015935897827148438, Forward: 0.1151280403137207, Backward: 0.0627288818359375, Optimizer: 0.0819845199584961
+Epoch 4 Batch 99 Train Loss 0.00696780439466238
+Total Times. Batch: 99, Rank: 0, Data Shape: paddle.Size([16, 8, 1, 128, 128]), Data time: 0.0013778209686279297, Forward: 0.09898495674133301, Backward: 0.06605052947998047, Optimizer: 0.08298850059509277
+[BENCH] measured=90 warmup=10 | fwd med=0.0916 mean=0.0961 std=0.0136 | bwd med=0.0598 mean=0.0631 | opt med=0.0676 | step med=0.2219 mean=0.2287 std=0.0187 | loss0=0.007763 lossN=0.006968
+[BENCH] saved bench_timings.npz to /tmp/mpp_acc_off
+all reduces executed!
+Time for train 23.505921602249146. For valid: 3.814697265625e-06. For postprocessing:0.10575509071350098
+Time taken for epoch 4 is 23.61174726486206 sec
+Train loss: Tensor(shape=[1], dtype=float32, place=Place(gpu:0), stop_gradient=True,
+       [0.00680082]). Valid loss: 0.0
+train_loader_size 100 68000
+Epoch 5 Batch 0 Train Loss 0.006955660879611969
+Total Times. Batch: 0, Rank: 0, Data Shape: paddle.Size([16, 8, 1, 128, 128]), Data time: 0.11113953590393066, Forward: 0.15272736549377441, Backward: 0.09450125694274902, Optimizer: 0.03824019432067871
+Epoch 5 Batch 1 Train Loss 0.006906229071319103
+Total Times. Batch: 1, Rank: 0, Data Shape: paddle.Size([16, 8, 1, 128, 128]), Data time: 0.001667022705078125, Forward: 0.0917055606842041, Backward: 0.058776140213012695, Optimizer: 0.06614089012145996
+Epoch 5 Batch 2 Train Loss 0.007351587060838938
+Total Times. Batch: 2, Rank: 0, Data Shape: paddle.Size([16, 8, 1, 128, 128]), Data time: 0.0016057491302490234, Forward: 0.0875396728515625, Backward: 0.058724403381347656, Optimizer: 0.0662069320678711
+Epoch 5 Batch 3 Train Loss 0.007490255869925022
+Total Times. Batch: 3, Rank: 0, Data Shape: paddle.Size([16, 8, 1, 128, 128]), Data time: 0.0014810562133789062, Forward: 0.0970008373260498, Backward: 0.05761218070983887, Optimizer: 0.06626367568969727
+Epoch 5 Batch 4 Train Loss 0.006583196576684713
+Total Times. Batch: 4, Rank: 0, Data Shape: paddle.Size([16, 8, 1, 128, 128]), Data time: 0.0015938282012939453, Forward: 0.10942625999450684, Backward: 0.05873227119445801, Optimizer: 0.06623387336730957
+Epoch 5 Batch 5 Train Loss 0.006909269839525223
+Total Times. Batch: 5, Rank: 0, Data Shape: paddle.Size([16, 8, 1, 128, 128]), Data time: 0.0015072822570800781, Forward: 0.08545994758605957, Backward: 0.05834794044494629, Optimizer: 0.06642007827758789
+Epoch 5 Batch 6 Train Loss 0.00721223559230566
+Total Times. Batch: 6, Rank: 0, Data Shape: paddle.Size([16, 8, 1, 128, 128]), Data time: 0.0017845630645751953, Forward: 0.10407233238220215, Backward: 0.059679508209228516, Optimizer: 0.0650930404663086
+Epoch 5 Batch 7 Train Loss 0.007122024893760681
+Total Times. Batch: 7, Rank: 0, Data Shape: paddle.Size([16, 8, 1, 128, 128]), Data time: 0.0015175342559814453, Forward: 0.08400177955627441, Backward: 0.060904741287231445, Optimizer: 0.06628942489624023
+Epoch 5 Batch 8 Train Loss 0.006440870463848114
+Total Times. Batch: 8, Rank: 0, Data Shape: paddle.Size([16, 8, 1, 128, 128]), Data time: 0.001968860626220703, Forward: 0.08253765106201172, Backward: 0.058759212493896484, Optimizer: 0.06771707534790039
+Epoch 5 Batch 9 Train Loss 0.007018757052719593
+Total Times. Batch: 9, Rank: 0, Data Shape: paddle.Size([16, 8, 1, 128, 128]), Data time: 0.0015659332275390625, Forward: 0.08898806571960449, Backward: 0.06419134140014648, Optimizer: 0.06689596176147461
+Epoch 5 Batch 10 Train Loss 0.007306444458663464
+Total Times. Batch: 10, Rank: 0, Data Shape: paddle.Size([16, 8, 1, 128, 128]), Data time: 0.0014472007751464844, Forward: 0.10587930679321289, Backward: 0.06760287284851074, Optimizer: 0.05916643142700195
+Epoch 5 Batch 11 Train Loss 0.0065508633852005005
+Total Times. Batch: 11, Rank: 0, Data Shape: paddle.Size([16, 8, 1, 128, 128]), Data time: 0.0020148754119873047, Forward: 0.08899402618408203, Backward: 0.05892777442932129, Optimizer: 0.06674742698669434
+Epoch 5 Batch 12 Train Loss 0.007062605582177639
+Total Times. Batch: 12, Rank: 0, Data Shape: paddle.Size([16, 8, 1, 128, 128]), Data time: 0.0014500617980957031, Forward: 0.10114288330078125, Backward: 0.07998800277709961, Optimizer: 0.06078290939331055
+Epoch 5 Batch 13 Train Loss 0.006775607354938984
+Total Times. Batch: 13, Rank: 0, Data Shape: paddle.Size([16, 8, 1, 128, 128]), Data time: 0.001573801040649414, Forward: 0.09144091606140137, Backward: 0.05883431434631348, Optimizer: 0.06602811813354492
+Epoch 5 Batch 14 Train Loss 0.007689216639846563
+Total Times. Batch: 14, Rank: 0, Data Shape: paddle.Size([16, 8, 1, 128, 128]), Data time: 0.0014801025390625, Forward: 0.10307192802429199, Backward: 0.05845212936401367, Optimizer: 0.08628463745117188
+Epoch 5 Batch 15 Train Loss 0.006748231593519449
+Total Times. Batch: 15, Rank: 0, Data Shape: paddle.Size([16, 8, 1, 128, 128]), Data time: 0.0016014575958251953, Forward: 0.11064743995666504, Backward: 0.10359835624694824, Optimizer: 0.05512571334838867
+Epoch 5 Batch 16 Train Loss 0.006150796078145504
+Total Times. Batch: 16, Rank: 0, Data Shape: paddle.Size([16, 8, 1, 128, 128]), Data time: 0.0015833377838134766, Forward: 0.12774229049682617, Backward: 0.06581282615661621, Optimizer: 0.06231188774108887
+Epoch 5 Batch 17 Train Loss 0.007320537231862545
+Total Times. Batch: 17, Rank: 0, Data Shape: paddle.Size([16, 8, 1, 128, 128]), Data time: 0.0015027523040771484, Forward: 0.1015162467956543, Backward: 0.06264710426330566, Optimizer: 0.061244964599609375
+Epoch 5 Batch 18 Train Loss 0.006448168307542801
+Total Times. Batch: 18, Rank: 0, Data Shape: paddle.Size([16, 8, 1, 128, 128]), Data time: 0.0015363693237304688, Forward: 0.08679080009460449, Backward: 0.05933380126953125, Optimizer: 0.06960940361022949
+Epoch 5 Batch 19 Train Loss 0.006540084257721901
+Total Times. Batch: 19, Rank: 0, Data Shape: paddle.Size([16, 8, 1, 128, 128]), Data time: 0.0014507770538330078, Forward: 0.09112000465393066, Backward: 0.06498146057128906, Optimizer: 0.09679770469665527
+Epoch 5 Batch 20 Train Loss 0.006976990029215813
+Total Times. Batch: 20, Rank: 0, Data Shape: paddle.Size([16, 8, 1, 128, 128]), Data time: 0.0017440319061279297, Forward: 0.11916804313659668, Backward: 0.07472705841064453, Optimizer: 0.05442094802856445
+Epoch 5 Batch 21 Train Loss 0.0066764806397259235
+Total Times. Batch: 21, Rank: 0, Data Shape: paddle.Size([16, 8, 1, 128, 128]), Data time: 0.0015420913696289062, Forward: 0.12061953544616699, Backward: 0.06319069862365723, Optimizer: 0.06698942184448242
+Epoch 5 Batch 22 Train Loss 0.006777298636734486
+Total Times. Batch: 22, Rank: 0, Data Shape: paddle.Size([16, 8, 1, 128, 128]), Data time: 0.001522064208984375, Forward: 0.09945273399353027, Backward: 0.06273078918457031, Optimizer: 0.06255722045898438
+Epoch 5 Batch 23 Train Loss 0.006599583197385073
+Total Times. Batch: 23, Rank: 0, Data Shape: paddle.Size([16, 8, 1, 128, 128]), Data time: 0.0015099048614501953, Forward: 0.08485579490661621, Backward: 0.07610654830932617, Optimizer: 0.048123836517333984
+Epoch 5 Batch 24 Train Loss 0.006992846727371216
+Total Times. Batch: 24, Rank: 0, Data Shape: paddle.Size([16, 8, 1, 128, 128]), Data time: 0.001547098159790039, Forward: 0.08716964721679688, Backward: 0.06004023551940918, Optimizer: 0.06799173355102539
+Epoch 5 Batch 25 Train Loss 0.006276305299252272
+Total Times. Batch: 25, Rank: 0, Data Shape: paddle.Size([16, 8, 1, 128, 128]), Data time: 0.0015294551849365234, Forward: 0.09271955490112305, Backward: 0.05917763710021973, Optimizer: 0.06545162200927734
+Epoch 5 Batch 26 Train Loss 0.006474163383245468
+Total Times. Batch: 26, Rank: 0, Data Shape: paddle.Size([16, 8, 1, 128, 128]), Data time: 0.0015194416046142578, Forward: 0.08913445472717285, Backward: 0.05903482437133789, Optimizer: 0.06526517868041992
+Epoch 5 Batch 27 Train Loss 0.007147463038563728
+Total Times. Batch: 27, Rank: 0, Data Shape: paddle.Size([16, 8, 1, 128, 128]), Data time: 0.0015299320220947266, Forward: 0.08620285987854004, Backward: 0.05967426300048828, Optimizer: 0.06570982933044434
+Epoch 5 Batch 28 Train Loss 0.006567656993865967
+Total Times. Batch: 28, Rank: 0, Data Shape: paddle.Size([16, 8, 1, 128, 128]), Data time: 0.0016019344329833984, Forward: 0.08230733871459961, Backward: 0.05892229080200195, Optimizer: 0.06592631340026855
+Epoch 5 Batch 29 Train Loss 0.006139721255749464
+Total Times. Batch: 29, Rank: 0, Data Shape: paddle.Size([16, 8, 1, 128, 128]), Data time: 0.001485586166381836, Forward: 0.0923759937286377, Backward: 0.06265091896057129, Optimizer: 0.08808207511901855
+Epoch 5 Batch 30 Train Loss 0.006959554739296436
+Total Times. Batch: 30, Rank: 0, Data Shape: paddle.Size([16, 8, 1, 128, 128]), Data time: 0.0014793872833251953, Forward: 0.08513402938842773, Backward: 0.05921506881713867, Optimizer: 0.06608200073242188
+Epoch 5 Batch 31 Train Loss 0.0067130401730537415
+Total Times. Batch: 31, Rank: 0, Data Shape: paddle.Size([16, 8, 1, 128, 128]), Data time: 0.002047300338745117, Forward: 0.09915542602539062, Backward: 0.0592343807220459, Optimizer: 0.0667722225189209
+Epoch 5 Batch 32 Train Loss 0.007119016721844673
+Total Times. Batch: 32, Rank: 0, Data Shape: paddle.Size([16, 8, 1, 128, 128]), Data time: 0.0015244483947753906, Forward: 0.12049579620361328, Backward: 0.06016397476196289, Optimizer: 0.09081339836120605
+Epoch 5 Batch 33 Train Loss 0.006844386458396912
+Total Times. Batch: 33, Rank: 0, Data Shape: paddle.Size([16, 8, 1, 128, 128]), Data time: 0.001954793930053711, Forward: 0.11729001998901367, Backward: 0.062151432037353516, Optimizer: 0.06679272651672363
+Epoch 5 Batch 34 Train Loss 0.006310282740741968
+Total Times. Batch: 34, Rank: 0, Data Shape: paddle.Size([16, 8, 1, 128, 128]), Data time: 0.0019974708557128906, Forward: 0.11371636390686035, Backward: 0.05863022804260254, Optimizer: 0.08771157264709473
+Epoch 5 Batch 35 Train Loss 0.006476723123341799
+Total Times. Batch: 35, Rank: 0, Data Shape: paddle.Size([16, 8, 1, 128, 128]), Data time: 0.0014581680297851562, Forward: 0.10817289352416992, Backward: 0.05900907516479492, Optimizer: 0.06510710716247559
+Epoch 5 Batch 36 Train Loss 0.0068685393780469894
+Total Times. Batch: 36, Rank: 0, Data Shape: paddle.Size([16, 8, 1, 128, 128]), Data time: 0.0015692710876464844, Forward: 0.11330389976501465, Backward: 0.05916953086853027, Optimizer: 0.07845234870910645
+Epoch 5 Batch 37 Train Loss 0.0068191345781087875
+Total Times. Batch: 37, Rank: 0, Data Shape: paddle.Size([16, 8, 1, 128, 128]), Data time: 0.001558065414428711, Forward: 0.11827397346496582, Backward: 0.0683443546295166, Optimizer: 0.07251429557800293
+Epoch 5 Batch 38 Train Loss 0.006958392448723316
+Total Times. Batch: 38, Rank: 0, Data Shape: paddle.Size([16, 8, 1, 128, 128]), Data time: 0.0016353130340576172, Forward: 0.09024286270141602, Backward: 0.059813499450683594, Optimizer: 0.06494379043579102
+Epoch 5 Batch 39 Train Loss 0.007628298830240965
+Total Times. Batch: 39, Rank: 0, Data Shape: paddle.Size([16, 8, 1, 128, 128]), Data time: 0.001918792724609375, Forward: 0.08844876289367676, Backward: 0.05776810646057129, Optimizer: 0.06837201118469238
+Epoch 5 Batch 40 Train Loss 0.0063136788085103035
+Total Times. Batch: 40, Rank: 0, Data Shape: paddle.Size([16, 8, 1, 128, 128]), Data time: 0.0016396045684814453, Forward: 0.08794927597045898, Backward: 0.0577695369720459, Optimizer: 0.06808018684387207
+Epoch 5 Batch 41 Train Loss 0.006787443999201059
+Total Times. Batch: 41, Rank: 0, Data Shape: paddle.Size([16, 8, 1, 128, 128]), Data time: 0.0016558170318603516, Forward: 0.08492803573608398, Backward: 0.05947613716125488, Optimizer: 0.08329987525939941
+Epoch 5 Batch 42 Train Loss 0.007063374854624271
+Total Times. Batch: 42, Rank: 0, Data Shape: paddle.Size([16, 8, 1, 128, 128]), Data time: 0.0014681816101074219, Forward: 0.11130094528198242, Backward: 0.06055808067321777, Optimizer: 0.08678555488586426
+Epoch 5 Batch 43 Train Loss 0.006430063862353563
+Total Times. Batch: 43, Rank: 0, Data Shape: paddle.Size([16, 8, 1, 128, 128]), Data time: 0.0014438629150390625, Forward: 0.10149717330932617, Backward: 0.05893278121948242, Optimizer: 0.08778882026672363
+Epoch 5 Batch 44 Train Loss 0.007558849640190601
+Total Times. Batch: 44, Rank: 0, Data Shape: paddle.Size([16, 8, 1, 128, 128]), Data time: 0.0019311904907226562, Forward: 0.10698580741882324, Backward: 0.06571650505065918, Optimizer: 0.06760454177856445
+Epoch 5 Batch 45 Train Loss 0.0070178876630961895
+Total Times. Batch: 45, Rank: 0, Data Shape: paddle.Size([16, 8, 1, 128, 128]), Data time: 0.0016486644744873047, Forward: 0.11322379112243652, Backward: 0.061043500900268555, Optimizer: 0.08266210556030273
+Epoch 5 Batch 46 Train Loss 0.006254519335925579
+Total Times. Batch: 46, Rank: 0, Data Shape: paddle.Size([16, 8, 1, 128, 128]), Data time: 0.0018649101257324219, Forward: 0.11982965469360352, Backward: 0.0656120777130127, Optimizer: 0.06572508811950684
+Epoch 5 Batch 47 Train Loss 0.0067946515046060085
+Total Times. Batch: 47, Rank: 0, Data Shape: paddle.Size([16, 8, 1, 128, 128]), Data time: 0.0017518997192382812, Forward: 0.10325431823730469, Backward: 0.06057024002075195, Optimizer: 0.0684807300567627
+Epoch 5 Batch 48 Train Loss 0.007238707970827818
+Total Times. Batch: 48, Rank: 0, Data Shape: paddle.Size([16, 8, 1, 128, 128]), Data time: 0.0017361640930175781, Forward: 0.09341597557067871, Backward: 0.05790567398071289, Optimizer: 0.06941723823547363
+Epoch 5 Batch 49 Train Loss 0.006045863032341003
+Total Times. Batch: 49, Rank: 0, Data Shape: paddle.Size([16, 8, 1, 128, 128]), Data time: 0.0016338825225830078, Forward: 0.09266304969787598, Backward: 0.05794215202331543, Optimizer: 0.06656074523925781
+Epoch 5 Batch 50 Train Loss 0.006796723231673241
+Total Times. Batch: 50, Rank: 0, Data Shape: paddle.Size([16, 8, 1, 128, 128]), Data time: 0.001634836196899414, Forward: 0.10713648796081543, Backward: 0.06092262268066406, Optimizer: 0.07072997093200684
+Epoch 5 Batch 51 Train Loss 0.00725589320063591
+Total Times. Batch: 51, Rank: 0, Data Shape: paddle.Size([16, 8, 1, 128, 128]), Data time: 0.001504659652709961, Forward: 0.09040546417236328, Backward: 0.06857585906982422, Optimizer: 0.06732773780822754
+Epoch 5 Batch 52 Train Loss 0.006783204153180122
+Total Times. Batch: 52, Rank: 0, Data Shape: paddle.Size([16, 8, 1, 128, 128]), Data time: 0.001554250717163086, Forward: 0.1000220775604248, Backward: 0.058580875396728516, Optimizer: 0.06540703773498535
+Epoch 5 Batch 53 Train Loss 0.0065973857417702675
+Total Times. Batch: 53, Rank: 0, Data Shape: paddle.Size([16, 8, 1, 128, 128]), Data time: 0.0015616416931152344, Forward: 0.11272549629211426, Backward: 0.06703662872314453, Optimizer: 0.07349944114685059
+Epoch 5 Batch 54 Train Loss 0.006703326478600502
+Total Times. Batch: 54, Rank: 0, Data Shape: paddle.Size([16, 8, 1, 128, 128]), Data time: 0.0014307498931884766, Forward: 0.11405396461486816, Backward: 0.05918431282043457, Optimizer: 0.06612825393676758
+Epoch 5 Batch 55 Train Loss 0.006657199002802372
+Total Times. Batch: 55, Rank: 0, Data Shape: paddle.Size([16, 8, 1, 128, 128]), Data time: 0.001825094223022461, Forward: 0.09077143669128418, Backward: 0.05749797821044922, Optimizer: 0.06814169883728027
+Epoch 5 Batch 56 Train Loss 0.0064590005204081535
+Total Times. Batch: 56, Rank: 0, Data Shape: paddle.Size([16, 8, 1, 128, 128]), Data time: 0.0015244483947753906, Forward: 0.09023332595825195, Backward: 0.05794405937194824, Optimizer: 0.06900382041931152
+Epoch 5 Batch 57 Train Loss 0.006651350297033787
+Total Times. Batch: 57, Rank: 0, Data Shape: paddle.Size([16, 8, 1, 128, 128]), Data time: 0.0014293193817138672, Forward: 0.10205411911010742, Backward: 0.05919051170349121, Optimizer: 0.08154439926147461
+Epoch 5 Batch 58 Train Loss 0.00650003831833601
+Total Times. Batch: 58, Rank: 0, Data Shape: paddle.Size([16, 8, 1, 128, 128]), Data time: 0.001447439193725586, Forward: 0.11117100715637207, Backward: 0.06285977363586426, Optimizer: 0.0730886459350586
+Epoch 5 Batch 59 Train Loss 0.006714377086609602
+Total Times. Batch: 59, Rank: 0, Data Shape: paddle.Size([16, 8, 1, 128, 128]), Data time: 0.001543283462524414, Forward: 0.14922785758972168, Backward: 0.06350135803222656, Optimizer: 0.08396005630493164
+Epoch 5 Batch 60 Train Loss 0.006746610626578331
+Total Times. Batch: 60, Rank: 0, Data Shape: paddle.Size([16, 8, 1, 128, 128]), Data time: 0.0015130043029785156, Forward: 0.09114217758178711, Backward: 0.06015372276306152, Optimizer: 0.06653046607971191
+Epoch 5 Batch 61 Train Loss 0.005874554626643658
+Total Times. Batch: 61, Rank: 0, Data Shape: paddle.Size([16, 8, 1, 128, 128]), Data time: 0.001665353775024414, Forward: 0.08892202377319336, Backward: 0.058739662170410156, Optimizer: 0.06841444969177246
+Epoch 5 Batch 62 Train Loss 0.006100993603467941
+Total Times. Batch: 62, Rank: 0, Data Shape: paddle.Size([16, 8, 1, 128, 128]), Data time: 0.002087116241455078, Forward: 0.10536789894104004, Backward: 0.08051919937133789, Optimizer: 0.0728762149810791
+Epoch 5 Batch 63 Train Loss 0.006853747181594372
+Total Times. Batch: 63, Rank: 0, Data Shape: paddle.Size([16, 8, 1, 128, 128]), Data time: 0.0014522075653076172, Forward: 0.08978390693664551, Backward: 0.09779572486877441, Optimizer: 0.027132034301757812
+Epoch 5 Batch 64 Train Loss 0.0065291449427604675
+Total Times. Batch: 64, Rank: 0, Data Shape: paddle.Size([16, 8, 1, 128, 128]), Data time: 0.0015895366668701172, Forward: 0.13341808319091797, Backward: 0.09889101982116699, Optimizer: 0.029859066009521484
+Epoch 5 Batch 65 Train Loss 0.006595290265977383
+Total Times. Batch: 65, Rank: 0, Data Shape: paddle.Size([16, 8, 1, 128, 128]), Data time: 0.001697540283203125, Forward: 0.08536577224731445, Backward: 0.06513571739196777, Optimizer: 0.05921626091003418
+Epoch 5 Batch 66 Train Loss 0.007419688161462545
+Total Times. Batch: 66, Rank: 0, Data Shape: paddle.Size([16, 8, 1, 128, 128]), Data time: 0.0015316009521484375, Forward: 0.09219193458557129, Backward: 0.058847665786743164, Optimizer: 0.06847763061523438
+Epoch 5 Batch 67 Train Loss 0.006570305675268173
+Total Times. Batch: 67, Rank: 0, Data Shape: paddle.Size([16, 8, 1, 128, 128]), Data time: 0.00152587890625, Forward: 0.08574938774108887, Backward: 0.0733189582824707, Optimizer: 0.05513906478881836
+Epoch 5 Batch 68 Train Loss 0.007072972599416971
+Total Times. Batch: 68, Rank: 0, Data Shape: paddle.Size([16, 8, 1, 128, 128]), Data time: 0.001455068588256836, Forward: 0.11420631408691406, Backward: 0.05881452560424805, Optimizer: 0.07872271537780762
+Epoch 5 Batch 69 Train Loss 0.00672309473156929
+Total Times. Batch: 69, Rank: 0, Data Shape: paddle.Size([16, 8, 1, 128, 128]), Data time: 0.0018801689147949219, Forward: 0.08467292785644531, Backward: 0.05972576141357422, Optimizer: 0.08907747268676758
+Epoch 5 Batch 70 Train Loss 0.007335407193750143
+Total Times. Batch: 70, Rank: 0, Data Shape: paddle.Size([16, 8, 1, 128, 128]), Data time: 0.0015017986297607422, Forward: 0.10202598571777344, Backward: 0.059798479080200195, Optimizer: 0.07046175003051758
+Epoch 5 Batch 71 Train Loss 0.006451217457652092
+Total Times. Batch: 71, Rank: 0, Data Shape: paddle.Size([16, 8, 1, 128, 128]), Data time: 0.0015239715576171875, Forward: 0.09644436836242676, Backward: 0.06275796890258789, Optimizer: 0.06954264640808105
+Epoch 5 Batch 72 Train Loss 0.0065560368821024895
+Total Times. Batch: 72, Rank: 0, Data Shape: paddle.Size([16, 8, 1, 128, 128]), Data time: 0.0018460750579833984, Forward: 0.10900425910949707, Backward: 0.06219172477722168, Optimizer: 0.07114410400390625
+Epoch 5 Batch 73 Train Loss 0.00656218733638525
+Total Times. Batch: 73, Rank: 0, Data Shape: paddle.Size([16, 8, 1, 128, 128]), Data time: 0.002263307571411133, Forward: 0.09981060028076172, Backward: 0.06206369400024414, Optimizer: 0.0702974796295166
+Epoch 5 Batch 74 Train Loss 0.006199001334607601
+Total Times. Batch: 74, Rank: 0, Data Shape: paddle.Size([16, 8, 1, 128, 128]), Data time: 0.001678466796875, Forward: 0.10018658638000488, Backward: 0.06119704246520996, Optimizer: 0.06508922576904297
+Epoch 5 Batch 75 Train Loss 0.0065668546594679356
+Total Times. Batch: 75, Rank: 0, Data Shape: paddle.Size([16, 8, 1, 128, 128]), Data time: 0.001547098159790039, Forward: 0.09591031074523926, Backward: 0.06037759780883789, Optimizer: 0.06670928001403809
+Epoch 5 Batch 76 Train Loss 0.006479199975728989
+Total Times. Batch: 76, Rank: 0, Data Shape: paddle.Size([16, 8, 1, 128, 128]), Data time: 0.0015172958374023438, Forward: 0.08822846412658691, Backward: 0.05861639976501465, Optimizer: 0.06895279884338379
+Epoch 5 Batch 77 Train Loss 0.006946787238121033
+Total Times. Batch: 77, Rank: 0, Data Shape: paddle.Size([16, 8, 1, 128, 128]), Data time: 0.0015845298767089844, Forward: 0.08536911010742188, Backward: 0.05859994888305664, Optimizer: 0.06786012649536133
+Epoch 5 Batch 78 Train Loss 0.006284564267843962
+Total Times. Batch: 78, Rank: 0, Data Shape: paddle.Size([16, 8, 1, 128, 128]), Data time: 0.0015120506286621094, Forward: 0.09187793731689453, Backward: 0.05876588821411133, Optimizer: 0.06778097152709961
+Epoch 5 Batch 79 Train Loss 0.006084823980927467
+Total Times. Batch: 79, Rank: 0, Data Shape: paddle.Size([16, 8, 1, 128, 128]), Data time: 0.0015227794647216797, Forward: 0.09431600570678711, Backward: 0.05899810791015625, Optimizer: 0.06920242309570312
+Epoch 5 Batch 80 Train Loss 0.006547977216541767
+Total Times. Batch: 80, Rank: 0, Data Shape: paddle.Size([16, 8, 1, 128, 128]), Data time: 0.0016252994537353516, Forward: 0.0914773941040039, Backward: 0.05837607383728027, Optimizer: 0.06631755828857422
+Epoch 5 Batch 81 Train Loss 0.006678323727101088
+Total Times. Batch: 81, Rank: 0, Data Shape: paddle.Size([16, 8, 1, 128, 128]), Data time: 0.0015027523040771484, Forward: 0.09252715110778809, Backward: 0.058690786361694336, Optimizer: 0.08717918395996094
+Epoch 5 Batch 82 Train Loss 0.0063272519037127495
+Total Times. Batch: 82, Rank: 0, Data Shape: paddle.Size([16, 8, 1, 128, 128]), Data time: 0.0017254352569580078, Forward: 0.11324858665466309, Backward: 0.06886959075927734, Optimizer: 0.07087063789367676
+Epoch 5 Batch 83 Train Loss 0.00624306034296751
+Total Times. Batch: 83, Rank: 0, Data Shape: paddle.Size([16, 8, 1, 128, 128]), Data time: 0.0015187263488769531, Forward: 0.12006902694702148, Backward: 0.06857943534851074, Optimizer: 0.0673832893371582
+Epoch 5 Batch 84 Train Loss 0.006554002873599529
+Total Times. Batch: 84, Rank: 0, Data Shape: paddle.Size([16, 8, 1, 128, 128]), Data time: 0.002109050750732422, Forward: 0.10620832443237305, Backward: 0.08080053329467773, Optimizer: 0.06276392936706543
+Epoch 5 Batch 85 Train Loss 0.00654466962441802
+Total Times. Batch: 85, Rank: 0, Data Shape: paddle.Size([16, 8, 1, 128, 128]), Data time: 0.0015649795532226562, Forward: 0.1282334327697754, Backward: 0.060442447662353516, Optimizer: 0.06666231155395508
+Epoch 5 Batch 86 Train Loss 0.007256000302731991
+Total Times. Batch: 86, Rank: 0, Data Shape: paddle.Size([16, 8, 1, 128, 128]), Data time: 0.0014846324920654297, Forward: 0.13015294075012207, Backward: 0.058502197265625, Optimizer: 0.06707549095153809
+Epoch 5 Batch 87 Train Loss 0.006710044573992491
+Total Times. Batch: 87, Rank: 0, Data Shape: paddle.Size([16, 8, 1, 128, 128]), Data time: 0.0022039413452148438, Forward: 0.10739707946777344, Backward: 0.05869793891906738, Optimizer: 0.0852959156036377
+Epoch 5 Batch 88 Train Loss 0.007258658297359943
+Total Times. Batch: 88, Rank: 0, Data Shape: paddle.Size([16, 8, 1, 128, 128]), Data time: 0.001806020736694336, Forward: 0.0915842056274414, Backward: 0.05966472625732422, Optimizer: 0.06769061088562012
+Epoch 5 Batch 89 Train Loss 0.0062177665531635284
+Total Times. Batch: 89, Rank: 0, Data Shape: paddle.Size([16, 8, 1, 128, 128]), Data time: 0.0014235973358154297, Forward: 0.09562993049621582, Backward: 0.05889892578125, Optimizer: 0.08620309829711914
+Epoch 5 Batch 90 Train Loss 0.006393390242010355
+Total Times. Batch: 90, Rank: 0, Data Shape: paddle.Size([16, 8, 1, 128, 128]), Data time: 0.001466989517211914, Forward: 0.09601926803588867, Backward: 0.060396671295166016, Optimizer: 0.0957176685333252
+Epoch 5 Batch 91 Train Loss 0.006083207670599222
+Total Times. Batch: 91, Rank: 0, Data Shape: paddle.Size([16, 8, 1, 128, 128]), Data time: 0.0015225410461425781, Forward: 0.09854459762573242, Backward: 0.08891105651855469, Optimizer: 0.04860877990722656
+Epoch 5 Batch 92 Train Loss 0.006455093156546354
+Total Times. Batch: 92, Rank: 0, Data Shape: paddle.Size([16, 8, 1, 128, 128]), Data time: 0.0015442371368408203, Forward: 0.09437179565429688, Backward: 0.06381702423095703, Optimizer: 0.07214045524597168
+Epoch 5 Batch 93 Train Loss 0.007035082206130028
+Total Times. Batch: 93, Rank: 0, Data Shape: paddle.Size([16, 8, 1, 128, 128]), Data time: 0.0016684532165527344, Forward: 0.10618042945861816, Backward: 0.06506013870239258, Optimizer: 0.07383847236633301
+Epoch 5 Batch 94 Train Loss 0.006264515221118927
+Total Times. Batch: 94, Rank: 0, Data Shape: paddle.Size([16, 8, 1, 128, 128]), Data time: 0.0015735626220703125, Forward: 0.13165712356567383, Backward: 0.0926506519317627, Optimizer: 0.05138564109802246
+Epoch 5 Batch 95 Train Loss 0.006227822508662939
+Total Times. Batch: 95, Rank: 0, Data Shape: paddle.Size([16, 8, 1, 128, 128]), Data time: 0.0020265579223632812, Forward: 0.13576030731201172, Backward: 0.06540250778198242, Optimizer: 0.07425880432128906
+Epoch 5 Batch 96 Train Loss 0.007186044938862324
+Total Times. Batch: 96, Rank: 0, Data Shape: paddle.Size([16, 8, 1, 128, 128]), Data time: 0.001842498779296875, Forward: 0.14091897010803223, Backward: 0.0702369213104248, Optimizer: 0.06888628005981445
+Epoch 5 Batch 97 Train Loss 0.007805070374161005
+Total Times. Batch: 97, Rank: 0, Data Shape: paddle.Size([16, 8, 1, 128, 128]), Data time: 0.0016567707061767578, Forward: 0.09348917007446289, Backward: 0.06412649154663086, Optimizer: 0.07281780242919922
+Epoch 5 Batch 98 Train Loss 0.006491030100733042
+Total Times. Batch: 98, Rank: 0, Data Shape: paddle.Size([16, 8, 1, 128, 128]), Data time: 0.0015439987182617188, Forward: 0.10060906410217285, Backward: 0.07615542411804199, Optimizer: 0.06746602058410645
+Epoch 5 Batch 99 Train Loss 0.00692483875900507
+Total Times. Batch: 99, Rank: 0, Data Shape: paddle.Size([16, 8, 1, 128, 128]), Data time: 0.0022361278533935547, Forward: 0.0966651439666748, Backward: 0.06663393974304199, Optimizer: 0.09267973899841309
+[BENCH] measured=90 warmup=10 | fwd med=0.0996 mean=0.1023 std=0.0145 | bwd med=0.0604 mean=0.0645 | opt med=0.0680 | step med=0.2331 mean=0.2364 std=0.0194 | loss0=0.007306 lossN=0.006925
+[BENCH] saved bench_timings.npz to /tmp/mpp_acc_off
+all reduces executed!
+Time for train 24.292213916778564. For valid: 3.814697265625e-06. For postprocessing:0.11745357513427734
+Time taken for epoch 5 is 24.409752130508423 sec
+Train loss: Tensor(shape=[1], dtype=float32, place=Place(gpu:0), stop_gradient=True,
+       [0.00673688]). Valid loss: 0.0
+DONE ---- rank 0

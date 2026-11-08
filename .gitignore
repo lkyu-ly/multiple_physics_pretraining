@@ -172,3 +172,5 @@ basic_config/
 tests/
 .codex
 bench/
+
+!_ppcfd_test_logs/*
